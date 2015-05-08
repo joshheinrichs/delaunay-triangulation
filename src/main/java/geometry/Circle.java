@@ -37,6 +37,10 @@ public class Circle {
     public boolean contains(Point p) {
         System.out.println("distance: " + center.distance(p));
         System.out.println("center: " + center);
-        return center.distance(p) < radius - Constants.EPSILON;
+        if(Double.isNaN(center.distance(p))) {
+            return true;
+        } else {
+            return center.distance(p) < radius - Constants.EPSILON;
+        }
     }
 }
