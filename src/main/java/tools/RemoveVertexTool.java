@@ -4,6 +4,7 @@ import graph.Vertex;
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
 import models.Model;
+import ui.IndexedCircle;
 
 /**
  * Created by joshheinrichs on 15-05-07.
@@ -30,7 +31,9 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-//        modelAdapter.removeVertex((Vertex) t.getSource());
+        int selectedVertexIndex = ((IndexedCircle) t.getSource()).getIndex();
+        modelAdapter.removeVertex(selectedVertexIndex);
+        modelAdapter.draw();
     }
 
     @Override
