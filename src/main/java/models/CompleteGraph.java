@@ -1,0 +1,63 @@
+package models;
+
+import geometry.Point;
+import geometry.Segment;
+import graph.Edge;
+import graph.Vertex;
+import javafx.scene.Group;
+import tools.AddVertexTool;
+import tools.MoveVertexTool;
+import tools.RemoveVertexTool;
+
+import java.util.*;
+
+/**
+ * Created by joshheinrichs on 15-05-06.
+ */
+public class CompleteGraph extends Model {
+
+
+    public Collection<Vertex> vertexes = new ArrayList<Vertex>(); //temporary
+    Collection<Edge> edges = new ArrayList<Edge>();
+
+    @Override
+    public void addVertex(Point location) {
+        Vertex vertex = new Vertex(location);
+        Iterator<Vertex> iterator = vertexes.iterator();
+        while(iterator.hasNext()) {
+            Edge edge = new Edge(vertex, iterator.next());
+            edges.add(edge);
+            //System.out.println("added edge " + edge.getSegment());
+        }
+        vertexes.add(vertex);
+    }
+
+    @Override
+    public void moveVertex(int i, Point position) {
+        //TODO
+    }
+
+    @Override
+    public void removeVertex(int i) {
+        //TODO
+    }
+
+    public ArrayList<Point> getVertexPoints() {
+        ArrayList<Point> points = new ArrayList<Point>();
+        Iterator<Vertex> iterator = vertexes.iterator();
+        while(iterator.hasNext()) {
+            points.add(iterator.next().getPoint());
+        }
+        return points;
+    }
+
+    public ArrayList<Segment> getEdgeSegments() {
+        ArrayList<Segment> segments = new ArrayList<Segment>();
+        Iterator<Edge> iterator = edges.iterator();
+        System.out.println(segments);
+        while(iterator.hasNext()) {
+            segments.add(iterator.next().getSegment());
+        }
+        return segments;
+    }
+}
