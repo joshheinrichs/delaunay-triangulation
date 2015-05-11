@@ -24,16 +24,17 @@ import java.util.Iterator;
  */
 public class DelaunayTriangulationAdapter extends ModelAdapter {
 
-    DelaunayTriangulation dt = new DelaunayTriangulation();
-
     final Group root = new Group();
     final Group circleGroup = new Group();
     final Group lineGroup = new Group();
 
     public DelaunayTriangulationAdapter() {
+        model = new DelaunayTriangulation();
+
         tools.add(new AddVertexTool(this));
         tools.add(new MoveVertexTool(this));
         tools.add(new RemoveVertexTool(this));
+
         selectedTool = tools.get(0);
     }
 
@@ -44,17 +45,17 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
     @Override
     public void addVertex(double x, double y) {
-        dt.addVertex(new Point(x, y));
+        model.addVertex(new Point(x, y));
     }
 
     @Override
     public void removeVertex(int i) {
-        dt.removeVertex(i);
+        model.removeVertex(i);
     }
 
     @Override
     public void moveVertex(int i, double x, double y) {
-        dt.moveVertex(i, new Point(x, y));
+        model.moveVertex(i, new Point(x, y));
     }
 
     @Override
@@ -64,7 +65,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent t) {
-                        selectedTool.sceneOnMousePressed(t);
+                        selectedTool.backgroundOnMousePressed(t);
                     }
                 };
 
@@ -84,13 +85,13 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
                     }
                 };
 
-        Rectangle rectangle = new Rectangle(0,0,1200,600);
+        Rectangle rectangle = new Rectangle(0,0,Double.MAX_VALUE,Double.MAX_VALUE);
         rectangle.setFill(Color.WHITESMOKE);
         rectangle.setOnMousePressed(sceneOnMousePressedEventHandler);
 
 
         Collection<Line> lines = new ArrayList<Line>();
-        Collection<Segment> segments = dt.getEdgeSegments();
+        Collection<Segment> segments = ((DelaunayTriangulation) model).getEdgeSegments();
         Iterator<Segment> segmentIterator = segments.iterator();
         while(segmentIterator.hasNext()) {
             Segment segment = segmentIterator.next();
@@ -101,7 +102,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
 
         Collection<javafx.scene.shape.Circle> circles = new ArrayList<javafx.scene.shape.Circle>();
-        ArrayList<Point> points = dt.getVertexPoints();
+        ArrayList<Point> points = ((DelaunayTriangulation) model).getVertexPoints();
         for(int i=0; i<points.size(); i++){
             Point point = points.get(i);
             IndexedCircle circle = new IndexedCircle();
@@ -124,19 +125,16 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         circleGroup.getChildren().addAll(circles);
         root.getChildren().addAll(circleGroup);
 
-        System.out.println("hello");
-
         return root;
     }
 
     @Override
     public Group dragDraw() {
 
-        Rectangle rectangle = new Rectangle(0,0,1200,600);
+        Rectangle rectangle = new Rectangle(-Double.MAX_VALUE,-Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
         rectangle.setFill(Color.WHITESMOKE);
 
-        Collection<Line> lines = new ArrayList<Line>();
-        ArrayList<Segment> segments = dt.getEdgeSegments();
+        ArrayList<Segment> segments = ((DelaunayTriangulation) model).getEdgeSegments();
         Iterator<Segment> segmentIterator = segments.iterator();
         lineGroup.getChildren().clear();
         for(int i=0; i<segments.size(); i++) {
@@ -144,22 +142,15 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             Line line = new Line(segment.start.x, segment.start.y, segment.end.x, segment.end.y);
             line.setStrokeWidth(2);
             lineGroup.getChildren().add(line);
-//            Line line = (Line) lineGroup.getChildren().get(i);
-//            line.setStartX(segment.start.x);
-//            line.setStartY(segment.start.y);
-//            line.setEndX(segment.end.x);
-//            line.setEndY(segment.end.y);
         }
 
-        ArrayList<Point> points = dt.getVertexPoints();
+        ArrayList<Point> points = ((DelaunayTriangulation) model).getVertexPoints();
         for(int i=0; i < points.size(); i++){
             Point point = points.get(i);
             Circle circle = (Circle) circleGroup.getChildren().get(i);
             circle.setCenterX(point.x);
             circle.setCenterY(point.y);
         }
-
-        System.out.println("hello");
 
         return root;
     }

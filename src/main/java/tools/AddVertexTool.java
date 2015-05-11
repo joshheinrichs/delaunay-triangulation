@@ -21,13 +21,13 @@ public class AddVertexTool extends Tool {
     }
 
     @Override
-    public void sceneOnMousePressed(MouseEvent t) {
+    public void backgroundOnMousePressed(MouseEvent t) {
         modelAdapter.addVertex(t.getX(), t.getY());
         modelAdapter.draw();
     }
 
     @Override
-    public void sceneOnMouseDragged(MouseEvent t) {
+    public void backgroundOnMouseDragged(MouseEvent t) {
 
     }
 

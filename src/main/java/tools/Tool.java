@@ -21,8 +21,8 @@ public abstract class Tool {
      */
     public abstract String getName();
 
-    public abstract void sceneOnMousePressed(MouseEvent t);
-    public abstract void sceneOnMouseDragged(MouseEvent t);
+    public abstract void backgroundOnMousePressed(MouseEvent t);
+    public abstract void backgroundOnMouseDragged(MouseEvent t);
 
     public abstract void vertexOnMousePressed(MouseEvent t);
     public abstract void vertexOnMouseDragged(MouseEvent t);

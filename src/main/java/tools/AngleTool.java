@@ -18,12 +18,12 @@ public class AngleTool extends Tool {
     }
 
     @Override
-    public void sceneOnMousePressed(MouseEvent t) {
+    public void backgroundOnMousePressed(MouseEvent t) {
 
     }
 
     @Override
-    public void sceneOnMouseDragged(MouseEvent t) {
+    public void backgroundOnMouseDragged(MouseEvent t) {
 
     }
 
