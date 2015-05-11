@@ -25,6 +25,7 @@ public class DelaunayTriangulation extends Model {
 
     ArrayList<Vertex> vertexes = new ArrayList<Vertex>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
+    ArrayList<Circle> circumcircles = new ArrayList<Circle>();
 
     @Override
     public void addVertex(Point location) {
@@ -45,7 +46,13 @@ public class DelaunayTriangulation extends Model {
     }
 
     public void triangulate() { //temporarily public
-        System.out.println("triangulating");
+        triangulate_n4();
+    }
+
+    /**
+     * Computes the delaunay triangulation in O(n^4) time. This should only be used for testing purposes.
+     */
+    void triangulate_n4() {
         edges.clear();
         if(vertexes.size() >= 3) {
             for (int i = 0; i < vertexes.size(); i++) {
@@ -70,6 +77,12 @@ public class DelaunayTriangulation extends Model {
                 }
             }
         }
+    }
+
+    /**
+     * Computes the Delaunay triangulation in O(n^2) time. This could be further optimized to O(nlogn) time.
+     */
+    void triangulate_n2() {
     }
 
     public ArrayList<Point> getVertexPoints() {
