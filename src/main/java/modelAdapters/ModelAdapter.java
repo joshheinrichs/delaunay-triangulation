@@ -1,14 +1,18 @@
 package modelAdapters;
 
 import javafx.scene.Group;
+import models.Model;
 import tools.Tool;
 
 import java.util.ArrayList;
 
 /**
- * Created by joshheinrichs on 15-05-07.
+ * A {@link ModelAdapter} provides an interface between a {@link Model} and the UI. The {@link ModelAdapter} handles
+ * {@link Tool} interactions with the model, as well as how the {@link Model} is displayed inside the window.
  */
 public abstract class ModelAdapter {
+
+    Model model;
 
     ArrayList<Tool> tools = new ArrayList<Tool>();
     Tool selectedTool;
@@ -29,6 +33,10 @@ public abstract class ModelAdapter {
         selectedTool = tools.get(i);
     }
 
+    /**
+     * Returns the name of the model. This is used as the title for the window it appears in.
+     * @return
+     */
     public abstract String getName();
 
     public abstract void addVertex(double x, double y);
