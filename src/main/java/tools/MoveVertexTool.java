@@ -1,5 +1,6 @@
 package tools;
 
+import geometry.Point;
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
 import models.Model;
@@ -11,7 +12,6 @@ import ui.IndexedCircle;
 public class MoveVertexTool extends Tool {
 
     int selectedVertexIndex;
-    double mouseStartX, mouseStartY;
 
     public MoveVertexTool(ModelAdapter modelAdapter) {
         super(modelAdapter);
@@ -22,24 +22,16 @@ public class MoveVertexTool extends Tool {
     }
 
     @Override
-    public void onMousePressed(MouseEvent t) {
-
-    }
+    public void onMousePressed(MouseEvent t) { }
 
     @Override
-    public void onMouseDragged(MouseEvent t) {
-
-    }
+    public void onMouseDragged(MouseEvent t) { }
 
     @Override
-    public void backgroundOnMousePressed(MouseEvent t) {
-
-    }
+    public void backgroundOnMousePressed(MouseEvent t) { }
 
     @Override
-    public void backgroundOnMouseDragged(MouseEvent t) {
-
-    }
+    public void backgroundOnMouseDragged(MouseEvent t) { }
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
