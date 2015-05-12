@@ -21,6 +21,9 @@ public abstract class Tool {
      */
     public abstract String getName();
 
+    public abstract void onMousePressed(MouseEvent t);
+    public abstract void onMouseDragged(MouseEvent t);
+
     public abstract void backgroundOnMousePressed(MouseEvent t);
     public abstract void backgroundOnMouseDragged(MouseEvent t);
 

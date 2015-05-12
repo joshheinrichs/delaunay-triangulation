@@ -1,5 +1,6 @@
 package modelAdapters;
 
+import geometry.Point;
 import javafx.scene.Group;
 import models.Model;
 import tools.Tool;
@@ -17,6 +18,8 @@ public abstract class ModelAdapter {
     ArrayList<Tool> tools = new ArrayList<Tool>();
     Tool selectedTool;
 
+    Point cameraPosition = new Point(0,0);
+
     public ArrayList<Tool> getTools() {
         return tools;
     }
@@ -31,6 +34,14 @@ public abstract class ModelAdapter {
 
     public void setSelectedTool(int i) {
         selectedTool = tools.get(i);
+    }
+
+    public void setCameraPosition(Point position) {
+        this.cameraPosition = position;
+    }
+
+    public Point getCameraPosition() {
+        return this.cameraPosition;
     }
 
     /**

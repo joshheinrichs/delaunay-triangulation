@@ -19,6 +19,16 @@ public class ZoomTool extends Tool {
     }
 
     @Override
+    public void onMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void onMouseDragged(MouseEvent t) {
+
+    }
+
+    @Override
     public void backgroundOnMousePressed(MouseEvent t) {
 
     }

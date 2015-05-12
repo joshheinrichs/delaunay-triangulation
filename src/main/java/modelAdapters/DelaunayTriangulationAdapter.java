@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import models.DelaunayTriangulation;
 import tools.AddVertexTool;
 import tools.MoveVertexTool;
+import tools.PanTool;
 import tools.RemoveVertexTool;
 import ui.IndexedCircle;
 
@@ -34,6 +35,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         tools.add(new AddVertexTool(this));
         tools.add(new MoveVertexTool(this));
         tools.add(new RemoveVertexTool(this));
+        tools.add(new PanTool(this));
 
         selectedTool = tools.get(0);
     }
@@ -61,11 +63,35 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     @Override
     public Group draw() {
 
-        EventHandler<MouseEvent> sceneOnMousePressedEventHandler =
+        EventHandler<MouseEvent> onMousePressedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.onMousePressed(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> onMouseDraggedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.onMouseDragged(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> backgroundOnMousePressedEventHandler =
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent t) {
                         selectedTool.backgroundOnMousePressed(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> backgroundOnMouseDraggedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.backgroundOnMouseDragged(t);
                     }
                 };
 
@@ -85,10 +111,13 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
                     }
                 };
 
+        root.setOnMousePressed(onMousePressedEventHandler);
+        root.setOnMouseDragged(onMouseDraggedEventHandler);
+
         Rectangle rectangle = new Rectangle(0,0,Double.MAX_VALUE,Double.MAX_VALUE);
         rectangle.setFill(Color.WHITESMOKE);
-        rectangle.setOnMousePressed(sceneOnMousePressedEventHandler);
-
+        rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
+        rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
 
         Collection<Line> lines = new ArrayList<Line>();
         Collection<Segment> segments = ((DelaunayTriangulation) model).getEdgeSegments();
@@ -125,14 +154,70 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         circleGroup.getChildren().addAll(circles);
         root.getChildren().addAll(circleGroup);
 
+        root.setTranslateX(cameraPosition.x);
+        root.setTranslateY(cameraPosition.y);
+
         return root;
     }
 
     @Override
     public Group dragDraw() {
 
-        Rectangle rectangle = new Rectangle(-Double.MAX_VALUE,-Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
+        EventHandler<MouseEvent> onMousePressedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.onMousePressed(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> onMouseDraggedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.onMouseDragged(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> backgroundOnMousePressedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.backgroundOnMousePressed(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> backgroundOnMouseDraggedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.backgroundOnMouseDragged(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> vertexOnMousePressedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.vertexOnMousePressed(t);
+                    }
+                };
+
+        EventHandler<MouseEvent> vertexOnMouseDraggedEventHandler =
+                new EventHandler<MouseEvent>() {
+
+                    public void handle(MouseEvent t) {
+                        selectedTool.vertexOnMouseDragged(t);
+                    }
+                };
+
+        root.setOnMousePressed(onMousePressedEventHandler);
+        root.setOnMouseDragged(onMouseDraggedEventHandler);
+
+        Rectangle rectangle = new Rectangle(0, 0, Double.MAX_VALUE, Double.MAX_VALUE);
         rectangle.setFill(Color.WHITESMOKE);
+        rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
+        rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
 
         ArrayList<Segment> segments = ((DelaunayTriangulation) model).getEdgeSegments();
         Iterator<Segment> segmentIterator = segments.iterator();
@@ -151,6 +236,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             circle.setCenterX(point.x);
             circle.setCenterY(point.y);
         }
+
+
+        root.setTranslateX(cameraPosition.x);
+        root.setTranslateY(cameraPosition.y);
 
         return root;
     }
