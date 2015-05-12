@@ -34,17 +34,11 @@ public class App extends Application {
 
     Group root = new Group();
 
-    ToolsWindow toolsWindow;
-
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(root, 600/9*16, 600);
 
-        toolsWindow = new ToolsWindow(modelAdapter);
-
         stage.setScene(scene);
-        stage.setX(ToolsWindow.WIDTH);
-        stage.setY(0);
         stage.setTitle(modelAdapter.getName());
         stage.show();
 
