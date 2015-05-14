@@ -52,7 +52,7 @@ public class AddVertexTool extends Tool {
 
     @Override
     public void vertexOnMouseDragged(MouseEvent t) {
-        modelAdapter.moveVertex(selectedVertexIndex, t.getX(), t.getY());
+//        modelAdapter.moveVertex(selectedVertexIndex, t.getX(), t.getY());
         modelAdapter.dragDraw();
     }
 

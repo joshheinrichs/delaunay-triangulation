@@ -13,7 +13,8 @@ import java.util.ArrayList;
 public abstract class Model {
 
     public abstract void addVertex(Point location);
-    public abstract void removeVertex(int i);
-    public abstract void moveVertex(int i, Point location);
-
+    public abstract void moveVertex(Vertex vertex, Point location);
+    public abstract void moveVertex(Point point, Point location);
+    public abstract void removeVertex(Vertex vertex);
+    public abstract void removeVertex(Point point);
 }

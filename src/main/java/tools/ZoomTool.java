@@ -1,8 +1,11 @@
 package tools;
 
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
 import models.Model;
+
+import static javafx.scene.input.MouseButton.PRIMARY;
 
 /**
  * Created by joshheinrichs on 15-05-06.
@@ -20,7 +23,15 @@ public class ZoomTool extends Tool {
 
     @Override
     public void onMousePressed(MouseEvent t) {
-
+        switch (t.getButton()) {
+            case PRIMARY:
+                modelAdapter.setCameraZoom(modelAdapter.getCameraZoom() * 2.0);
+                break;
+            case SECONDARY:
+                modelAdapter.setCameraZoom(modelAdapter.getCameraZoom() * 0.5);
+                break;
+        }
+        modelAdapter.draw();
     }
 
     @Override

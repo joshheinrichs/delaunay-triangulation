@@ -33,12 +33,22 @@ public class CompleteGraph extends Model {
     }
 
     @Override
-    public void moveVertex(int i, Point position) {
+    public void moveVertex(Vertex vertex, Point position) {
         //TODO
     }
 
     @Override
-    public void removeVertex(int i) {
+    public void moveVertex(Point point, Point location) {
+        //TODO
+    }
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+        //TODO
+    }
+
+    @Override
+    public void removeVertex(Point point) {
         //TODO
     }
 

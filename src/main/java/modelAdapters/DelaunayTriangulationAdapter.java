@@ -10,10 +10,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import models.DelaunayTriangulation;
-import tools.AddVertexTool;
-import tools.MoveVertexTool;
-import tools.PanTool;
-import tools.RemoveVertexTool;
+import tools.*;
 import ui.IndexedCircle;
 
 import java.util.ArrayList;
@@ -36,6 +33,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         tools.add(new MoveVertexTool(this));
         tools.add(new RemoveVertexTool(this));
         tools.add(new PanTool(this));
+        tools.add(new ZoomTool(this));
 
         selectedTool = tools.get(0);
     }
@@ -51,13 +49,13 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     }
 
     @Override
-    public void removeVertex(int i) {
-        model.removeVertex(i);
+    public void removeVertex(double x, double y) {
+        model.removeVertex(new Point(x, y));
     }
 
     @Override
-    public void moveVertex(int i, double x, double y) {
-        model.moveVertex(i, new Point(x, y));
+    public void moveVertex(double fromX, double fromY, double toX, double toY) {
+        model.moveVertex(new Point(fromX, fromY), new Point(toX, toY));
     }
 
     @Override
@@ -114,7 +112,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
-        Rectangle rectangle = new Rectangle(0,0,Double.MAX_VALUE,Double.MAX_VALUE);
+        Rectangle rectangle = new Rectangle(0, 0, 1000, 1000);
         rectangle.setFill(Color.WHITESMOKE);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
@@ -156,6 +154,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
         root.setTranslateX(cameraPosition.x);
         root.setTranslateY(cameraPosition.y);
+        root.setScaleX(cameraZoom);
+        root.setScaleY(cameraZoom);
 
         return root;
     }
@@ -214,7 +214,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
-        Rectangle rectangle = new Rectangle(0, 0, Double.MAX_VALUE, Double.MAX_VALUE);
+        Rectangle rectangle = new Rectangle(0, 0, 1000, 1000);
         rectangle.setFill(Color.WHITESMOKE);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
@@ -237,9 +237,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             circle.setCenterY(point.y);
         }
 
-
         root.setTranslateX(cameraPosition.x);
         root.setTranslateY(cameraPosition.y);
+        root.setScaleX(cameraZoom);
+        root.setScaleY(cameraZoom);
 
         return root;
     }

@@ -5,10 +5,8 @@ package geometry;
  */
 public class Line {
 
-    double slope;
-
-    double yIntercept;
-    double xIntercept;
+    public final double slope;
+    public final double yIntercept, xIntercept;
 
     public Line(Point point1, Point point2) {
         this.slope = (point2.y - point1.y)/(point2.x - point1.x);

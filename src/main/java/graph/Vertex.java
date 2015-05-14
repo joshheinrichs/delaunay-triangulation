@@ -7,6 +7,7 @@ import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -15,19 +16,26 @@ import java.util.Set;
 public class Vertex extends Circle {
 
     Point point;
-    Collection<Edge> incomingEdges = new ArrayList<Edge>();
-    Collection<Edge> outgoingEdges = new ArrayList<Edge>();
+    HashMap<String, Edge> edges = new HashMap<String, Edge>();
 
     public Vertex(Point point) {
         this.point = point;
     }
 
-    public void addIncomingEdge(Edge edge) {
-        incomingEdges.add(edge);
+    public void addEdge(Edge edge) {
+        edges.put(edge.toString(), edge);
     }
 
-    public void addOutgoingEdge(Edge edge) {
-        outgoingEdges.add(edge);
+    public void removeEdge(Edge edge) {
+        edges.remove(edge.toString());
+    }
+
+    public ArrayList<Edge> getEdges() {
+        ArrayList<Edge> list = new ArrayList<Edge>(edges.size());
+        for (String s : edges.keySet()) {
+            list.add(edges.get(s));
+        }
+        return list;
     }
 
     public Point getPoint() {
@@ -36,5 +44,21 @@ public class Vertex extends Circle {
 
     public void setPoint(Point point) {
         this.point = point;
+    }
+
+    public void delete() {
+        for (String s : edges.keySet()) {
+            Edge edge = edges.get(s);
+            if(edge.from != this) {
+                edge.from.removeEdge(edge);
+            } else {
+                edge.to.removeEdge(edge);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.point.toString();
     }
 }

@@ -42,7 +42,7 @@ public class RemoveVertexTool extends Tool {
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
         int selectedVertexIndex = ((IndexedCircle) t.getSource()).getIndex();
-        modelAdapter.removeVertex(selectedVertexIndex);
+        modelAdapter.removeVertex(t.getX(), t.getY());
         modelAdapter.draw();
     }
 

@@ -8,18 +8,30 @@ import javafx.scene.shape.Line;
  */
 public class Edge extends Line {
 
-    Vertex from;
-    Vertex to;
+    public final Vertex from, to;
 
     public Edge(Vertex from, Vertex to) {
         this.from = from;
         this.to = to;
 
-        this.from.addOutgoingEdge(this);
-        this.to.addIncomingEdge(this);
+        this.from.addEdge(this);
+        this.to.addEdge(this);
+    }
+
+    /**
+     * Deletes the edge, removing itself from its vertexes
+     */
+    public void delete() {
+        this.from.removeEdge(this);
+        this.to.removeEdge(this);
     }
 
     public Segment getSegment() {
         return new Segment(from.getPoint(), to.getPoint());
+    }
+
+    @Override
+    public String toString() {
+        return "(" + from + ", " + to + ")";
     }
 }

@@ -27,12 +27,12 @@ public class CompleteGraphAdapter extends ModelAdapter {
     }
 
     @Override
-    public void removeVertex(int i) {
+    public void removeVertex(double x, double y) {
 
     }
 
     @Override
-    public void moveVertex(int i, double x, double y) {
+    public void moveVertex(double fromX, double fromY, double toX, double toY) {
 
     }
 

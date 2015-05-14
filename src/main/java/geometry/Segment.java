@@ -4,6 +4,7 @@ package geometry;
  * Created by joshheinrichs on 15-05-05.
  */
 public class Segment {
+
     public final Point start;
     public final Point end;
 

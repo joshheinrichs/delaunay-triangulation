@@ -19,6 +19,7 @@ public abstract class ModelAdapter {
     Tool selectedTool;
 
     Point cameraPosition = new Point(0,0);
+    double cameraZoom = 1.0;
 
     public ArrayList<Tool> getTools() {
         return tools;
@@ -44,6 +45,14 @@ public abstract class ModelAdapter {
         return this.cameraPosition;
     }
 
+    public void setCameraZoom(double zoom) {
+        this.cameraZoom = zoom;
+    }
+
+    public double getCameraZoom() {
+        return this.cameraZoom;
+    }
+
     /**
      * Returns the name of the model. This is used as the title for the window it appears in.
      * @return
@@ -51,8 +60,8 @@ public abstract class ModelAdapter {
     public abstract String getName();
 
     public abstract void addVertex(double x, double y);
-    public abstract void removeVertex(int i);
-    public abstract void moveVertex(int i, double x, double y);
+    public abstract void removeVertex(double x, double y);
+    public abstract void moveVertex(double fromX, double fromY, double toX, double toY);
 
     public abstract Group draw();
     public abstract Group dragDraw();
