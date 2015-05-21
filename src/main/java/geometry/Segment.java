@@ -1,5 +1,7 @@
 package geometry;
 
+import constants.Constants;
+
 /**
  * Created by joshheinrichs on 15-05-05.
  */
@@ -24,12 +26,19 @@ public class Segment {
 
     public Line perpendicular(Point point) {
         Line line = new Line(start, end);
-        System.out.println(line);
         return line.perpendicular(point);
     }
 
     public double length() {
         return start.distance(end);
+    }
+
+    public boolean contains(Point point) {
+        if(start.x <= point.x && point.x <= end.x) {
+            return new Line(start, end).contains(point);
+        } else {
+            return false;
+        }
     }
 
     @Override

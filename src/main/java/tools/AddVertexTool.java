@@ -13,7 +13,7 @@ import ui.IndexedCircle;
  */
 public class AddVertexTool extends Tool {
 
-    int selectedVertexIndex;
+    MoveVertexTool moveTool = new MoveVertexTool(modelAdapter);
 
     public AddVertexTool(ModelAdapter modelAdapter) {
         super(modelAdapter);
@@ -46,14 +46,12 @@ public class AddVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        selectedVertexIndex = ((IndexedCircle) t.getSource()).getIndex();
-        System.out.println(selectedVertexIndex);
+        moveTool.vertexOnMousePressed(t);
     }
 
     @Override
     public void vertexOnMouseDragged(MouseEvent t) {
-//        modelAdapter.moveVertex(selectedVertexIndex, t.getX(), t.getY());
-        modelAdapter.dragDraw();
+        moveTool.vertexOnMouseDragged(t);
     }
 
 

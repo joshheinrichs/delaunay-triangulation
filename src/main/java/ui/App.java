@@ -1,29 +1,17 @@
 package ui;
 
-import geometry.Point;
-import geometry.Segment;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import modelAdapters.DelaunayTriangulationAdapter;
-import models.CompleteGraph;
-import models.DelaunayTriangulation;
 import tools.Tool;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * @web http://java-buddy.blogspot.com/

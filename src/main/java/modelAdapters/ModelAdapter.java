@@ -60,8 +60,8 @@ public abstract class ModelAdapter {
     public abstract String getName();
 
     public abstract void addVertex(double x, double y);
-    public abstract void removeVertex(double x, double y);
-    public abstract void moveVertex(double fromX, double fromY, double toX, double toY);
+    public abstract void removeVertex(int index);
+    public abstract void moveVertex(int index, double x, double y);
 
     public abstract Group draw();
     public abstract Group dragDraw();

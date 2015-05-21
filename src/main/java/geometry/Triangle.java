@@ -22,30 +22,6 @@ public class Triangle {
     }
 
     /**
-     * Constructs a triangle which bounds the given points. This triangle is not guaranteed to be minimal.
-     * @param points
-     */
-    public Triangle(ArrayList<Point> points) {
-        double minX, minY;
-        double maxX, maxY;
-
-        minX = maxX = points.get(0).x;
-        minY = maxY = points.get(0).y;
-
-        for (int i = 1; i < points.size(); i++) {
-            minX = Math.min(minX, points.get(i).x);
-            minY = Math.min(minY, points.get(i).y);
-            maxX = Math.max(maxX, points.get(i).x);
-            maxY = Math.max(maxY, points.get(i).y);
-        }
-
-        //constructs a triangle with double the height and width of the bounding box of the points
-        this.a = new Point(minX-100000, minY-100000);
-        this.b = new Point(minX-100000, maxY + (maxY - minY)+100000);
-        this.c = new Point(maxX + (maxX - minX)+100000, minY-100000);
-    }
-
-    /**
      * Returns the edges of the triangle.
      * @return
      */
@@ -65,22 +41,27 @@ public class Triangle {
         return new Circle(a, b, c);
     }
 
-    /**
-     * Returns true if the point is contained within the triangle, false otherwise.
-     * @param point
-     * @return
-     */
     public boolean contains(Point point) {
-        double area = (1.d/2.d) * (-b.y*c.x + a.y*(-b.x + c.x) + a.x*(b.y - c.y) + b.x*c.y);
-
-        double s = 1.d/(2.d*area)*(a.y*c.x - a.x*c.y + (c.y - a.y)*point.x + (a.x - c.x)*point.y);
-        double t = 1.d/(2.d*area)*(a.x*b.y - a.y*b.x + (a.y - b.y)*point.x + (b.x - a.x)*point.y);
-
-        return (0 <= s && s <= 1) && (0 <= t && t <= 1) && (s + t <= 1);
+        double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
+                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
+        
+        double beta = ((c.y - a.y)*(point.x - c.x) + (a.x - c.x)*(point.y - c.y)) /
+                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
+        
+        double gamma = 1.0d - alpha - beta;
+        
+        return (alpha >= 0 && beta >= 0 && gamma >= 0);
     }
 
-    public double area() {
-        return Math.abs((1.d/2.d) * (-b.y*c.x + a.y*(-b.x + c.x) + a.x*(b.y - c.y) + b.x*c.y));
-    }
+    public boolean interior(Point point) {
+        double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
+                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
 
+        double beta = ((c.y - a.y)*(point.x - c.x) + (a.x - c.x)*(point.y - c.y)) /
+                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
+
+        double gamma = 1.0d - alpha - beta;
+
+        return (alpha > 0 && beta > 0 && gamma > 0);
+    }
 }

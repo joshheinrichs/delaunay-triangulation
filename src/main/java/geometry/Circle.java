@@ -21,9 +21,7 @@ public class Circle {
         Segment seg2 = new Segment(b, c);
 
         Line perp1 = seg1.perpendicular(seg1.midpoint());
-        System.out.println(perp1);
         Line perp2 = seg2.perpendicular(seg2.midpoint());
-        System.out.println(perp2);
 
         this.center = perp1.intersect(perp2);
         this.radius = center.distance(a);

@@ -1,5 +1,7 @@
 package geometry;
 
+import constants.Constants;
+
 /**
  * Created by joshheinrichs on 15-05-05.
  */
@@ -136,6 +138,14 @@ public class Line {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public boolean contains(Point point) {
+        if(Double.isInfinite(this.slope)) {
+            return Math.abs(this.xIntercept - point.x) < Constants.EPSILON;
+        } else {
+            return Math.abs(y(point.x) - point.y) < Constants.EPSILON;
         }
     }
 
