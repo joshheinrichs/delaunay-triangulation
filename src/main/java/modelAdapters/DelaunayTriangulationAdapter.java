@@ -277,10 +277,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             this.voronoiEdges.getChildren().add(drawVoronoiEdge(voronoiEdge));
         }
 
-        ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
-        for (geometry.Circle circumcircle : circumcircles) {
-            this.delaunayEdges.getChildren().add(drawCircumcircle(circumcircle));
-        }
+//        ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
+//        for (geometry.Circle circumcircle : circumcircles) {
+//            this.delaunayEdges.getChildren().add(drawCircumcircle(circumcircle));
+//        }
 
         ArrayList<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
         if(this.delaunayVertexes.getChildren().size() == delaunayVertexes.size()) {
