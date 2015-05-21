@@ -7,11 +7,18 @@ import constants.Constants;
  */
 public class Circle {
 
+    /**
+     * Center of the circle.
+     */
     public final Point center;
+
+    /**
+     * Radius of the circle.
+     */
     public final double radius;
 
     /**
-     * Takes three points along the edge and calculates the center and radius
+     * Constructs a circumcricle from the given points.
      * @param a
      * @param b
      * @param c
@@ -28,7 +35,7 @@ public class Circle {
     }
 
     /**
-     * Constructs a new circle with the given center and radius
+     * Constructs a new circle with the given center and radius.
      * @param center
      * @param radius
      */
@@ -43,8 +50,6 @@ public class Circle {
      * @return
      */
     public boolean contains(Point p) {
-//        System.out.println("distance: " + center.distance(p));
-//        System.out.println("center: " + center);
         if(Double.isNaN(center.distance(p))) {
             return true;
         } else {

@@ -41,6 +41,12 @@ public class Triangle {
         return new Circle(a, b, c);
     }
 
+
+    /**
+     * Returns true if the given point is contained within the triangle, including points which lie along its edges.
+     * @param point
+     * @return
+     */
     public boolean contains(Point point) {
         double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
                 ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
@@ -53,6 +59,11 @@ public class Triangle {
         return (alpha >= 0 && beta >= 0 && gamma >= 0);
     }
 
+    /**
+     * Returns true if the given point is within the the triangle, not including points which lie along its edges.
+     * @param point
+     * @return
+     */
     public boolean interior(Point point) {
         double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
                 ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));

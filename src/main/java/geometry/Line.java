@@ -10,12 +10,25 @@ public class Line {
     public final double slope;
     public final double yIntercept, xIntercept;
 
+    /**
+     * Constructs a new lline
+     * @param point1
+     * @param point2
+     */
     public Line(Point point1, Point point2) {
         this.slope = (point2.y - point1.y)/(point2.x - point1.x);
         this.yIntercept = point1.y - this.slope * point1.x;
         this.xIntercept = - this.yIntercept / this.slope;
     }
 
+    /**
+     * Constructs a new line with the given slope and y-intercept.
+     * <p>
+     * This construct should be used when it is impossible for the slope to be infinite, in which case an explicit
+     * x-intercept is not needed.
+     * @param slope
+     * @param yIntercept
+     */
     public Line(double slope, double yIntercept) {
         assert(!Double.isInfinite(slope));
         this.slope = slope;
@@ -24,7 +37,10 @@ public class Line {
     }
 
     /**
-     * This constructor is needed when it is possible for the slope to be infinite.
+     * Constructs a new line with the given slope, y-intercept, and x-intercept.
+     * <p>
+     * This constructor is needed when it is possible for the slope to be infinite, since a line with an infinite slope
+     * has no y-intercept.
      * @param slope
      * @param xIntercept
      * @param yIntercept
@@ -131,6 +147,12 @@ public class Line {
         return new Point(x, y);
     }
 
+
+    /**
+     * Returns true if the given line is parallel to this line, false otherwise.
+     * @param line
+     * @return
+     */
     public boolean isParallel(Line line) {
         if(Double.isInfinite(this.slope) && Double.isInfinite(line.slope)) {
             return true;
@@ -141,6 +163,11 @@ public class Line {
         }
     }
 
+    /**
+     * Returns true if the given point lies along this line, false otherwise.
+     * @param point
+     * @return
+     */
     public boolean contains(Point point) {
         if(Double.isInfinite(this.slope)) {
             return Math.abs(this.xIntercept - point.x) < Constants.EPSILON;
