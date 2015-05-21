@@ -124,6 +124,14 @@ public class DelaunayTriangulation extends Model {
         return circles;
     }
 
+    public ArrayList<Triangle> getDelaunayTriangles() {
+        ArrayList<Triangle> triangles = new ArrayList<Triangle>(this.triangles.size());
+        for (DelaunayTriangle triangle : this.triangles) {
+            triangles.add(triangle.getTriangle());
+        }
+        return triangles;
+    }
+
 
     void generate_delaunay() {
         generate_delaunay_n4();
@@ -134,6 +142,7 @@ public class DelaunayTriangulation extends Model {
      */
     void generate_delaunay_n4() {
         delaunayEdges.clear();
+        triangles.clear();
 
         DelaunayEdge[][] delaunayEdges = new DelaunayEdge[delaunayVertexes.size()][delaunayVertexes.size()];
 
@@ -280,8 +289,12 @@ public class DelaunayTriangulation extends Model {
             return new Triangle(a.getPoint(), b.getPoint(), c.getPoint()).interior(vertex.getPoint());
         }
 
+        Triangle getTriangle() {
+            return new Triangle(a.getPoint(), b.getPoint(), c.getPoint());
+        }
+
         Circle getCircumcircle() {
-            return new Triangle(a.getPoint(), b.getPoint(), c.getPoint()).getCircumcircle();
+            return getTriangle().getCircumcircle();
         }
 
         void delete() {
