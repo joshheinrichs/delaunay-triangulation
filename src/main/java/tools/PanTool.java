@@ -24,14 +24,14 @@ public class PanTool extends Tool {
     public void onMousePressed(MouseEvent t) {
         startX = t.getScreenX() - modelAdapter.getCameraPosition().x;
         startY = t.getScreenY() - modelAdapter.getCameraPosition().y;
-        modelAdapter.dragDraw();
+        modelAdapter.draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent t) {
         System.out.println(t.getScreenX());
         modelAdapter.setCameraPosition(new Point(t.getScreenX() - startX, t.getScreenY() - startY));
-        modelAdapter.dragDraw();
+        modelAdapter.draw();
     }
 
     @Override

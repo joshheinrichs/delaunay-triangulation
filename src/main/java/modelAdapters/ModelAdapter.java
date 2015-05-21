@@ -64,5 +64,4 @@ public abstract class ModelAdapter {
     public abstract void moveVertex(int index, double x, double y);
 
     public abstract Group draw();
-    public abstract Group dragDraw();
 }
