@@ -102,6 +102,10 @@ public class Triangle {
         return getAngleStart(b, c, a);
     }
 
+    public boolean isObtuse() {
+        return (getAngleA() > 90.d || getAngleB() > 90.d || getAngleC() > 90.d);
+    }
+
     /**
      * Retruns the angle from 0 to the start of angle B
      * @param A

@@ -39,7 +39,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     final Group circumcircles = new Group();
 
     boolean delaunayEdgesEnabled = true;
-    boolean delaunayAnglesEnabled = true;
+    boolean delaunayAnglesEnabled = false;
+    boolean delaunayObtuseAnglesEnabled = true;
     boolean voronoiEdgesEnabled = true;
     boolean circumcirclesEnabled = false;
 
@@ -249,7 +250,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         a.setRadiusY(20.d);
         a.setType(ArcType.ROUND);
         a.setStartAngle(-triangle.getAngleAStart());
-        a.setLength(-triangle.getAngleA() * (triangle.getAngleAStart() / Math.abs(triangle.getAngleAStart())));
+        a.setLength(-triangle.getAngleA());
+        a.setStrokeWidth(2.d);
+        a.setFill(Color.TRANSPARENT);
+        a.setStroke(Color.BLACK);
         group.getChildren().add(a);
 
         Arc b = new Arc();
@@ -259,7 +263,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         b.setRadiusY(20.d);
         b.setType(ArcType.ROUND);
         b.setStartAngle(-triangle.getAngleBStart());
-        b.setLength(-triangle.getAngleB() * (triangle.getAngleBStart() / Math.abs(triangle.getAngleBStart())));
+        b.setLength(-triangle.getAngleB());
+        b.setStrokeWidth(2.d);
+        b.setFill(Color.TRANSPARENT);
+        b.setStroke(Color.BLACK);
         group.getChildren().add(b);
 
         Arc c = new Arc();
@@ -268,15 +275,49 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         c.setRadiusX(20.d);
         c.setRadiusY(20.d);
         c.setType(ArcType.ROUND);
-        c.setStartAngle(-triangle.getAngleCStart() * (triangle.getAngleCStart() / Math.abs(triangle.getAngleCStart())));
+        c.setStartAngle(-triangle.getAngleCStart());
         c.setLength(-triangle.getAngleC());
+        c.setStrokeWidth(2.d);
+        c.setFill(Color.TRANSPARENT);
+        c.setStroke(Color.BLACK);
         group.getChildren().add(c);
 
         return group;
     }
 
+    Arc drawObtuseAngles(Triangle triangle) {
+
+        Arc arc = new Arc();
+        arc.setRadiusX(20.d);
+        arc.setRadiusY(20.d);
+        arc.setType(ArcType.ROUND);
+        arc.setFill(Color.TRANSPARENT);
+        arc.setStrokeWidth(2.d);
+        arc.setStroke(Color.BLACK);
+
+        if(triangle.getAngleA() > 90.d) {
+            arc.setStartAngle(-triangle.getAngleAStart());
+            arc.setLength(-triangle.getAngleA());
+            arc.setCenterX(triangle.a.x);
+            arc.setCenterY(triangle.a.y);
+        } else if (triangle.getAngleB() > 90.d) {
+            arc.setStartAngle(-triangle.getAngleBStart());
+            arc.setLength(-triangle.getAngleB());
+            arc.setCenterX(triangle.b.x);
+            arc.setCenterY(triangle.b.y);
+        } else {
+            assert (triangle.getAngleC() > 90.d);
+            arc.setStartAngle(-triangle.getAngleCStart());
+            arc.setLength(-triangle.getAngleC());
+            arc.setCenterX(triangle.c.x);
+            arc.setCenterY(triangle.c.y);
+        }
+
+        return arc;
+    }
+
     Rectangle drawBackground() {
-        Rectangle rectangle = new Rectangle(0, 0, 1000, 1000);
+        Rectangle rectangle = new Rectangle(0, 0, 1920, 1080);
         rectangle.setFill(BACKGROUND_COLOR);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
@@ -346,6 +387,13 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
             for (Triangle triangle : triangles) {
                 this.delaunayAngles.getChildren().add(drawAngles(triangle));
+            }
+        } else if (delaunayObtuseAnglesEnabled) {
+            ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
+            for (Triangle triangle : triangles) {
+                if(triangle.isObtuse()) {
+                    this.delaunayAngles.getChildren().add(drawObtuseAngles(triangle));
+                }
             }
         }
 
