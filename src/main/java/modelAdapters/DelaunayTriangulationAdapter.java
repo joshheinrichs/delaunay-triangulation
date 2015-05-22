@@ -5,6 +5,7 @@ import geometry.Segment;
 import geometry.Triangle;
 import graph.Edge;
 import graph.Vertex;
+import graphAdapters.DelaunayTriangulationGraphAdapter;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -95,8 +96,12 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
             };
 
 
+    DelaunayTriangulationGraphAdapter dtga;
+
     public DelaunayTriangulationAdapter() {
         model = new DelaunayTriangulation();
+
+        dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
 
         tools.add(new AddVertexTool(this));
         tools.add(new MoveVertexTool(this));
@@ -401,6 +406,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         root.setTranslateY(cameraPosition.y);
         root.setScaleX(cameraZoom);
         root.setScaleY(cameraZoom);
+
+        dtga.update();
 
         return root;
     }
