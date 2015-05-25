@@ -20,6 +20,8 @@ public abstract class ModelAdapter {
     ArrayList<Tool> tools = new ArrayList<Tool>();
     Tool selectedTool;
 
+    final Group root = new Group();
+
     EventHandler<MouseEvent> onMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
@@ -81,9 +83,6 @@ public abstract class ModelAdapter {
                 }
             };
 
-    Point cameraPosition = new Point(0,0);
-    double cameraZoom = 1.0;
-
     public ArrayList<Tool> getTools() {
         return tools;
     }
@@ -101,19 +100,21 @@ public abstract class ModelAdapter {
     }
 
     public void setCameraPosition(Point position) {
-        this.cameraPosition = position;
+        this.root.setTranslateX(position.x);
+        this.root.setTranslateY(position.y);
     }
 
     public Point getCameraPosition() {
-        return this.cameraPosition;
+        return new Point(this.root.getTranslateX(), this.root.getTranslateY());
     }
 
     public void setCameraZoom(double zoom) {
-        this.cameraZoom = zoom;
+        this.root.setScaleX(zoom);
+        this.root.setScaleY(zoom);
     }
 
     public double getCameraZoom() {
-        return this.cameraZoom;
+        return this.root.getScaleX();
     }
 
     /**

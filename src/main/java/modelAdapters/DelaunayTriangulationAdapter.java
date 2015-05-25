@@ -30,8 +30,6 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     static final Color VERTEX_COLOR = Color.RED;
     static final Color BACKGROUND_COLOR = new Color(0.7, 0.7, 0.73, 1.0);
 
-    final Group root = new Group();
-
     final Group delaunayVertexes = new Group();
     final Group delaunayEdges = new Group();
     final Group delaunayAngles = new Group();
@@ -356,11 +354,6 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
                 }
             }
         }
-
-        root.setTranslateX(cameraPosition.x);
-        root.setTranslateY(cameraPosition.y);
-        root.setScaleX(cameraZoom);
-        root.setScaleY(cameraZoom);
 
         dtga.update();
 
