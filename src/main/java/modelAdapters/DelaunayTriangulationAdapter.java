@@ -47,55 +47,6 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
 
-    EventHandler<MouseEvent> onMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.onMousePressed(t);
-                }
-            };
-
-    EventHandler<MouseEvent> onMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.onMouseDragged(t);
-                }
-            };
-
-    EventHandler<MouseEvent> backgroundOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.backgroundOnMousePressed(t);
-                }
-            };
-
-    EventHandler<MouseEvent> backgroundOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.backgroundOnMouseDragged(t);
-                }
-            };
-
-    EventHandler<MouseEvent> vertexOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.vertexOnMousePressed(t);
-                }
-            };
-
-    EventHandler<MouseEvent> vertexOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                public void handle(MouseEvent t) {
-                    selectedTool.vertexOnMouseDragged(t);
-                }
-            };
-
-
     DelaunayTriangulationGraphAdapter dtga;
 
     public DelaunayTriangulationAdapter() {
@@ -103,15 +54,17 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
         dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
 
+        MoveVertexTool moveVertexTool = new MoveVertexTool(this);
+
         tools.add(new AddVertexTool(this));
-        tools.add(new MoveVertexTool(this));
+        tools.add(moveVertexTool);
         tools.add(new RemoveVertexTool(this));
         tools.add(new PanTool(this));
         tools.add(new ZoomTool(this));
 
         selectedTool = tools.get(0);
 
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes);
+        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
@@ -157,7 +110,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
      * @param y
      */
     public void moveSelectedVertexes(double x, double y) {
-        ((DelaunayTriangulation) model).moveVertexes(selectedVertexes, x, y); //todo
+        ((DelaunayTriangulation) model).moveVertexes(selectedVertexes, x, y);
     }
 
     public void removeSelectedVertexes() {
@@ -326,6 +279,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         rectangle.setFill(BACKGROUND_COLOR);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
+        rectangle.setOnMouseReleased(backgroundOnMouseReleasedEventHandler);
+        rectangle.setOnMouseClicked(backgroundOnMouseClickedEventHandler);
         return rectangle;
     }
 

@@ -1,7 +1,9 @@
 package modelAdapters;
 
 import geometry.Point;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import models.Model;
 import tools.Tool;
 
@@ -17,6 +19,67 @@ public abstract class ModelAdapter {
 
     ArrayList<Tool> tools = new ArrayList<Tool>();
     Tool selectedTool;
+
+    EventHandler<MouseEvent> onMousePressedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.onMousePressed(t);
+                }
+            };
+
+    EventHandler<MouseEvent> onMouseDraggedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.onMouseDragged(t);
+                }
+            };
+
+    EventHandler<MouseEvent> backgroundOnMouseClickedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.backgroundOnMouseClicked(t);
+                }
+            };
+
+    EventHandler<MouseEvent> backgroundOnMousePressedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.backgroundOnMousePressed(t);
+                }
+            };
+
+    EventHandler<MouseEvent> backgroundOnMouseReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.backgroundOnMouseReleased(t);
+                }
+            };
+
+    EventHandler<MouseEvent> backgroundOnMouseDraggedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.backgroundOnMouseDragged(t);
+                }
+            };
+
+    EventHandler<MouseEvent> vertexOnMousePressedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.vertexOnMousePressed(t);
+                }
+            };
+
+    EventHandler<MouseEvent> vertexOnMouseDraggedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.vertexOnMouseDragged(t);
+                }
+            };
 
     Point cameraPosition = new Point(0,0);
     double cameraZoom = 1.0;

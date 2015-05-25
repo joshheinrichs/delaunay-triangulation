@@ -18,7 +18,17 @@ public class RulerTool extends Tool {
     }
 
     @Override
+    public void onMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void onMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent t) {
 
     }
 
@@ -28,7 +38,17 @@ public class RulerTool extends Tool {
     }
 
     @Override
+    public void backgroundOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void backgroundOnMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void backgroundOnMouseReleased(MouseEvent t) {
 
     }
 
@@ -38,7 +58,17 @@ public class RulerTool extends Tool {
     }
 
     @Override
+    public void vertexOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void vertexOnMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void vertexOnMouseReleased(MouseEvent t) {
 
     }
 

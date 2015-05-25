@@ -24,12 +24,27 @@ public class AddVertexTool extends Tool {
     }
 
     @Override
+    public void onMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void onMousePressed(MouseEvent t) {
 
     }
 
     @Override
+    public void onMouseReleased(MouseEvent t) {
+
+    }
+
+    @Override
     public void onMouseDragged(MouseEvent t) {
+
+    }
+
+    @Override
+    public void backgroundOnMouseClicked(MouseEvent t) {
 
     }
 
@@ -40,13 +55,28 @@ public class AddVertexTool extends Tool {
     }
 
     @Override
+    public void backgroundOnMouseReleased(MouseEvent t) {
+
+    }
+
+    @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
+
+    }
+
+    @Override
+    public void vertexOnMouseClicked(MouseEvent t) {
 
     }
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
         moveTool.vertexOnMousePressed(t);
+    }
+
+    @Override
+    public void vertexOnMouseReleased(MouseEvent t) {
+
     }
 
     @Override

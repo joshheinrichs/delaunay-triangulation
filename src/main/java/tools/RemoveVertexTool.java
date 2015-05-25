@@ -20,7 +20,17 @@ public class RemoveVertexTool extends Tool {
     }
 
     @Override
+    public void onMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void onMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent t) {
 
     }
 
@@ -30,7 +40,17 @@ public class RemoveVertexTool extends Tool {
     }
 
     @Override
+    public void backgroundOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void backgroundOnMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void backgroundOnMouseReleased(MouseEvent t) {
 
     }
 
@@ -40,10 +60,20 @@ public class RemoveVertexTool extends Tool {
     }
 
     @Override
+    public void vertexOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
     public void vertexOnMousePressed(MouseEvent t) {
         int index = ((IndexedCircle) t.getSource()).getIndex();
         modelAdapter.removeVertex(index);
         modelAdapter.draw();
+    }
+
+    @Override
+    public void vertexOnMouseReleased(MouseEvent t) {
+
     }
 
     @Override
