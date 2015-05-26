@@ -75,6 +75,10 @@ public class Segment {
         }
     }
 
+    public Line getLine() {
+        return new Line(start, end);
+    }
+
     @Override
     public String toString() {
         return "(" + start + ", " + end + ")";

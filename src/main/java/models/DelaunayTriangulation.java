@@ -1,9 +1,6 @@
 package models;
 
-import geometry.Circle;
-import geometry.Point;
-import geometry.Segment;
-import geometry.Triangle;
+import geometry.*;
 import graph.Edge;
 import graph.Vertex;
 
@@ -183,25 +180,69 @@ public class DelaunayTriangulation extends Model {
                     }
                 }
             }
+
             generate_voronoi();
         }
     }
 
     void generate_voronoi() {
-        generate_voronoi(triangles.get(0));
-    }
-
-
-    void generate_voronoi(DelaunayTriangle triangle) {
         voronoiEdges.clear();
+        voronoiVertexes.clear();
 
         for (DelaunayEdge edge : delaunayEdges) {
 
             assert(triangles.size() > 0);
             if(edge.isHull()) {
-                ArrayList<DelaunayTriangle> triangles = edge.getTriangles();
 
-                Vertex a = new Vertex(triangles.get(0).getCircumcircle().center);
+                DelaunayTriangle dt = edge.getTriangles().get(0);
+                Triangle triangle = dt.getTriangle();
+
+                Point p1, p2;
+
+                if(dt.a == edge.from || dt.a == edge.to) {
+                    if(dt.b == edge.from || dt.b == edge.to) {
+                        p1 = dt.a.getPoint();
+                        p2 = dt.b.getPoint();
+                    } else {
+                        assert (dt.c == edge.from || dt.c == edge.to);
+                        p1 = dt.c.getPoint();
+                        p2 = dt.a.getPoint();
+                    }
+                } else {
+                    p1 = dt.b.getPoint();
+                    p2 = dt.c.getPoint();
+                }
+
+                Point start = triangle.getCircumcircle().center;
+                Segment segment = new Segment(start, edge.getSegment().midpoint());
+                Line line = segment.getLine();
+
+                double y;
+
+                //counter-clockwise ordering
+                if(triangle.area() > 0) {
+                    System.out.println("CC");
+                    if(p2.x > p1.x) {
+                        y = -1000;
+                    } else {
+                        y = 1000;
+                    }
+                }
+                //clockwise ordering
+                else {
+                    if(p2.x > p1.x) {
+                        y = 1000;
+                    } else {
+                        y = -1000;
+                    }
+                }
+
+                Vertex a = new Vertex(start);
+                Vertex b = new Vertex(new Point(line.x(y), y));
+
+                voronoiVertexes.add(a);
+                voronoiVertexes.add(b);
+                voronoiEdges.add(new Edge(a, b));
             } else {
                 ArrayList<DelaunayTriangle> triangles = edge.getTriangles();
 

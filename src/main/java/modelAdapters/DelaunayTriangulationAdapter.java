@@ -53,16 +53,17 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
 
         MoveVertexTool moveVertexTool = new MoveVertexTool(this);
+        RemoveVertexTool removeVertexTool = new RemoveVertexTool(this);
 
         tools.add(new AddVertexTool(this));
         tools.add(moveVertexTool);
-        tools.add(new RemoveVertexTool(this));
+        tools.add(removeVertexTool);
         tools.add(new PanTool(this));
         tools.add(new ZoomTool(this));
 
         selectedTool = tools.get(0);
 
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root);
+        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 

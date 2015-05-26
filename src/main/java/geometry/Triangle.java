@@ -44,6 +44,10 @@ public class Triangle {
     }
 
 
+    public double area() {
+        return (1.d/2.d) * (-b.y*c.x + a.y*(-b.x + c.x) + a.x*(b.y - c.y) + b.x*c.y);
+    }
+
     /**
      * Returns true if the given point is contained within the triangle, including points which lie along its edges.
      * @param point
