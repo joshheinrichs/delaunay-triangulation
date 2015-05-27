@@ -43,22 +43,6 @@ public class App extends Application {
     public void start(Stage stage) {
         Scene scene = new Scene(root, DEFAULT_STAGE_WIDTH, DEFAULT_STAGE_HEIGHT);
 
-        Menu file = new Menu("File");
-        Menu edit = new Menu("Edit");
-
-        MenuItem save = new MenuItem("Save");
-        MenuItem load = new MenuItem("Load");
-        file.getItems().addAll(save, load);
-
-        MenuItem clear = new MenuItem("Clear");
-        edit.getItems().addAll(clear);
-
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(file, edit);
-        menuBar.setUseSystemMenuBar(true);
-
-        root.getChildren().add(menuBar);
-
         stage.setScene(scene);
         stage.setTitle(modelAdapter.getName());
 

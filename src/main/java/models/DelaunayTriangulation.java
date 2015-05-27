@@ -58,6 +58,11 @@ public class DelaunayTriangulation extends Model {
         generate_delaunay();
     }
 
+    public void clearVertexes() {
+        delaunayVertexes.clear();
+        generate_delaunay();
+    }
+
     /**
      * Returns a list of vertex indexes in ascending order which reside within the given box
      * @param startX
