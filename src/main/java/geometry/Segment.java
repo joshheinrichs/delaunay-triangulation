@@ -1,7 +1,5 @@
 package geometry;
 
-import constants.Constants;
-
 /**
  * Created by joshheinrichs on 15-05-05.
  */

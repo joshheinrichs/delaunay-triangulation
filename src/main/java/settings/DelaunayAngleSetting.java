@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import modelAdapters.DelaunayTriangulationAdapter;

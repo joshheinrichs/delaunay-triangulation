@@ -1,6 +1,5 @@
 package ui;
 
-import javafx.scene.Node;
 import javafx.scene.shape.Circle;
 
 /**

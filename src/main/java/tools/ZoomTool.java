@@ -1,11 +1,7 @@
 package tools;
 
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
-import models.Model;
-
-import static javafx.scene.input.MouseButton.PRIMARY;
 
 /**
  * Created by joshheinrichs on 15-05-06.

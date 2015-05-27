@@ -1,11 +1,6 @@
 package models;
 
 import geometry.Point;
-import graph.Vertex;
-import javafx.scene.Group;
-import tools.Tool;
-
-import java.util.ArrayList;
 
 /**
  * Created by joshheinrichs on 15-05-06.

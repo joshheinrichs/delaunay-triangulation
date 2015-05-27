@@ -1,12 +1,8 @@
 package tools;
 
-import geometry.Point;
-import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
 import modelAdapters.ModelAdapter;
-import models.Model;
 import ui.IndexedCircle;
 
 /**

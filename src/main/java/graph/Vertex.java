@@ -2,13 +2,10 @@ package graph;
 
 
 import geometry.Point;
-import graph.Edge;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by joshheinrichs on 15-05-05.

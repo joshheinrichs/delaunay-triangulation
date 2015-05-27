@@ -1,7 +1,6 @@
 package settings;
 
 import modelAdapters.DelaunayTriangulationAdapter;
-import models.DelaunayTriangulation;
 
 /**
  * Created by joshheinrichs on 15-05-27.

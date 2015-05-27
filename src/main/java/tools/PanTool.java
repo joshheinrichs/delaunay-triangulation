@@ -3,7 +3,6 @@ package tools;
 import geometry.Point;
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
-import models.Model;
 
 /**
  * Created by joshheinrichs on 15-05-06.

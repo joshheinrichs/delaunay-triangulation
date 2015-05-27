@@ -2,7 +2,6 @@ package tools;
 
 import javafx.scene.input.MouseEvent;
 import modelAdapters.ModelAdapter;
-import models.Model;
 
 /**
  * The angle tool measures angles

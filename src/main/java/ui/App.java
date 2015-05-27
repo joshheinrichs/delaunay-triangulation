@@ -1,30 +1,20 @@
 package ui;
 
-import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modelAdapters.DelaunayTriangulationAdapter;
 import settings.Setting;
 import tools.Tool;
 
-import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 /**

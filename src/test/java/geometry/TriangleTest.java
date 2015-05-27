@@ -1,13 +1,10 @@
 package geometry;
 
 import constants.Constants;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by joshheinrichs on 15-05-11.

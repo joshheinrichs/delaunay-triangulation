@@ -1,6 +1,5 @@
 package statistics;
 
-import modelAdapters.ModelAdapter;
 import models.Model;
 
 /**

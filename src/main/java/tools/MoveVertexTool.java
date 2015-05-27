@@ -1,12 +1,10 @@
 package tools;
 
-import geometry.Point;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import modelAdapters.DelaunayTriangulationAdapter;
 import modelAdapters.ModelAdapter;
-import models.Model;
 import ui.IndexedCircle;
 
 import java.util.ArrayList;

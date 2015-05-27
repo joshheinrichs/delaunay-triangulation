@@ -3,8 +3,6 @@ package graphAdapters;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
-import geometry.Point;
-import geometry.Segment;
 import graph.Edge;
 import graph.Vertex;
 import models.DelaunayTriangulation;
