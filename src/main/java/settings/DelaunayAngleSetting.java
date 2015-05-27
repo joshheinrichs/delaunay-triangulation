@@ -43,7 +43,10 @@ public class DelaunayAngleSetting extends Setting {
                 try {
                     dt.setMinDelaunayAngle(Double.parseDouble(newValue));
                     dt.draw();
-                } catch (NumberFormatException e) { }
+                } catch (NumberFormatException e) {
+                    dt.setMaxDelaunayAngle(Double.NaN);
+                    dt.draw();
+                }
             }
         });
 
@@ -54,7 +57,10 @@ public class DelaunayAngleSetting extends Setting {
                 try {
                     dt.setMaxDelaunayAngle(Double.parseDouble(newValue));
                     dt.draw();
-                } catch (NumberFormatException e) { }
+                } catch (NumberFormatException e) {
+                    dt.setMaxDelaunayAngle(Double.NaN);
+                    dt.draw();
+                }
             }
         });
 
