@@ -55,6 +55,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
         dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
 
+        circumcircles.setVisible(false);
+
         MoveVertexTool moveVertexTool = new MoveVertexTool(this);
         RemoveVertexTool removeVertexTool = new RemoveVertexTool(this);
 
@@ -64,20 +66,18 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         tools.add(new PanTool(this));
         tools.add(new ZoomTool(this));
 
+        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
+        root.setOnMousePressed(onMousePressedEventHandler);
+        root.setOnMouseDragged(onMouseDraggedEventHandler);
+
+        this.background.getChildren().add(drawBackground());
+
         selectedTool = tools.get(0);
 
         settings.add(new DelaunayEdgeSetting(this));
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
-
-        circumcircles.setVisible(false);
-
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
-        root.setOnMousePressed(onMousePressedEventHandler);
-        root.setOnMouseDragged(onMouseDraggedEventHandler);
-
-        this.background.getChildren().add(drawBackground());
     }
 
     @Override
@@ -360,6 +360,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     }
 
     public boolean isCircumcirclesVisible() {
+        System.out.println(circumcircles.isVisible());
         return circumcircles.isVisible();
     }
 
