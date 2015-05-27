@@ -1,6 +1,8 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelAdapters.DelaunayTriangulationAdapter;
 import settings.Setting;
@@ -51,6 +54,7 @@ public class App extends Application {
             toolBar.getItems().add(button);
         }
 
+
         ToolBar optionsBar = new ToolBar();
         optionsBar.setPrefWidth(600 / 9 * 16);
 
@@ -58,11 +62,18 @@ public class App extends Application {
             optionsBar.getItems().add(setting.getRoot());
         }
 
-        optionsBar.setTranslateY(38);
+        final VBox vBox = new VBox();
+        vBox.getChildren().addAll(toolBar, optionsBar);
 
-
-        root.getChildren().addAll(modelAdapter.getRoot(), toolBar, optionsBar);
+        root.getChildren().addAll(modelAdapter.getRoot(), vBox);
         modelAdapter.draw();
+
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                vBox.setPrefWidth(newValue.doubleValue());
+            }
+        });
     }
 
     public static void main(String[] args) {
