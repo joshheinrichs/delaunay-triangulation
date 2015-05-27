@@ -12,6 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import models.DelaunayTriangulation;
+import settings.CircumcircleSetting;
+import settings.DelaunayAngleSetting;
+import settings.DelaunayEdgeSetting;
+import settings.VoronoiEdgeSetting;
 import tools.*;
 import ui.IndexedCircle;
 
@@ -64,6 +68,11 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         tools.add(new ZoomTool(this));
 
         selectedTool = tools.get(0);
+
+        settings.add(new DelaunayEdgeSetting(this));
+        settings.add(new VoronoiEdgeSetting(this));
+        settings.add(new CircumcircleSetting(this));
+        settings.add(new DelaunayAngleSetting(this));
 
         root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);

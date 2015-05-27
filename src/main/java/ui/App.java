@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import modelAdapters.DelaunayTriangulationAdapter;
+import settings.Setting;
 import tools.Tool;
 
 import java.awt.*;
@@ -53,37 +54,9 @@ public class App extends Application {
         ToolBar optionsBar = new ToolBar();
         optionsBar.setPrefWidth(600 / 9 * 16);
 
-        CheckBox delaunayEdges = new CheckBox("Delaunay Edges");
-        delaunayEdges.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                modelAdapter.setDelaunayEdgesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
-        CheckBox voronoiEdges = new CheckBox("Voronoi Edges");
-        voronoiEdges.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                modelAdapter.setVoronoiEdgesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
-        CheckBox circumcircles = new CheckBox("Circumcircles");
-        circumcircles.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                modelAdapter.setCircumcirclesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
-        CheckBox angles = new CheckBox("Delaunay Angles");
-        angles.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                modelAdapter.setDelaunayAnglesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
-
-        optionsBar.getItems().add(delaunayEdges);
-        optionsBar.getItems().add(voronoiEdges);
-        optionsBar.getItems().add(circumcircles);
-        optionsBar.getItems().add(angles);
-        optionsBar.getItems().add(new TextField("180"));
-        optionsBar.getItems().add(new TextField("360"));
+        for (Setting setting : modelAdapter.getSettings()) {
+            optionsBar.getItems().add(setting.getRoot());
+        }
 
         optionsBar.setTranslateY(38);
 

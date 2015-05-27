@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import models.Model;
+import settings.Setting;
 import tools.Tool;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public abstract class ModelAdapter {
 
     ArrayList<Tool> tools = new ArrayList<Tool>();
     Tool selectedTool;
+
+    ArrayList<Setting> settings = new ArrayList<Setting>();
 
     final Group root = new Group();
 
@@ -97,6 +100,10 @@ public abstract class ModelAdapter {
 
     public void setSelectedTool(int i) {
         selectedTool = tools.get(i);
+    }
+
+    public ArrayList<Setting> getSettings() {
+        return settings;
     }
 
     public void setCameraPosition(Point position) {
