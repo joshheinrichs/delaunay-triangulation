@@ -17,6 +17,8 @@ import ui.IndexedCircle;
 
 import java.util.ArrayList;
 
+import static models.DelaunayTriangulation.BOUNDS;
+
 /**
  * Created by joshheinrichs on 15-05-07.
  */
@@ -38,10 +40,10 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     final Group circumcircles = new Group();
 
     boolean delaunayEdgesEnabled = true;
-    boolean delaunayAnglesEnabled = false;
+    boolean delaunayAnglesEnabled = true;
     boolean delaunayObtuseAnglesEnabled = true;
     boolean voronoiEdgesEnabled = true;
-    boolean circumcirclesEnabled = false;
+    boolean circumcirclesEnabled = true;
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
 
@@ -274,7 +276,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     }
 
     Rectangle drawBackground() {
-        Rectangle rectangle = new Rectangle(0, 0, 1920, 1080);
+        Rectangle rectangle = new Rectangle(-BOUNDS, -BOUNDS, 2*BOUNDS, 2*BOUNDS);
         rectangle.setFill(BACKGROUND_COLOR);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
@@ -360,4 +362,37 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
         return root;
     }
+
+    public boolean isDelaunayEdgesVisible() {
+        return delaunayEdges.isVisible();
+    }
+
+    public void setDelaunayEdgesVisible(boolean visible) {
+        delaunayEdges.setVisible(visible);
+    }
+
+    public boolean isDelaunayAnglesVisible() {
+        return delaunayAngles.isVisible();
+    }
+
+    public void setDelaunayAnglesVisible(boolean visible) {
+        delaunayAngles.setVisible(visible);
+    }
+
+    public boolean isVoronoiEdgesVisible() {
+        return voronoiEdges.isVisible();
+    }
+
+    public void setVoronoiEdgesVisible(boolean visible) {
+        voronoiEdges.setVisible(visible);
+    }
+
+    public boolean isCircumcirclesVisible() {
+        return circumcircles.isVisible();
+    }
+
+    public void setCircumcirclesVisible(boolean visible) {
+        circumcircles.setVisible(visible);
+    }
+
 }
