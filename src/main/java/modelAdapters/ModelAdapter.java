@@ -134,5 +134,9 @@ public abstract class ModelAdapter {
     public abstract void removeVertex(int index);
     public abstract void moveVertex(int index, double x, double y);
 
-    public abstract Group draw();
+    public abstract void draw();
+
+    public Group getRoot() {
+        return root;
+    }
 }

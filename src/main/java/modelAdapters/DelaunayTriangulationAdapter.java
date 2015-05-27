@@ -273,7 +273,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     }
 
     @Override
-    public Group draw() {
+    public void draw() {
 
         this.delaunayEdges.getChildren().clear();
         ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
@@ -331,8 +331,6 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         }
 
         dtga.update();
-
-        return root;
     }
 
     public boolean isDelaunayEdgesVisible() {

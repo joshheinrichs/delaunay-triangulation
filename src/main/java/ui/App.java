@@ -61,9 +61,8 @@ public class App extends Application {
         optionsBar.setTranslateY(38);
 
 
-        root.getChildren().add(modelAdapter.draw());
-        root.getChildren().add(toolBar);
-        root.getChildren().add(optionsBar);
+        root.getChildren().addAll(modelAdapter.getRoot(), toolBar, optionsBar);
+        modelAdapter.draw();
     }
 
     public static void main(String[] args) {
