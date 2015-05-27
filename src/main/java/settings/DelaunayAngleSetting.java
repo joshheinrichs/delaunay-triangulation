@@ -46,7 +46,7 @@ public class DelaunayAngleSetting extends Setting {
                     dt.setMinDelaunayAngle(Double.parseDouble(newValue));
                     dt.draw();
                 } catch (NumberFormatException e) {
-                    dt.setMaxDelaunayAngle(Double.NaN);
+                    dt.setMinDelaunayAngle(Double.NaN);
                     dt.draw();
                 }
             }
