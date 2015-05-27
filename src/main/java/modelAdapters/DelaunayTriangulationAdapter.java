@@ -43,11 +43,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     final Group background = new Group();
     final Group circumcircles = new Group();
 
-    boolean delaunayEdgesEnabled = true;
-    boolean delaunayAnglesEnabled = true;
-    boolean delaunayObtuseAnglesEnabled = true;
-    boolean voronoiEdgesEnabled = true;
-    boolean circumcirclesEnabled = true;
+    double minDelaunayAngle = 90;
+    double maxDelaunayAngle = 180;
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
 
@@ -73,6 +70,8 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
+
+        circumcircles.setVisible(false);
 
         root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);
@@ -211,77 +210,56 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
         Group group = new Group();
 
-        Arc a = new Arc();
-        a.setCenterX(triangle.a.x);
-        a.setCenterY(triangle.a.y);
-        a.setRadiusX(20.d);
-        a.setRadiusY(20.d);
-        a.setType(ArcType.ROUND);
-        a.setStartAngle(-triangle.getAngleAStart());
-        a.setLength(-triangle.getAngleA());
-        a.setStrokeWidth(2.d);
-        a.setFill(Color.TRANSPARENT);
-        a.setStroke(Color.BLACK);
-        group.getChildren().add(a);
+        double angleA = triangle.getAngleA();
+        double angleB = triangle.getAngleB();
+        double angleC = triangle.getAngleC();
 
-        Arc b = new Arc();
-        b.setCenterX(triangle.b.x);
-        b.setCenterY(triangle.b.y);
-        b.setRadiusX(20.d);
-        b.setRadiusY(20.d);
-        b.setType(ArcType.ROUND);
-        b.setStartAngle(-triangle.getAngleBStart());
-        b.setLength(-triangle.getAngleB());
-        b.setStrokeWidth(2.d);
-        b.setFill(Color.TRANSPARENT);
-        b.setStroke(Color.BLACK);
-        group.getChildren().add(b);
-
-        Arc c = new Arc();
-        c.setCenterX(triangle.c.x);
-        c.setCenterY(triangle.c.y);
-        c.setRadiusX(20.d);
-        c.setRadiusY(20.d);
-        c.setType(ArcType.ROUND);
-        c.setStartAngle(-triangle.getAngleCStart());
-        c.setLength(-triangle.getAngleC());
-        c.setStrokeWidth(2.d);
-        c.setFill(Color.TRANSPARENT);
-        c.setStroke(Color.BLACK);
-        group.getChildren().add(c);
-
-        return group;
-    }
-
-    Arc drawObtuseAngles(Triangle triangle) {
-
-        Arc arc = new Arc();
-        arc.setRadiusX(20.d);
-        arc.setRadiusY(20.d);
-        arc.setType(ArcType.ROUND);
-        arc.setFill(Color.TRANSPARENT);
-        arc.setStrokeWidth(2.d);
-        arc.setStroke(Color.BLACK);
-
-        if(triangle.getAngleA() > 90.d) {
-            arc.setStartAngle(-triangle.getAngleAStart());
-            arc.setLength(-triangle.getAngleA());
-            arc.setCenterX(triangle.a.x);
-            arc.setCenterY(triangle.a.y);
-        } else if (triangle.getAngleB() > 90.d) {
-            arc.setStartAngle(-triangle.getAngleBStart());
-            arc.setLength(-triangle.getAngleB());
-            arc.setCenterX(triangle.b.x);
-            arc.setCenterY(triangle.b.y);
-        } else {
-            assert (triangle.getAngleC() > 90.d);
-            arc.setStartAngle(-triangle.getAngleCStart());
-            arc.setLength(-triangle.getAngleC());
-            arc.setCenterX(triangle.c.x);
-            arc.setCenterY(triangle.c.y);
+        if(angleA >= minDelaunayAngle && angleA <= maxDelaunayAngle) {
+            Arc a = new Arc();
+            a.setCenterX(triangle.a.x);
+            a.setCenterY(triangle.a.y);
+            a.setRadiusX(20.d);
+            a.setRadiusY(20.d);
+            a.setType(ArcType.ROUND);
+            a.setStartAngle(-triangle.getAngleAStart());
+            a.setLength(-angleA);
+            a.setStrokeWidth(2.d);
+            a.setFill(Color.TRANSPARENT);
+            a.setStroke(Color.BLACK);
+            group.getChildren().add(a);
         }
 
-        return arc;
+        if(angleB >= minDelaunayAngle && angleB <= maxDelaunayAngle) {
+            Arc b = new Arc();
+            b.setCenterX(triangle.b.x);
+            b.setCenterY(triangle.b.y);
+            b.setRadiusX(20.d);
+            b.setRadiusY(20.d);
+            b.setType(ArcType.ROUND);
+            b.setStartAngle(-triangle.getAngleBStart());
+            b.setLength(-angleB);
+            b.setStrokeWidth(2.d);
+            b.setFill(Color.TRANSPARENT);
+            b.setStroke(Color.BLACK);
+            group.getChildren().add(b);
+        }
+
+        if(angleC >= minDelaunayAngle && angleC <= maxDelaunayAngle) {
+            Arc c = new Arc();
+            c.setCenterX(triangle.c.x);
+            c.setCenterY(triangle.c.y);
+            c.setRadiusX(20.d);
+            c.setRadiusY(20.d);
+            c.setType(ArcType.ROUND);
+            c.setStartAngle(-triangle.getAngleCStart());
+            c.setLength(-angleC);
+            c.setStrokeWidth(2.d);
+            c.setFill(Color.TRANSPARENT);
+            c.setStroke(Color.BLACK);
+            group.getChildren().add(c);
+        }
+
+        return group;
     }
 
     Rectangle drawBackground() {
@@ -298,29 +276,23 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
     public Group draw() {
 
         this.delaunayEdges.getChildren().clear();
-        if(delaunayEdgesEnabled) {
-            ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
-            for (int i = 0; i < delaunayEdges.size(); i++) {
-                Edge delaunayEdge = delaunayEdges.get(i);
-                this.delaunayEdges.getChildren().add(drawDelaunayEdge(delaunayEdge, i));
-            }
+        ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
+        for (int i = 0; i < delaunayEdges.size(); i++) {
+            Edge delaunayEdge = delaunayEdges.get(i);
+            this.delaunayEdges.getChildren().add(drawDelaunayEdge(delaunayEdge, i));
         }
 
         this.voronoiEdges.getChildren().clear();
-        if(voronoiEdgesEnabled) {
-            ArrayList<Edge> voronoiEdges = ((DelaunayTriangulation) model).getVoronoiEdges();
-            for (int i = 0; i < voronoiEdges.size(); i++) {
-                Edge voronoiEdge = voronoiEdges.get(i);
-                this.voronoiEdges.getChildren().add(drawVoronoiEdge(voronoiEdge));
-            }
+        ArrayList<Edge> voronoiEdges = ((DelaunayTriangulation) model).getVoronoiEdges();
+        for (int i = 0; i < voronoiEdges.size(); i++) {
+            Edge voronoiEdge = voronoiEdges.get(i);
+            this.voronoiEdges.getChildren().add(drawVoronoiEdge(voronoiEdge));
         }
 
         this.circumcircles.getChildren().clear();
-        if(circumcirclesEnabled) {
-            ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
-            for (geometry.Circle circumcircle : circumcircles) {
-                this.circumcircles.getChildren().add(drawCircumcircle(circumcircle));
-            }
+        ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
+        for (geometry.Circle circumcircle : circumcircles) {
+            this.circumcircles.getChildren().add(drawCircumcircle(circumcircle));
         }
 
         ArrayList<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
@@ -353,18 +325,9 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         }
 
         this.delaunayAngles.getChildren().clear();
-        if(delaunayAnglesEnabled) {
-            ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
-            for (Triangle triangle : triangles) {
-                this.delaunayAngles.getChildren().add(drawAngles(triangle));
-            }
-        } else if (delaunayObtuseAnglesEnabled) {
-            ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
-            for (Triangle triangle : triangles) {
-                if(triangle.isObtuse()) {
-                    this.delaunayAngles.getChildren().add(drawObtuseAngles(triangle));
-                }
-            }
+        ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
+        for (Triangle triangle : triangles) {
+            this.delaunayAngles.getChildren().add(drawAngles(triangle));
         }
 
         dtga.update();
@@ -402,6 +365,22 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
     public void setCircumcirclesVisible(boolean visible) {
         circumcircles.setVisible(visible);
+    }
+
+    public double getMaxDelaunayAngle() {
+        return maxDelaunayAngle;
+    }
+
+    public void setMaxDelaunayAngle(double maxDelaunayAngle) {
+        this.maxDelaunayAngle = maxDelaunayAngle;
+    }
+
+    public double getMinDelaunayAngle() {
+        return minDelaunayAngle;
+    }
+
+    public void setMinDelaunayAngle(double minDelaunayAngle) {
+        this.minDelaunayAngle = minDelaunayAngle;
     }
 
 }

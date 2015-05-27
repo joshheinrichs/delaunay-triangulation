@@ -1,9 +1,15 @@
 package settings;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import modelAdapters.DelaunayTriangulationAdapter;
 
 /**
@@ -25,6 +31,37 @@ public class DelaunayAngleSetting extends Setting {
             }
         });
 
-        root.getChildren().add(checkBox);
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER_LEFT);
+
+        root.getChildren().add(hBox);
+
+        final TextField minAngle = new TextField(Double.toString(dt.getMinDelaunayAngle()));
+        minAngle.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                try {
+                    dt.setMinDelaunayAngle(Double.parseDouble(newValue));
+                    dt.draw();
+                } catch (NumberFormatException e) { }
+            }
+        });
+
+        final TextField maxAngle = new TextField(Double.toString(dt.getMaxDelaunayAngle()));
+        maxAngle.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                try {
+                    dt.setMaxDelaunayAngle(Double.parseDouble(newValue));
+                    dt.draw();
+                } catch (NumberFormatException e) { }
+            }
+        });
+
+        hBox.getChildren().add(checkBox);
+        hBox.getChildren().add(minAngle);
+        hBox.getChildren().add(maxAngle);
     }
+
+
 }
