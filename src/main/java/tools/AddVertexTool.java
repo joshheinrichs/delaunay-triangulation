@@ -2,6 +2,7 @@ package tools;
 
 import geometry.Point;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import modelAdapters.ModelAdapter;
@@ -71,7 +72,13 @@ public class AddVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        moveTool.vertexOnMousePressed(t);
+        if(t.getButton() == MouseButton.PRIMARY) {
+            moveTool.vertexOnMousePressed(t);
+        } else if (t.getButton() == MouseButton.SECONDARY) {
+            int index = ((IndexedCircle) t.getSource()).getIndex();
+            modelAdapter.removeVertex(index);
+            modelAdapter.draw();
+        }
     }
 
     @Override
