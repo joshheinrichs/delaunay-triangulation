@@ -15,14 +15,12 @@ import modelAdapters.DelaunayTriangulationAdapter;
 /**
  * Created by joshheinrichs on 15-05-27.
  */
-public class DelaunayAngleSetting extends Setting {
+public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
 
     static final double ANGLE_INPUT_WIDTH = 80.d;
 
-    final DelaunayTriangulationAdapter dt;
-
     public DelaunayAngleSetting(DelaunayTriangulationAdapter adapter) {
-        this.dt = adapter;
+        super(adapter);
 
         root = new Group();
         CheckBox checkBox = new CheckBox("Angles");

@@ -15,6 +15,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.stage.FileChooser;
 import models.DelaunayTriangulation;
 import settings.CircumcircleSetting;
 import settings.DelaunayAngleSetting;
@@ -100,6 +101,21 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
                 draw();
             }
         });
+
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                //TODO
+            }
+        });
+
+//        load.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                FileChooser fileChooser = new FileChooser();
+//                fileChooser.setTitle("Open File");
+//                fileChooser.showOpenDialog(stage);
+//                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+//            }
+//        });
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, edit, help);

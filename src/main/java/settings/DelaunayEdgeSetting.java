@@ -9,11 +9,10 @@ import modelAdapters.DelaunayTriangulationAdapter;
 /**
  * Created by joshheinrichs on 15-05-27.
  */
-public class DelaunayEdgeSetting extends Setting {
-    final DelaunayTriangulationAdapter dt;
+public class DelaunayEdgeSetting extends DelaunayTriangulationSetting {
 
     public DelaunayEdgeSetting(DelaunayTriangulationAdapter adapter) {
-        this.dt = adapter;
+        super(adapter);
 
         root = new Group();
         CheckBox checkBox = new CheckBox("Delaunay Edges");

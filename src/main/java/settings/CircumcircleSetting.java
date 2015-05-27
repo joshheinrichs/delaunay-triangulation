@@ -9,12 +9,10 @@ import modelAdapters.DelaunayTriangulationAdapter;
 /**
  * Created by joshheinrichs on 15-05-27.
  */
-public class CircumcircleSetting extends Setting {
-
-    final DelaunayTriangulationAdapter dt;
+public class CircumcircleSetting extends DelaunayTriangulationSetting {
 
     public CircumcircleSetting(DelaunayTriangulationAdapter adapter) {
-        this.dt = adapter;
+        super(adapter);
 
         root = new Group();
         CheckBox checkBox = new CheckBox("Circumcircles");
