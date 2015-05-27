@@ -17,6 +17,8 @@ import modelAdapters.DelaunayTriangulationAdapter;
  */
 public class DelaunayAngleSetting extends Setting {
 
+    static final double ANGLE_INPUT_WIDTH = 80.d;
+
     final DelaunayTriangulationAdapter dt;
 
     public DelaunayAngleSetting(DelaunayTriangulationAdapter adapter) {
@@ -49,6 +51,7 @@ public class DelaunayAngleSetting extends Setting {
                 }
             }
         });
+        minAngle.setPrefWidth(ANGLE_INPUT_WIDTH);
 
         final TextField maxAngle = new TextField(Double.toString(dt.getMaxDelaunayAngle()));
         maxAngle.textProperty().addListener(new ChangeListener<String>() {
@@ -63,6 +66,7 @@ public class DelaunayAngleSetting extends Setting {
                 }
             }
         });
+        maxAngle.setPrefWidth(ANGLE_INPUT_WIDTH);
 
         hBox.getChildren().add(checkBox);
         hBox.getChildren().add(minAngle);
