@@ -89,7 +89,7 @@ public class App extends Application {
         root.getChildren().add(menuBar);
 
         ToolBar toolBar = new ToolBar();
-        toolBar.setPrefWidth(600 / 9 * 16);
+        toolBar.setPrefWidth(scene.getWidth());
         toolBar.setMaxWidth(Double.MAX_VALUE);
 
         ArrayList<Tool> tools = modelAdapter.getTools();
@@ -106,7 +106,7 @@ public class App extends Application {
 
 
         ToolBar optionsBar = new ToolBar();
-        optionsBar.setPrefWidth(600 / 9 * 16);
+        optionsBar.setPrefWidth(scene.getWidth());
 
         for (Setting setting : modelAdapter.getSettings()) {
             optionsBar.getItems().add(setting.getRoot());
