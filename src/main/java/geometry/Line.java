@@ -18,7 +18,13 @@ public class Line {
     public Line(Point point1, Point point2) {
         this.slope = (point2.y - point1.y)/(point2.x - point1.x);
         this.yIntercept = point1.y - this.slope * point1.x;
-        this.xIntercept = - this.yIntercept / this.slope;
+        if(Double.isInfinite(slope)) {
+            this.xIntercept = point1.x;
+        } else if (slope == 0.d) {
+            this.xIntercept = Double.NaN;
+        }  else {
+            this.xIntercept = -this.yIntercept / this.slope;
+        }
     }
 
     /**
@@ -46,7 +52,7 @@ public class Line {
      * @param yIntercept
      */
     public Line(double slope, double xIntercept, double yIntercept) {
-        assert(!Double.isInfinite(slope) || Double.isNaN(yIntercept));
+        assert((!Double.isInfinite(slope) || Double.isNaN(yIntercept)) && (slope != 0 || Double.isNaN(xIntercept))) : slope + " " + xIntercept + " " + yIntercept;
         this.slope = slope;
         this.xIntercept = xIntercept;
         this.yIntercept = yIntercept;
@@ -58,10 +64,12 @@ public class Line {
      * @return
      */
     public double y(double x) {
-        if(Double.isFinite(slope)) {
-            return slope * x + yIntercept;
-        } else {
+        if(Double.isInfinite(slope)) {
             return Double.NaN;
+        } else if (slope == 0.d) {
+            return yIntercept;
+        } else {
+            return slope * x + yIntercept;
         }
     }
 
@@ -71,10 +79,12 @@ public class Line {
      * @return
      */
     public double x(double y) {
-        if(Double.isFinite(slope)) {
-            return (y - yIntercept)/ slope;
-        } else {
+        if(Double.isInfinite(slope)) {
             return xIntercept;
+        } else if (slope == 0.d) {
+            return Double.NaN;
+        } else {
+            return (y - yIntercept)/ slope;
         }
 
     }
@@ -113,12 +123,15 @@ public class Line {
         double xIntercept, yIntercept;
         double slope = -1.d / this.slope;
 
-        if(Double.isFinite(slope)) {
-            yIntercept = point.y - slope * point.x;
-            xIntercept = - yIntercept / slope;
-        } else {
+        if(Double.isInfinite(slope)) {
             xIntercept = point.x;
             yIntercept = Double.NaN;
+        } else if (slope == 0.d) {
+            xIntercept = Double.NaN;
+            yIntercept = point.y;
+        } else {
+            yIntercept = point.y - slope * point.x;
+            xIntercept = - yIntercept / slope;
         }
 
         return new Line(slope, xIntercept, yIntercept);

@@ -228,32 +228,52 @@ public class DelaunayTriangulation extends Model {
 
                     Segment segment = new Segment(start, edge.getSegment().midpoint());
                     Line line = segment.getLine();
+                    System.out.println(line + ", x: " + line.xIntercept);
 
                     double x, y;
 
-                    //counter-clockwise ordering
-                    if (triangle.area() > 0) {
+                    boolean clockwise = triangle.area() > 0;
+
+                    //clockwise ordering
+                    if (clockwise) {
                         if (p2.x > p1.x) {
-                            y = -BOUNDS;
-                        } else {
                             y = BOUNDS;
+                        } else {
+                            y = -BOUNDS;
                         }
                     }
-                    //clockwise ordering
+                    //counter-clockwise ordering
                     else {
                         if (p2.x > p1.x) {
-                            y = BOUNDS;
-                        } else {
                             y = -BOUNDS;
+                        } else {
+                            y = BOUNDS;
                         }
                     }
 
                     x = line.x(y);
 
-                    if (Math.abs(x) > BOUNDS) {
+                    if (Double.isNaN(x)) {
+                        if(clockwise) {
+                            if (p2.y > p1.y) {
+                                x = -BOUNDS;
+                            } else {
+                                x = BOUNDS;
+                            }
+                        } else  {
+                            if (p2.y > p1.y) {
+                                x = BOUNDS;
+                            } else {
+                                x = -BOUNDS;
+                            }
+                        }
+                        y = line.y(x);
+                    } else if (Math.abs(x) > BOUNDS) {
                         x = BOUNDS * Math.abs(x) / x;
                         y = line.y(x);
                     }
+
+                    System.out.println(new Point(x, y));
 
                     Vertex a = new Vertex(start);
                     Vertex b = new Vertex(new Point(x, y));
