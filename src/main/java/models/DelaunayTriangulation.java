@@ -237,17 +237,17 @@ public class DelaunayTriangulation extends Model {
                     //clockwise ordering
                     if (clockwise) {
                         if (p2.x > p1.x) {
-                            y = BOUNDS;
-                        } else {
                             y = -BOUNDS;
+                        } else {
+                            y = BOUNDS;
                         }
                     }
                     //counter-clockwise ordering
                     else {
                         if (p2.x > p1.x) {
-                            y = -BOUNDS;
-                        } else {
                             y = BOUNDS;
+                        } else {
+                            y = -BOUNDS;
                         }
                     }
 
@@ -256,19 +256,20 @@ public class DelaunayTriangulation extends Model {
                     if (Double.isNaN(x)) {
                         if(clockwise) {
                             if (p2.y > p1.y) {
-                                x = -BOUNDS;
-                            } else {
                                 x = BOUNDS;
+                            } else {
+                                x = -BOUNDS;
                             }
                         } else  {
                             if (p2.y > p1.y) {
-                                x = BOUNDS;
-                            } else {
                                 x = -BOUNDS;
+                            } else {
+                                x = BOUNDS;
                             }
                         }
                         y = line.y(x);
-                    } else if (Math.abs(x) > BOUNDS) {
+                    } else
+                    if (Math.abs(x) > BOUNDS) {
                         x = BOUNDS * Math.abs(x) / x;
                         y = line.y(x);
                     }
