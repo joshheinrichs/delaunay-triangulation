@@ -233,7 +233,6 @@ public class DelaunayTriangulation extends Model {
 
                     //counter-clockwise ordering
                     if (triangle.area() > 0) {
-                        System.out.println("CC");
                         if (p2.x > p1.x) {
                             y = -BOUNDS;
                         } else {

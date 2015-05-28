@@ -356,7 +356,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     }
 
     public boolean isCircumcirclesVisible() {
-        System.out.println(circumcircles.isVisible());
         return circumcircles.isVisible();
     }
 
