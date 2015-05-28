@@ -10,4 +10,5 @@ public abstract class Model {
     public abstract void addVertex(Point location);
     public abstract void moveVertex(int index, Point location);
     public abstract void removeVertex(int index);
+    public abstract void clearVertexes();
 }

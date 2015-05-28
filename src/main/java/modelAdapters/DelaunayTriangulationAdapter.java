@@ -6,12 +6,7 @@ import geometry.Triangle;
 import graph.Edge;
 import graph.Vertex;
 import graphAdapters.DelaunayTriangulationGraphAdapter;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import models.DelaunayTriangulation;
@@ -81,45 +76,6 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
-
-        Menu file = new Menu("File");
-        Menu edit = new Menu("Edit");
-        Menu help = new Menu("Help");
-
-        MenuItem save = new MenuItem("Save");
-        MenuItem load = new MenuItem("Load");
-
-        file.getItems().addAll(save, load);
-
-        MenuItem clear = new MenuItem("Clear");
-        edit.getItems().addAll(clear);
-        clear.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ((DelaunayTriangulation) model).clearVertexes();
-                draw();
-            }
-        });
-
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                //TODO
-            }
-        });
-
-//        load.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent event) {
-//                FileChooser fileChooser = new FileChooser();
-//                fileChooser.setTitle("Open File");
-//                fileChooser.showOpenDialog(stage);
-//                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-//            }
-//        });
-
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(file, edit, help);
-        menuBar.setUseSystemMenuBar(true);
-
-        root.getChildren().add(menuBar);
     }
 
     @Override

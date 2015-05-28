@@ -3,18 +3,21 @@ package ui;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modelAdapters.DelaunayTriangulationAdapter;
 import settings.Setting;
 import tools.Tool;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -30,11 +33,57 @@ public class App extends Application {
     static final double DEFAULT_STAGE_WIDTH = DEFAULT_STAGE_HEIGHT * (16.d/9.d);
 
     @Override
-    public void start(Stage stage) {
+    public void start(final Stage stage) {
         Scene scene = new Scene(root, DEFAULT_STAGE_WIDTH, DEFAULT_STAGE_HEIGHT);
 
         stage.setScene(scene);
         stage.setTitle(modelAdapter.getName());
+
+        Menu file = new Menu("File");
+        Menu edit = new Menu("Edit");
+        Menu help = new Menu("Help");
+
+        MenuItem save = new MenuItem("Save");
+        MenuItem load = new MenuItem("Load");
+
+        file.getItems().addAll(save, load);
+
+        MenuItem clear = new MenuItem("Clear");
+        edit.getItems().addAll(clear);
+        clear.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                modelAdapter.clearVertexes();
+                modelAdapter.draw();
+            }
+        });
+
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                //TODO
+            }
+        });
+
+        load.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open File");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                File selectedFile = fileChooser.showOpenDialog(stage);
+                if (selectedFile != null) {
+                    try {
+                        modelAdapter.loadVertexes(selectedFile);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(file, edit, help);
+        menuBar.setUseSystemMenuBar(true);
+
+        root.getChildren().add(menuBar);
 
         ToolBar toolBar = new ToolBar();
         toolBar.setPrefWidth(600 / 9 * 16);

@@ -1,5 +1,8 @@
 package modelAdapters;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 import geometry.Point;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,6 +11,9 @@ import models.Model;
 import settings.Setting;
 import tools.Tool;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 /**
@@ -133,6 +139,25 @@ public abstract class ModelAdapter {
     public abstract void addVertex(double x, double y);
     public abstract void removeVertex(int index);
     public abstract void moveVertex(int index, double x, double y);
+
+    public void clearVertexes() {
+        model.clearVertexes();
+    }
+
+    public void loadVertexes(File file) throws FileNotFoundException {
+        JsonObject jsonObject = new JsonObject();
+        file.getAbsolutePath();
+        JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
+        Gson gson = new Gson();
+        Point[] points = gson.fromJson(jsonReader, Point[].class);
+        for (Point point : points) {
+            model.addVertex(point);
+        }
+        draw();
+    }
+    public File saveVertexes() {
+        return null;
+    }
 
     public abstract void draw();
 
