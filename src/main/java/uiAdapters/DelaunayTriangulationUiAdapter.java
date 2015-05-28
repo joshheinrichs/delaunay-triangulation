@@ -9,11 +9,9 @@ import graphAdapters.DelaunayTriangulationGraphAdapter;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 import models.DelaunayTriangulation;
-import settings.CircumcircleSetting;
-import settings.DelaunayAngleSetting;
-import settings.DelaunayEdgeSetting;
-import settings.VoronoiEdgeSetting;
+import settings.*;
 import tools.*;
 import ui.IndexedCircle;
 
@@ -34,6 +32,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     static final Color VERTEX_COLOR = Color.RED;
     static final Color BACKGROUND_COLOR = new Color(0.7, 0.7, 0.73, 1.0);
 
+    final Group vertexLabels = new Group();
     final Group delaunayVertexes = new Group();
     final Group delaunayEdges = new Group();
     final Group delaunayAngles = new Group();
@@ -64,7 +63,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         tools.add(new PanTool(this));
         tools.add(new ZoomTool(this));
 
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, moveVertexTool.root, removeVertexTool.root);
+        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels, moveVertexTool.root, removeVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
@@ -76,6 +75,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
+        settings.add(new VertexLabelSetting(this));
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         ((DelaunayTriangulation) model).removeVertexes(selectedVertexes);
     }
 
-    Line drawDelaunayEdge(Edge edge, int index) {
+    void drawDelaunayEdge(Edge edge, int index) {
 
         Group group = new Group();
         Segment segment = edge.getSegment();
@@ -145,10 +145,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 //
 //        group.getChildren().add(label);
 
-        return line;
+        this.delaunayEdges.getChildren().add(line);
     }
 
-    Group drawVoronoiEdge(Edge edge) {
+    void drawVoronoiEdge(Edge edge) {
         Group group = new Group();
         Segment segment = edge.getSegment();
 
@@ -158,11 +158,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         group.getChildren().add(line);
 
-        return group;
+        this.voronoiEdges.getChildren().add(group);
     }
 
-    Circle drawDelaunayVertex(Vertex vertex, int index, boolean selected) {
-        Group group = new Group();
+    void drawDelaunayVertex(Vertex vertex, int index, boolean selected) {
         Point point = vertex.getPoint();
         IndexedCircle circle = new IndexedCircle();
 
@@ -178,21 +177,20 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setOnMousePressed(vertexOnMousePressedEventHandler);
         circle.setOnMouseDragged(vertexOnMouseDraggedEventHandler);
 
-//        group.getChildren().add(circle);
-//
-//        Text label = new Text("p"+index);
-//        label.setTranslateX(point.x + 10.d);
-//        label.setTranslateY(point.y - 10.d);
-//        label.setStroke(Color.WHITE);
-//        label.setStrokeWidth(1.5d);
-//        label.setStrokeType(StrokeType.OUTSIDE);
-//
-//        group.getChildren().add(label);
+        Text label = new Text("p"+index);
+        label.setTranslateX(point.x + 10.d);
+        label.setTranslateY(point.y - 10.d);
+        label.setStroke(Color.WHITE);
+        label.setStrokeWidth(1.5d);
+        label.setStrokeType(StrokeType.OUTSIDE);
+        label.setCache(true);
 
-        return circle;
+        vertexLabels.getChildren().add(label);
+
+        this.delaunayVertexes.getChildren().add(circle);
     }
 
-    Circle drawCircumcircle(geometry.Circle circumcircle) {
+    void drawCircumcircle(geometry.Circle circumcircle) {
         Circle circle = new Circle();
         circle.setFill(Color.TRANSPARENT);
         circle.setStroke(Color.BLACK);
@@ -201,10 +199,11 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setCenterY(circumcircle.center.y);
         circle.setStrokeWidth(2.d);
         circle.setStroke(Color.BLACK);
-        return circle;
+
+        circumcircles.getChildren().add(circle);
     }
 
-    Group drawAngles(Triangle triangle) {
+    void drawAngles(Triangle triangle) {
 
         Group group = new Group();
 
@@ -257,7 +256,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             group.getChildren().add(c);
         }
 
-        return group;
+        this.delaunayAngles.getChildren().add(group);
     }
 
     Rectangle drawBackground() {
@@ -277,20 +276,20 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
         for (int i = 0; i < delaunayEdges.size(); i++) {
             Edge delaunayEdge = delaunayEdges.get(i);
-            this.delaunayEdges.getChildren().add(drawDelaunayEdge(delaunayEdge, i));
+            drawDelaunayEdge(delaunayEdge, i);
         }
 
         this.voronoiEdges.getChildren().clear();
         ArrayList<Edge> voronoiEdges = ((DelaunayTriangulation) model).getVoronoiEdges();
         for (int i = 0; i < voronoiEdges.size(); i++) {
             Edge voronoiEdge = voronoiEdges.get(i);
-            this.voronoiEdges.getChildren().add(drawVoronoiEdge(voronoiEdge));
+            drawVoronoiEdge(voronoiEdge);
         }
 
         this.circumcircles.getChildren().clear();
         ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
         for (geometry.Circle circumcircle : circumcircles) {
-            this.circumcircles.getChildren().add(drawCircumcircle(circumcircle));
+            drawCircumcircle(circumcircle);
         }
 
         ArrayList<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
@@ -307,17 +306,21 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
                 } else {
                     circle.setStroke(Color.BLACK);
                 }
+                Text text = (Text) this.vertexLabels.getChildren().get(i);
+                text.setTranslateX(point.x + 10.d);
+                text.setTranslateY(point.y - 10.d);
             }
         } else {
             int j=0;
             this.delaunayVertexes.getChildren().clear();
+            this.vertexLabels.getChildren().clear();
             for (int i=0; i<delaunayVertexes.size(); i++) {
                 Vertex delaunayVertex = delaunayVertexes.get(i);
                 if(selectedVertexes.size() > j && selectedVertexes.get(j) == i) {
-                    this.delaunayVertexes.getChildren().add(drawDelaunayVertex(delaunayVertex, i, true));
+                    drawDelaunayVertex(delaunayVertex, i, true);
                     j++;
                 } else {
-                    this.delaunayVertexes.getChildren().add(drawDelaunayVertex(delaunayVertex, i, false));
+                    drawDelaunayVertex(delaunayVertex, i, false);
                 }
             }
         }
@@ -325,10 +328,19 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.delaunayAngles.getChildren().clear();
         ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
         for (Triangle triangle : triangles) {
-            this.delaunayAngles.getChildren().add(drawAngles(triangle));
+            drawAngles(triangle);
         }
 
         dtga.update();
+    }
+
+
+    public boolean isVertexLabelsVisible() {
+        return vertexLabels.isVisible();
+    }
+
+    public void setVertexLabelsVisible(boolean visible) {
+        vertexLabels.setVisible(visible);
     }
 
     public boolean isDelaunayEdgesVisible() {
@@ -378,5 +390,4 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     public void setMinDelaunayAngle(double minDelaunayAngle) {
         this.minDelaunayAngle = minDelaunayAngle;
     }
-
 }
