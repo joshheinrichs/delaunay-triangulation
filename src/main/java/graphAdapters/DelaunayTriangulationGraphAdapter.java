@@ -36,26 +36,37 @@ public class DelaunayTriangulationGraphAdapter {
         ArrayList<Edge> edges = delaunayTriangulation.getDelaunayEdges();
         ArrayList<Vertex> vertexes = delaunayTriangulation.getDelaunayVertexes();
 
-        graph = new UndirectedSparseGraph<Vertex, Edge>();
-        algorithm = new DijkstraDistance<Vertex, Edge>(graph, transformer);
+        if(vertexes.size() >= 3) {
+            graph = new UndirectedSparseGraph<Vertex, Edge>();
+            algorithm = new DijkstraDistance<Vertex, Edge>(graph, transformer);
 
-        for (Vertex vertex : vertexes) {
-            assert graph.addVertex(vertex);
-        }
-        for (Edge edge : edges) {
-            assert graph.addEdge(edge, edge.from, edge.to);
-        }
-
-        distances = new Double[vertexes.size()][vertexes.size()];
-
-        if(!vertexes.isEmpty())
-        for (int i = 0; i < vertexes.size(); i++) {
-            System.out.print(i + ": ");
-            for (int j = 0; j < vertexes.size(); j++) {
-                distances[i][j] = (Double) algorithm.getDistance(vertexes.get(i), vertexes.get(j));
-                System.out.print(distances[i][j] + " ");
+            for (Vertex vertex : vertexes) {
+                assert graph.addVertex(vertex);
             }
-            System.out.println();
+            for (Edge edge : edges) {
+                assert graph.addEdge(edge, edge.from, edge.to);
+            }
+
+            distances = new Double[vertexes.size()][vertexes.size()];
+
+            if (!vertexes.isEmpty()) {
+                System.out.print("\t");
+                for (int i = 0; i < vertexes.size(); i++) {
+                    System.out.print(i + "\t");
+                }
+                System.out.print("\n");
+                for (int i = 0; i < vertexes.size(); i++) {
+                    System.out.print(i + "\t");
+                    for (int j = 0; j < vertexes.size(); j++) {
+                        distances[i][j] =
+                                ((Double) algorithm.getDistance(vertexes.get(i), vertexes.get(j)))
+                                        / (vertexes.get(i).getPoint().distance(vertexes.get(j).getPoint()));
+                        System.out.print(distances[i][j] + "\t");
+                    }
+                    System.out.print("\n");
+                }
+                System.out.print("\n");
+            }
         }
     }
 
