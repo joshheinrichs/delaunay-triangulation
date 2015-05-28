@@ -63,6 +63,11 @@ public class DelaunayTriangulation extends Model {
         generate_delaunay();
     }
 
+    @Override
+    public ArrayList<Vertex> getVertexes() {
+        return delaunayVertexes;
+    }
+
     /**
      * Returns a list of vertex indexes in ascending order which reside within the given box
      * @param startX

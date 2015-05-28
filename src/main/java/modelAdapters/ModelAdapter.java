@@ -4,16 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import geometry.Point;
+import graph.Vertex;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import models.Model;
+import org.apache.commons.io.FilenameUtils;
 import settings.Setting;
 import tools.Tool;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -145,6 +145,7 @@ public abstract class ModelAdapter {
     }
 
     public void loadVertexes(File file) throws FileNotFoundException {
+        clearVertexes();
         JsonObject jsonObject = new JsonObject();
         file.getAbsolutePath();
         JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
@@ -155,8 +156,23 @@ public abstract class ModelAdapter {
         }
         draw();
     }
-    public File saveVertexes() {
-        return null;
+    public void saveVertexes(File file) {
+        try {
+            if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("json")) {
+                file = new File(file.toString() + ".json");
+            }
+            Writer writer = new FileWriter(file.getPath());
+            Gson gson = new Gson();
+            ArrayList<Vertex> vertexes = model.getVertexes();
+            ArrayList<Point> points = new ArrayList<Point>(vertexes.size());
+            for (Vertex vertex : vertexes) {
+                points.add(vertex.getPoint());
+            }
+            gson.toJson(points, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public abstract void draw();

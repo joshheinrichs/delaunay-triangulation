@@ -59,14 +59,17 @@ public class App extends Application {
 
         save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                //TODO
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save File");
+                File file = fileChooser.showSaveDialog(stage);
+                modelAdapter.saveVertexes(file);
             }
         });
 
         load.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open File");
+                fileChooser.setTitle("Load File");
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
                 File selectedFile = fileChooser.showOpenDialog(stage);
                 if (selectedFile != null) {
