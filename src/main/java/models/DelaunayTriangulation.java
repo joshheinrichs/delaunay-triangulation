@@ -163,7 +163,7 @@ public class DelaunayTriangulation extends Model {
                         Circle circle = new Circle(delaunayVertexes.get(i).getPoint(), delaunayVertexes.get(j).getPoint(), delaunayVertexes.get(k).getPoint());
                         boolean intersected = false;
                         for (int l = 0; l < delaunayVertexes.size(); l++) {
-                            if (circle.contains(delaunayVertexes.get(l).getPoint())) {
+                            if (circle.contains(delaunayVertexes.get(l).getPoint()) && l != i && l != j && l != k) {
                                 intersected = true;
                                 break;
                             }
