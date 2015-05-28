@@ -4,14 +4,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
-import modelAdapters.DelaunayTriangulationAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-27.
  */
 public class CircumcircleSetting extends DelaunayTriangulationSetting {
 
-    public CircumcircleSetting(DelaunayTriangulationAdapter adapter) {
+    public CircumcircleSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 
         root = new Group();

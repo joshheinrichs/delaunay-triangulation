@@ -4,14 +4,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
-import modelAdapters.DelaunayTriangulationAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-27.
  */
 public class DelaunayEdgeSetting extends DelaunayTriangulationSetting {
 
-    public DelaunayEdgeSetting(DelaunayTriangulationAdapter adapter) {
+    public DelaunayEdgeSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 
         root = new Group();

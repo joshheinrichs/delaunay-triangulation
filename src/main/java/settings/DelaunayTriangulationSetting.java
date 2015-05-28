@@ -1,15 +1,15 @@
 package settings;
 
-import modelAdapters.DelaunayTriangulationAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-27.
  */
 public abstract class DelaunayTriangulationSetting extends Setting {
 
-    DelaunayTriangulationAdapter dt;
+    DelaunayTriangulationUiAdapter dt;
 
-    public DelaunayTriangulationSetting(DelaunayTriangulationAdapter dt) {
+    public DelaunayTriangulationSetting(DelaunayTriangulationUiAdapter dt) {
         this.dt = dt;
     }
 

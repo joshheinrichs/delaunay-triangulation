@@ -3,8 +3,8 @@ package tools;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import modelAdapters.DelaunayTriangulationAdapter;
-import modelAdapters.ModelAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
+import uiAdapters.UiAdapter;
 import ui.IndexedCircle;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class MoveVertexTool extends Tool {
 
     ArrayList<Integer> indexes = new ArrayList<Integer>();
 
-    public MoveVertexTool(ModelAdapter modelAdapter) {
-        super(modelAdapter);
+    public MoveVertexTool(UiAdapter uiAdapter) {
+        super(uiAdapter);
     }
 
     public String getName() {
@@ -47,8 +47,8 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseClicked(MouseEvent t) {
-        ((DelaunayTriangulationAdapter) modelAdapter).selectVertex(-1);
-        modelAdapter.draw();
+        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertex(-1);
+        uiAdapter.draw();
     }
 
     @Override
@@ -65,12 +65,12 @@ public class MoveVertexTool extends Tool {
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
         System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
-        ((DelaunayTriangulationAdapter) modelAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
+        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
 
         root.getChildren().clear();
         root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));
 
-        modelAdapter.draw();
+        uiAdapter.draw();
     }
 
     @Override
@@ -81,13 +81,13 @@ public class MoveVertexTool extends Tool {
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
         index = ((IndexedCircle) t.getSource()).getIndex();
-        if(!((DelaunayTriangulationAdapter) modelAdapter).isSelected(index)) {
-            ((DelaunayTriangulationAdapter) modelAdapter).selectVertex(index);
+        if(!((DelaunayTriangulationUiAdapter) uiAdapter).isSelected(index)) {
+            ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertex(index);
         }
         moveStartX = t.getX();
         moveStartY = t.getY();
 
-        modelAdapter.draw();
+        uiAdapter.draw();
     }
 
     @Override
@@ -103,9 +103,9 @@ public class MoveVertexTool extends Tool {
         moveStartX = t.getX();
         moveStartY = t.getY();
 
-        ((DelaunayTriangulationAdapter) modelAdapter).moveSelectedVertexes(moveX, moveY);
+        ((DelaunayTriangulationUiAdapter) uiAdapter).moveSelectedVertexes(moveX, moveY);
 
-        modelAdapter.draw();
+        uiAdapter.draw();
     }
 
     Rectangle drawSelectionArea(double startX, double startY, double endX, double endY) {

@@ -9,7 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import modelAdapters.DelaunayTriangulationAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-27.
@@ -18,7 +18,7 @@ public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
 
     static final double ANGLE_INPUT_WIDTH = 80.d;
 
-    public DelaunayAngleSetting(DelaunayTriangulationAdapter adapter) {
+    public DelaunayAngleSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 
         root = new Group();

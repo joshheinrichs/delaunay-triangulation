@@ -1,15 +1,15 @@
 package tools;
 
 import javafx.scene.input.MouseEvent;
-import modelAdapters.ModelAdapter;
+import uiAdapters.UiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-06.
  */
 public class RulerTool extends Tool {
 
-    public RulerTool(ModelAdapter modelAdapter) {
-        super(modelAdapter);
+    public RulerTool(UiAdapter uiAdapter) {
+        super(uiAdapter);
     }
 
     public String getName() {

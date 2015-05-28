@@ -2,7 +2,7 @@ package tools;
 
 import geometry.Point;
 import javafx.scene.input.MouseEvent;
-import modelAdapters.ModelAdapter;
+import uiAdapters.UiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-06.
@@ -11,8 +11,8 @@ public class PanTool extends Tool {
 
     double startX, startY;
 
-    public PanTool(ModelAdapter modelAdapter) {
-        super(modelAdapter);
+    public PanTool(UiAdapter uiAdapter) {
+        super(uiAdapter);
     }
 
     public String getName() {
@@ -26,8 +26,8 @@ public class PanTool extends Tool {
 
     @Override
     public void onMousePressed(MouseEvent t) {
-        startX = t.getScreenX() - modelAdapter.getCameraPosition().x;
-        startY = t.getScreenY() - modelAdapter.getCameraPosition().y;
+        startX = t.getScreenX() - uiAdapter.getCameraPosition().x;
+        startY = t.getScreenY() - uiAdapter.getCameraPosition().y;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PanTool extends Tool {
     @Override
     public void onMouseDragged(MouseEvent t) {
         System.out.println(t.getScreenX());
-        modelAdapter.setCameraPosition(new Point(t.getScreenX() - startX, t.getScreenY() - startY));
+        uiAdapter.setCameraPosition(new Point(t.getScreenX() - startX, t.getScreenY() - startY));
     }
 
     @Override

@@ -1,15 +1,15 @@
 package tools;
 
 import javafx.scene.input.MouseEvent;
-import modelAdapters.ModelAdapter;
+import uiAdapters.UiAdapter;
 
 /**
  * The angle tool measures angles
  */
 public class AngleTool extends Tool {
 
-    public AngleTool(ModelAdapter modelAdapter) {
-        super(modelAdapter);
+    public AngleTool(UiAdapter uiAdapter) {
+        super(uiAdapter);
     }
 
     public String getName() {

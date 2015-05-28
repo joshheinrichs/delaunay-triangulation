@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import modelAdapters.DelaunayTriangulationAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 import settings.Setting;
 import tools.Tool;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class App extends Application {
 
-    DelaunayTriangulationAdapter modelAdapter = new DelaunayTriangulationAdapter();
+    DelaunayTriangulationUiAdapter modelAdapter = new DelaunayTriangulationUiAdapter();
 
     Group root = new Group();
 

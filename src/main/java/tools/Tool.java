@@ -2,7 +2,7 @@ package tools;
 
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import modelAdapters.ModelAdapter;
+import uiAdapters.UiAdapter;
 
 /**
  * Created by joshheinrichs on 15-05-06.
@@ -11,10 +11,10 @@ public abstract class Tool {
 
     public final Group root = new Group();
 
-    ModelAdapter modelAdapter;
+    UiAdapter uiAdapter;
 
-    public Tool(ModelAdapter modelAdapter) {
-        this.modelAdapter = modelAdapter;
+    public Tool(UiAdapter uiAdapter) {
+        this.uiAdapter = uiAdapter;
     }
 
     /**

@@ -8,7 +8,7 @@
 ///**
 // * Created by joshheinrichs on 15-05-07.
 // */
-//public class CompleteGraphAdapter extends ModelAdapter {
+//public class CompleteGraphAdapter extends UiAdapter {
 //
 //    public CompleteGraphAdapter() {
 //        tools.add(new AddVertexTool(this));

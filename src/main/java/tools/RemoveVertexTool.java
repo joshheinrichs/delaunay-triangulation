@@ -3,8 +3,8 @@ package tools;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import modelAdapters.DelaunayTriangulationAdapter;
-import modelAdapters.ModelAdapter;
+import uiAdapters.DelaunayTriangulationUiAdapter;
+import uiAdapters.UiAdapter;
 import ui.IndexedCircle;
 
 /**
@@ -14,8 +14,8 @@ public class RemoveVertexTool extends Tool {
 
     double selectStartX, selectStartY;
 
-    public RemoveVertexTool(ModelAdapter modelAdapter) {
-        super(modelAdapter);
+    public RemoveVertexTool(UiAdapter uiAdapter) {
+        super(uiAdapter);
     }
 
     public String getName() {
@@ -55,20 +55,20 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseReleased(MouseEvent t) {
-        ((DelaunayTriangulationAdapter) modelAdapter).removeSelectedVertexes();
+        ((DelaunayTriangulationUiAdapter) uiAdapter).removeSelectedVertexes();
         root.getChildren().clear();
-        modelAdapter.draw();
+        uiAdapter.draw();
     }
 
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
         System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
-        ((DelaunayTriangulationAdapter) modelAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
+        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
 
         root.getChildren().clear();
         root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));
 
-        modelAdapter.draw();
+        uiAdapter.draw();
     }
 
     @Override
@@ -79,8 +79,8 @@ public class RemoveVertexTool extends Tool {
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
         int index = ((IndexedCircle) t.getSource()).getIndex();
-        modelAdapter.removeVertex(index);
-        modelAdapter.draw();
+        uiAdapter.removeVertex(index);
+        uiAdapter.draw();
     }
 
     @Override

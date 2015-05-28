@@ -1,4 +1,4 @@
-package modelAdapters;
+package uiAdapters;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -17,10 +17,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * A {@link ModelAdapter} provides an interface between a {@link Model} and the UI. The {@link ModelAdapter} handles
+ * A {@link UiAdapter} provides an interface between a {@link Model} and the UI. The {@link UiAdapter} handles
  * {@link Tool} interactions with the model, as well as how the {@link Model} is displayed inside the window.
  */
-public abstract class ModelAdapter {
+public abstract class UiAdapter {
 
     Model model;
 

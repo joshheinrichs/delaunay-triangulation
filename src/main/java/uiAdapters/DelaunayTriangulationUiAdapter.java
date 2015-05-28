@@ -1,4 +1,4 @@
-package modelAdapters;
+package uiAdapters;
 
 import geometry.Point;
 import geometry.Segment;
@@ -24,7 +24,7 @@ import static models.DelaunayTriangulation.BOUNDS;
 /**
  * Created by joshheinrichs on 15-05-07.
  */
-public class DelaunayTriangulationAdapter extends ModelAdapter {
+public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     final Group circleGroup = new Group();
     final Group lineGroup = new Group();
@@ -48,7 +48,7 @@ public class DelaunayTriangulationAdapter extends ModelAdapter {
 
     DelaunayTriangulationGraphAdapter dtga;
 
-    public DelaunayTriangulationAdapter() {
+    public DelaunayTriangulationUiAdapter() {
         model = new DelaunayTriangulation();
 
         dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
