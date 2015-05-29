@@ -29,6 +29,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     static final Color VORONOI_EDGE_COLOR = Color.YELLOW;
     static final Color DELAUNAY_EDGE_COLOR = Color.BLUE;
     static final Color VERTEX_COLOR = Color.RED;
+    static final Color VERTEX_SELECTED_BORDER = Color.WHITE;
+    static final Color VERTEX_UNSELECETED_BORDER = Color.BLACK;
     static final Color BACKGROUND_COLOR = new Color(0.7, 0.7, 0.73, 1.0);
 
     final Group vertexLabels = new Group();
@@ -169,7 +171,12 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setCenterX(point.x);
         circle.setCenterY(point.y);
         circle.setStrokeWidth(2.d);
-        circle.setStroke(Color.BLACK);
+
+        if (selected) {
+            circle.setStroke(VERTEX_SELECTED_BORDER);
+        } else {
+            circle.setStroke(VERTEX_UNSELECETED_BORDER);
+        }
 
         circle.setId(Integer.toString(index));
 
@@ -187,6 +194,26 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         vertexLabels.getChildren().add(label);
 
         this.delaunayVertexes.getChildren().add(circle);
+    }
+
+    void updateDelaunayVertex(Vertex vertex, int index, boolean selected) {
+        Circle circle = (Circle) delaunayVertexes.getChildren().get(index);
+
+        Point point = vertex.getPoint();
+
+        circle.setCenterX(point.x);
+        circle.setCenterY(point.y);
+        circle.setId(Integer.toString(index));
+
+        if (selected) {
+            circle.setStroke(VERTEX_SELECTED_BORDER);
+        } else {
+            circle.setStroke(VERTEX_UNSELECETED_BORDER);
+        }
+
+        Text text = (Text) vertexLabels.getChildren().get(index);
+        text.setTranslateX(point.x + 10.d);
+        text.setTranslateY(point.y - 10.d);
     }
 
     void drawCircumcircle(geometry.Circle circumcircle) {
@@ -292,35 +319,27 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         }
 
         ArrayList<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
-        if(this.delaunayVertexes.getChildren().size() == delaunayVertexes.size()) {
-            int j=0;
-            for (int i=0; i<delaunayVertexes.size(); i++) {
-                Circle circle = (Circle) this.delaunayVertexes.getChildren().get(i);
-                Point point = delaunayVertexes.get(i).getPoint();
-                circle.setCenterX(point.x);
-                circle.setCenterY(point.y);
-                if(selectedVertexes.size() > j && selectedVertexes.get(j) == i) {
-                    circle.setStroke(Color.WHITE);
-                    j++;
-                } else {
-                    circle.setStroke(Color.BLACK);
-                }
-                Text text = (Text) this.vertexLabels.getChildren().get(i);
-                text.setTranslateX(point.x + 10.d);
-                text.setTranslateY(point.y - 10.d);
+
+        for (int i = this.delaunayVertexes.getChildren().size() - 1; i >= delaunayVertexes.size(); i--) {
+            this.delaunayVertexes.getChildren().remove(i);
+            this.vertexLabels.getChildren().remove(i);
+        }
+
+        int selectedIndex = 0;
+        for (int i = 0; i < this.delaunayVertexes.getChildren().size(); i++) {
+            if(selectedIndex < selectedVertexes.size() && selectedVertexes.get(selectedIndex) == i) {
+                updateDelaunayVertex(delaunayVertexes.get(i), i, true);
+                selectedIndex++;
+            } else {
+                updateDelaunayVertex(delaunayVertexes.get(i), i, false);
             }
-        } else {
-            int j=0;
-            this.delaunayVertexes.getChildren().clear();
-            this.vertexLabels.getChildren().clear();
-            for (int i=0; i<delaunayVertexes.size(); i++) {
-                Vertex delaunayVertex = delaunayVertexes.get(i);
-                if(selectedVertexes.size() > j && selectedVertexes.get(j) == i) {
-                    drawDelaunayVertex(delaunayVertex, i, true);
-                    j++;
-                } else {
-                    drawDelaunayVertex(delaunayVertex, i, false);
-                }
+        }
+        for (int i = this.delaunayVertexes.getChildren().size(); i < delaunayVertexes.size(); i++) {
+            if(selectedIndex < selectedVertexes.size() && selectedVertexes.get(selectedIndex) == i) {
+                drawDelaunayVertex(delaunayVertexes.get(i), i, true);
+                selectedIndex++;
+            } else {
+                drawDelaunayVertex(delaunayVertexes.get(i), i, false);
             }
         }
 
