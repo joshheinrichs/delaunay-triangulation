@@ -228,7 +228,6 @@ public class DelaunayTriangulation extends Model {
 
                     Segment segment = new Segment(start, edge.getSegment().midpoint());
                     Line line = segment.getLine();
-                    System.out.println(line + ", x: " + line.xIntercept);
 
                     double x, y;
 
@@ -273,8 +272,6 @@ public class DelaunayTriangulation extends Model {
                         x = BOUNDS * Math.abs(x) / x;
                         y = line.y(x);
                     }
-
-                    System.out.println(new Point(x, y));
 
                     Vertex a = new Vertex(start);
                     Vertex b = new Vertex(new Point(x, y));
@@ -332,8 +329,6 @@ public class DelaunayTriangulation extends Model {
          */
         ArrayList<DelaunayTriangle> getAdjacentTriangles() {
             ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(3);
-
-            System.out.println("adjacent triangles: " + (ab.getTriangles().size() + bc.getTriangles().size() + ca.getTriangles().size()));
 
             for (DelaunayTriangle triangle : ab.getTriangles()) {
                 if(triangle != this) {
