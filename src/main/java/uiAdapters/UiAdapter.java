@@ -109,6 +109,7 @@ public abstract class UiAdapter {
     public void setSelectedTool(int i) {
         deselectAllVertexes();
         selectedTool = tools.get(i);
+        draw();
     }
 
     public ArrayList<Setting> getSettings() {
@@ -179,7 +180,17 @@ public abstract class UiAdapter {
 
     public void selectVertex(int index) {
         if (!isSelected(index)) {
-            selectedVertexes.add(index);
+            boolean inserted = false;
+            for (int i = 0; i < selectedVertexes.size(); i++) {
+                if (index < selectedVertexes.get(i)) {
+                    selectedVertexes.add(i, index);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                selectedVertexes.add(index);
+            }
         }
     }
 
