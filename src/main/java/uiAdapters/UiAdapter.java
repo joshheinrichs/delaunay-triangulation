@@ -31,6 +31,8 @@ public abstract class UiAdapter {
 
     final Group root = new Group();
 
+    ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
+
     EventHandler<MouseEvent> onMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
@@ -136,12 +138,84 @@ public abstract class UiAdapter {
      */
     public abstract String getName();
 
-    public abstract void addVertex(double x, double y);
-    public abstract void removeVertex(int index);
-    public abstract void moveVertex(int index, double x, double y);
+    public void addVertex(double x, double y) {
+        model.addVertex(new Point(x, y));
+    }
+
+    public void removeVertex(int index) {
+        model.removeVertex(index);
+    }
+
+    public void moveVertex(int index, double x, double y) {
+        model.moveVertex(index, new Point(x, y));
+    }
 
     public void clearVertexes() {
         model.clearVertexes();
+    }
+
+    /**
+     * Adjusts the selected vertexes positions by the given x and y values.
+     * @param x
+     * @param y
+     */
+    public void moveSelectedVertexes(double x, double y) {
+        model.moveVertexes(selectedVertexes, x, y);
+    }
+
+    public void removeSelectedVertexes() {
+        model.removeVertexes(selectedVertexes);
+        selectedVertexes.clear();
+    }
+
+    public ArrayList<Integer> getVertexes(double startX, double startY, double endX, double endY) {
+        return model.getVertexes(startX, startY, endX, endY);
+    }
+
+    /**
+     * Clears the current selection and then selects the vertex at the given index
+     * @param index Index of the vertex
+     */
+    public void selectVertex(int index) {
+        if (!isSelected(index)) {
+            selectedVertexes.add(index);
+        }
+    }
+
+    public void selectVertexes(ArrayList<Integer> indexes) {
+        for (Integer index : indexes) {
+            selectVertex(index);
+        }
+    }
+
+    public void selectAllVertexes() {
+        selectedVertexes.clear();
+        for (int i = 0; i < model.getVertexes().size(); i++) {
+            selectedVertexes.add(i);
+        }
+    }
+
+    public void deselectVertex(int index) {
+        selectedVertexes.remove(new Integer(index));
+    }
+
+    public void deselectVertexes(ArrayList<Integer> indexes) {
+        for (Integer index : indexes) {
+            deselectVertex(index);
+        }
+    }
+
+    public void deselectAllVertexes() {
+        selectedVertexes.clear();
+    }
+
+    /**
+     * Returns true if the vertex at the given index is selected, false otherwise
+     * @param index Index of the vertex
+     * @return
+     */
+    public boolean isSelected(int index) {
+        return selectedVertexes.contains(new Integer(index));
     }
 
     public void loadVertexes(File file) throws FileNotFoundException {
@@ -156,6 +230,7 @@ public abstract class UiAdapter {
         }
         draw();
     }
+
     public void saveVertexes(File file) {
         try {
             if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("json")) {

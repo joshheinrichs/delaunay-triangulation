@@ -32,6 +32,9 @@ public class App extends Application {
     static final double DEFAULT_STAGE_HEIGHT = 600.d;
     static final double DEFAULT_STAGE_WIDTH = DEFAULT_STAGE_HEIGHT * (16.d/9.d);
 
+    static final double DEFAULT_CONSOLE_HEIGHT = 300.d;
+    static final double DEFAULT_CONSOLE_WIDTH = DEFAULT_STAGE_WIDTH;
+
     @Override
     public void start(final Stage stage) {
         Scene scene = new Scene(root, DEFAULT_STAGE_WIDTH, DEFAULT_STAGE_HEIGHT);
@@ -124,7 +127,15 @@ public class App extends Application {
         });
 
         stage.show();
+
+
+        Stage consoleStage = new Stage();
+        Scene consoleScene = new Scene(new TextArea(), DEFAULT_CONSOLE_WIDTH,  DEFAULT_CONSOLE_HEIGHT);
+        consoleStage.setScene(consoleScene);
+        consoleStage.show();
     }
+
+
 
     public static void main(String[] args) {
         launch(args);

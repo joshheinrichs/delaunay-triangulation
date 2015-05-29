@@ -4,7 +4,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import uiAdapters.DelaunayTriangulationUiAdapter;
 import uiAdapters.UiAdapter;
 
 /**
@@ -55,7 +54,7 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseReleased(MouseEvent t) {
-        ((DelaunayTriangulationUiAdapter) uiAdapter).removeSelectedVertexes();
+        uiAdapter.removeSelectedVertexes();
         root.getChildren().clear();
         uiAdapter.draw();
     }
@@ -63,7 +62,9 @@ public class RemoveVertexTool extends Tool {
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
         System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
-        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
+        uiAdapter.deselectAllVertexes();
+        uiAdapter.selectVertexes(
+                uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         root.getChildren().clear();
         root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));

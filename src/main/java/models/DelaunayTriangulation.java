@@ -26,21 +26,25 @@ public class DelaunayTriangulation extends Model {
         return delaunayVertexes.get(index);
     }
 
+    @Override
     public void addVertex(Point location) {
         delaunayVertexes.add(new Vertex(location));
         generate_delaunay();
     }
 
+    @Override
     public void moveVertex(int index, Point location) {
         delaunayVertexes.get(index).setPoint(location);
         generate_delaunay();
     }
 
+    @Override
     public void removeVertex(int index) {
         delaunayVertexes.remove(index);
         generate_delaunay();
     }
 
+    @Override
     public void moveVertexes(ArrayList<Integer> indexes, double x, double y) {
         //assert(indexes.size() == locations.size());
         for (int i = 0; i < indexes.size(); i++) {
@@ -50,6 +54,7 @@ public class DelaunayTriangulation extends Model {
         generate_delaunay();
     }
 
+    @Override
     public void removeVertexes(ArrayList<Integer> indexes) {
         for (Integer index : indexes) {
             delaunayVertexes.set(index, null);
@@ -58,6 +63,7 @@ public class DelaunayTriangulation extends Model {
         generate_delaunay();
     }
 
+    @Override
     public void clearVertexes() {
         delaunayVertexes.clear();
         generate_delaunay();
@@ -76,6 +82,7 @@ public class DelaunayTriangulation extends Model {
      * @param endY
      * @return
      */
+    @Override
     public ArrayList<Integer> getVertexes(double startX, double startY, double endX, double endY) {
         double minX = Math.min(startX, endX);
         double minY = Math.min(startY, endY);

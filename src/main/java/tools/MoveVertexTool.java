@@ -4,7 +4,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import uiAdapters.DelaunayTriangulationUiAdapter;
 import uiAdapters.UiAdapter;
 
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
  * Created by joshheinrichs on 15-05-06.
  */
 public class MoveVertexTool extends Tool {
-
-    int index;
 
     double selectStartX, selectStartY;
     double moveStartX, moveStartY;
@@ -47,7 +44,7 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseClicked(MouseEvent t) {
-        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertex(-1);
+        uiAdapter.deselectAllVertexes();
         uiAdapter.draw();
     }
 
@@ -65,7 +62,9 @@ public class MoveVertexTool extends Tool {
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
         System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
-        ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertexes(selectStartX, selectStartY, t.getX(), t.getY());
+        uiAdapter.deselectAllVertexes();
+        uiAdapter.selectVertexes(
+                uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         root.getChildren().clear();
         root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));
@@ -80,9 +79,10 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        index = Integer.parseInt(((Circle) t.getSource()).getId());
-        if(!((DelaunayTriangulationUiAdapter) uiAdapter).isSelected(index)) {
-            ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertex(index);
+        int index = Integer.parseInt(((Circle) t.getSource()).getId());
+        if(!uiAdapter.isSelected(index)) {
+            uiAdapter.deselectAllVertexes();
+            uiAdapter.selectVertex(index);
         }
         moveStartX = t.getX();
         moveStartY = t.getY();
@@ -103,7 +103,7 @@ public class MoveVertexTool extends Tool {
         moveStartX = t.getX();
         moveStartY = t.getY();
 
-        ((DelaunayTriangulationUiAdapter) uiAdapter).moveSelectedVertexes(moveX, moveY);
+        uiAdapter.moveSelectedVertexes(moveX, moveY);
 
         uiAdapter.draw();
     }

@@ -44,8 +44,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     double minDelaunayAngle = 90;
     double maxDelaunayAngle = 180;
 
-    ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
-
     DelaunayTriangulationGraphAdapter dtga;
 
     public DelaunayTriangulationUiAdapter() {
@@ -68,8 +66,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
-        this.background.getChildren().add(drawBackground());
-
         selectedTool = tools.get(0);
 
         settings.add(new DelaunayEdgeSetting(this));
@@ -77,52 +73,13 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new VertexLabelSetting(this));
+
+        drawBackground();
     }
 
     @Override
     public String getName() {
         return "Delaunay Triangulation";
-    }
-
-    @Override
-    public void addVertex(double x, double y) {
-        model.addVertex(new Point(x, y));
-    }
-
-    @Override
-    public void removeVertex(int index) {
-        model.removeVertex(index);
-    }
-
-    @Override
-    public void moveVertex(int index, double x, double y) {
-        model.moveVertex(index, new Point(x, y));
-    }
-
-    public void selectVertex(int index) {
-        selectedVertexes.clear();
-        selectedVertexes.add(index);
-    }
-
-    public boolean isSelected(int index) {
-        return selectedVertexes.contains(index);
-    }
-
-    public void selectVertexes(double startX, double startY, double endX, double endY) {
-        selectedVertexes = ((DelaunayTriangulation) model).getVertexes(startX, startY, endX, endY);
-    }
-
-    /**
-     * Adjusts the selected vertexes positions by the given x and y values.
-     * @param x
-     * @param y
-     */
-    public void moveSelectedVertexes(double x, double y) {
-        ((DelaunayTriangulation) model).moveVertexes(selectedVertexes, x, y);
-    }
-
-    public void removeSelectedVertexes() {
-        ((DelaunayTriangulation) model).removeVertexes(selectedVertexes);
     }
 
     void drawDelaunayEdge(Edge edge, int index) {
@@ -285,14 +242,14 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.delaunayAngles.getChildren().add(group);
     }
 
-    Rectangle drawBackground() {
+    void drawBackground() {
         Rectangle rectangle = new Rectangle(-BOUNDS, -BOUNDS, 2*BOUNDS, 2*BOUNDS);
         rectangle.setFill(BACKGROUND_COLOR);
         rectangle.setOnMousePressed(backgroundOnMousePressedEventHandler);
         rectangle.setOnMouseDragged(backgroundOnMouseDraggedEventHandler);
         rectangle.setOnMouseReleased(backgroundOnMouseReleasedEventHandler);
         rectangle.setOnMouseClicked(backgroundOnMouseClickedEventHandler);
-        return rectangle;
+        this.background.getChildren().add(rectangle);
     }
 
     @Override
