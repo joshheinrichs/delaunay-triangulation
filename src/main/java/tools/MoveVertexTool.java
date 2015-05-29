@@ -2,10 +2,10 @@ package tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 import uiAdapters.UiAdapter;
-import ui.IndexedCircle;
 
 import java.util.ArrayList;
 
@@ -80,7 +80,7 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        index = ((IndexedCircle) t.getSource()).getIndex();
+        index = Integer.parseInt(((Circle) t.getSource()).getId());
         if(!((DelaunayTriangulationUiAdapter) uiAdapter).isSelected(index)) {
             ((DelaunayTriangulationUiAdapter) uiAdapter).selectVertex(index);
         }

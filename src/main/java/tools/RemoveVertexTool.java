@@ -2,10 +2,10 @@ package tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 import uiAdapters.UiAdapter;
-import ui.IndexedCircle;
 
 /**
  * Created by joshheinrichs on 15-05-07.
@@ -78,7 +78,7 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        int index = ((IndexedCircle) t.getSource()).getIndex();
+        int index = Integer.parseInt(((Circle) t.getSource()).getId());
         uiAdapter.removeVertex(index);
         uiAdapter.draw();
     }

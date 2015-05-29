@@ -2,8 +2,8 @@ package tools;
 
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import uiAdapters.UiAdapter;
-import ui.IndexedCircle;
 
 /**
  * The add tool adds points
@@ -71,7 +71,7 @@ public class AddVertexTool extends Tool {
         if(t.getButton() == MouseButton.PRIMARY) {
             moveTool.vertexOnMousePressed(t);
         } else if (t.getButton() == MouseButton.SECONDARY) {
-            int index = ((IndexedCircle) t.getSource()).getIndex();
+            int index = Integer.parseInt(((Circle) t.getSource()).getId());
             uiAdapter.removeVertex(index);
             uiAdapter.draw();
         }

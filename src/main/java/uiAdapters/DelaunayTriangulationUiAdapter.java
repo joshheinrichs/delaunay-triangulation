@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 import models.DelaunayTriangulation;
 import settings.*;
 import tools.*;
-import ui.IndexedCircle;
 
 import java.util.ArrayList;
 
@@ -163,7 +162,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     void drawDelaunayVertex(Vertex vertex, int index, boolean selected) {
         Point point = vertex.getPoint();
-        IndexedCircle circle = new IndexedCircle();
+        Circle circle = new Circle();
 
         circle.setFill(VERTEX_COLOR);
         circle.setRadius(8.d);
@@ -172,7 +171,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setStrokeWidth(2.d);
         circle.setStroke(Color.BLACK);
 
-        circle.setIndex(index);
+        circle.setId(Integer.toString(index));
 
         circle.setOnMousePressed(vertexOnMousePressedEventHandler);
         circle.setOnMouseDragged(vertexOnMouseDraggedEventHandler);

@@ -37,7 +37,6 @@ public class PanTool extends Tool {
 
     @Override
     public void onMouseDragged(MouseEvent t) {
-        System.out.println(t.getScreenX());
         uiAdapter.setCameraPosition(new Point(t.getScreenX() - startX, t.getScreenY() - startY));
     }
 
