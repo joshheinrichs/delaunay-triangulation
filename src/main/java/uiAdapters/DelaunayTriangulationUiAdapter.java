@@ -61,6 +61,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         tools.add(removeVertexTool);
         tools.add(new PanTool(this));
         tools.add(new ZoomTool(this));
+        tools.add(new DelaunayDistanceTool(this));
 
         root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels, moveVertexTool.root, removeVertexTool.root);
         root.setOnMousePressed(onMousePressedEventHandler);
@@ -73,6 +74,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new VertexLabelSetting(this));
+
 
         drawBackground();
     }

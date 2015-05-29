@@ -107,6 +107,7 @@ public abstract class UiAdapter {
     }
 
     public void setSelectedTool(int i) {
+        deselectAllVertexes();
         selectedTool = tools.get(i);
     }
 
@@ -172,10 +173,10 @@ public abstract class UiAdapter {
         return model.getVertexes(startX, startY, endX, endY);
     }
 
-    /**
-     * Clears the current selection and then selects the vertex at the given index
-     * @param index Index of the vertex
-     */
+    public ArrayList<Integer> getSelectedVertexes() {
+        return selectedVertexes;
+    }
+
     public void selectVertex(int index) {
         if (!isSelected(index)) {
             selectedVertexes.add(index);
