@@ -6,8 +6,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import uiAdapters.UiAdapter;
 
-import java.util.ArrayList;
-
 /**
  * Created by joshheinrichs on 15-05-06.
  */
@@ -15,8 +13,6 @@ public class MoveVertexTool extends Tool {
 
     double selectStartX, selectStartY;
     double moveStartX, moveStartY;
-
-    ArrayList<Integer> indexes = new ArrayList<Integer>();
 
     public MoveVertexTool(UiAdapter uiAdapter) {
         super(uiAdapter);
@@ -63,11 +59,10 @@ public class MoveVertexTool extends Tool {
     public void backgroundOnMouseDragged(MouseEvent t) {
         System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
         uiAdapter.deselectAllVertexes();
-        uiAdapter.selectVertexes(
-                uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
+        uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         root.getChildren().clear();
-        root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));
+        drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY());
 
         uiAdapter.draw();
     }
@@ -108,8 +103,7 @@ public class MoveVertexTool extends Tool {
         uiAdapter.draw();
     }
 
-    Rectangle drawSelectionArea(double startX, double startY, double endX, double endY) {
-
+    void drawSelectionArea(double startX, double startY, double endX, double endY) {
         double minX = Math.min(startX, endX);
         double minY = Math.min(startY, endY);
         double maxX = Math.max(startX, endX);
@@ -125,7 +119,7 @@ public class MoveVertexTool extends Tool {
         rectangle.setStroke(new Color(0.d, 0.d, 1.d, 0.5d));
         rectangle.setStrokeWidth(2.d);
 
-        return rectangle;
+        root.getChildren().add(rectangle);
     }
 
 }

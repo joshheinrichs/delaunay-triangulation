@@ -61,13 +61,11 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
-        System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
         uiAdapter.deselectAllVertexes();
-        uiAdapter.selectVertexes(
-                uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
+        uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         root.getChildren().clear();
-        root.getChildren().add(drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY()));
+        drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY());
 
         uiAdapter.draw();
     }
@@ -94,8 +92,7 @@ public class RemoveVertexTool extends Tool {
 
     }
 
-    Rectangle drawSelectionArea(double startX, double startY, double endX, double endY) {
-
+    void drawSelectionArea(double startX, double startY, double endX, double endY) {
         double minX = Math.min(startX, endX);
         double minY = Math.min(startY, endY);
         double maxX = Math.max(startX, endX);
@@ -111,6 +108,6 @@ public class RemoveVertexTool extends Tool {
         rectangle.setStroke(new Color(1.d, 0.d, 0.d, 0.5d));
         rectangle.setStrokeWidth(2.d);
 
-        return rectangle;
+        root.getChildren().add(rectangle);
     }
 }
