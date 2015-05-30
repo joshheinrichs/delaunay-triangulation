@@ -15,6 +15,7 @@ import tools.Tool;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * A {@link UiAdapter} provides an interface between a {@link Model} and the UI. The {@link UiAdapter} handles
@@ -30,6 +31,10 @@ public abstract class UiAdapter {
     ArrayList<Setting> settings = new ArrayList<Setting>();
 
     final Group root = new Group();
+
+    Stack<String> undo = new Stack<String>();
+    String state = "[]";
+    Stack<String> redo = new Stack<String>();
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
 
@@ -142,18 +147,22 @@ public abstract class UiAdapter {
 
     public void addVertex(double x, double y) {
         model.addVertex(new Point(x, y));
+        saveState();
     }
 
     public void removeVertex(int index) {
         model.removeVertex(index);
+        saveState();
     }
 
     public void moveVertex(int index, double x, double y) {
         model.moveVertex(index, new Point(x, y));
+        //saveState();
     }
 
     public void clearVertexes() {
         model.clearVertexes();
+        saveState();
     }
 
     /**
@@ -163,11 +172,13 @@ public abstract class UiAdapter {
      */
     public void moveSelectedVertexes(double x, double y) {
         model.moveVertexes(selectedVertexes, x, y);
+        //saveState();
     }
 
     public void removeSelectedVertexes() {
         model.removeVertexes(selectedVertexes);
         selectedVertexes.clear();
+        saveState();
     }
 
     public ArrayList<Integer> getVertexes(double startX, double startY, double endX, double endY) {
@@ -230,8 +241,26 @@ public abstract class UiAdapter {
         return selectedVertexes.contains(new Integer(index));
     }
 
+    public void undo() {
+        redo.push(state);
+        state = undo.pop();
+        fromJson(state);
+    }
+
+    public void redo() {
+        undo.push(state);
+        state = redo.pop();
+        fromJson(state);
+    }
+
+    void saveState() {
+        redo.clear();
+        undo.push(state);
+        state = toJson();
+    }
+
     public void loadVertexes(File file) throws FileNotFoundException {
-        clearVertexes();
+        model.clearVertexes();
         JsonObject jsonObject = new JsonObject();
         file.getAbsolutePath();
         JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
@@ -259,6 +288,26 @@ public abstract class UiAdapter {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    String toJson() {
+        ArrayList<Vertex> vertexes = model.getVertexes();
+        ArrayList<Point> points = new ArrayList<Point>(vertexes.size());
+        for (Vertex vertex : vertexes) {
+            points.add(vertex.getPoint());
+        }
+        Gson gson = new Gson();
+        System.out.println("to json: " + gson.toJson(points));
+        return gson.toJson(points);
+    }
+
+    void fromJson(String json) {
+        model.clearVertexes();
+        Gson gson = new Gson();
+        Point[] points = gson.fromJson(json, Point[].class);
+        for (Point point : points) {
+            model.addVertex(point);
         }
     }
 

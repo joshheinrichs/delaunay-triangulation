@@ -51,8 +51,26 @@ public class App extends Application {
 
         file.getItems().addAll(save, load);
 
+        MenuItem undo = new MenuItem("Undo");
+        MenuItem redo = new MenuItem("Redo");
         MenuItem clear = new MenuItem("Clear");
-        edit.getItems().addAll(clear);
+        edit.getItems().addAll(undo, redo, clear);
+
+        undo.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                modelAdapter.undo();
+                modelAdapter.draw();
+            }
+        });
+
+        redo.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                modelAdapter.redo();
+                modelAdapter.draw();
+            }
+        });
+
+
         clear.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 modelAdapter.clearVertexes();
