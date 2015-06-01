@@ -90,7 +90,6 @@ public class DelaunayDistanceTool extends Tool {
                 System.out.println("Straight Distance: " + straightDistance);
                 System.out.println("Distance Ratio: " + distanceRatio);
                 System.out.println("");
-                //TODO: Calculate distance
             }
             uiAdapter.draw();
         } else if (uiAdapter.getSelectedVertexes().size() == 2) {
