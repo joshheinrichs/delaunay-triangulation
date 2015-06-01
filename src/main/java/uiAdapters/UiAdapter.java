@@ -5,8 +5,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import geometry.Point;
 import graph.Vertex;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import models.Model;
 import org.apache.commons.io.FilenameUtils;
@@ -35,6 +38,12 @@ public abstract class UiAdapter {
     Stack<String> undo = new Stack<String>();
     String state = "[]";
     Stack<String> redo = new Stack<String>();
+
+    Menu editMenu = new Menu("Edit");
+
+    MenuItem undoMenuItem = new MenuItem("Undo");
+    MenuItem redoMenuItem = new MenuItem("Redo");
+    MenuItem clearMenuItem = new MenuItem("Clear");
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
 
@@ -98,6 +107,38 @@ public abstract class UiAdapter {
                     selectedTool.vertexOnMouseDragged(t);
                 }
             };
+
+    public UiAdapter() {
+        editMenu.getItems().addAll(undoMenuItem, redoMenuItem, clearMenuItem);
+
+        undoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (canUndo()) {
+                    undo();
+                    draw();
+                }
+            }
+        });
+
+        redoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (canRedo()) {
+                    redo();
+                    draw();
+                }
+            }
+        });
+
+        clearMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                clearVertexes();
+                draw();
+            }
+        });
+
+        undoMenuItem.setDisable(true);
+        redoMenuItem.setDisable(true);
+    }
 
     public ArrayList<Tool> getTools() {
         return tools;
@@ -245,18 +286,32 @@ public abstract class UiAdapter {
         redo.push(state);
         state = undo.pop();
         fromJson(state);
+        redoMenuItem.setDisable(!canRedo());
+        undoMenuItem.setDisable(!canUndo());
     }
 
     public void redo() {
         undo.push(state);
         state = redo.pop();
         fromJson(state);
+        redoMenuItem.setDisable(!canRedo());
+        undoMenuItem.setDisable(!canUndo());
+    }
+
+    public boolean canUndo() {
+        return !undo.isEmpty();
+    }
+
+    public boolean canRedo() {
+        return !redo.isEmpty();
     }
 
     void saveState() {
         redo.clear();
         undo.push(state);
         state = toJson();
+        redoMenuItem.setDisable(!canRedo());
+        undoMenuItem.setDisable(!canUndo());
     }
 
     public void loadVertexes(File file) throws FileNotFoundException {
@@ -270,6 +325,8 @@ public abstract class UiAdapter {
             model.addVertex(point);
         }
         draw();
+        redoMenuItem.setDisable(!canRedo());
+        undoMenuItem.setDisable(!canUndo());
     }
 
     public void saveVertexes(File file) {
@@ -315,5 +372,9 @@ public abstract class UiAdapter {
 
     public Group getRoot() {
         return root;
+    }
+
+    public Menu getEditMenu() {
+        return editMenu;
     }
 }

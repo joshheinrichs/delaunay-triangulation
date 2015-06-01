@@ -43,40 +43,12 @@ public class App extends Application {
         stage.setTitle(modelAdapter.getName());
 
         Menu file = new Menu("File");
-        Menu edit = new Menu("Edit");
         Menu help = new Menu("Help");
 
-        MenuItem save = new MenuItem("Save");
-        MenuItem load = new MenuItem("Load");
+        final MenuItem save = new MenuItem("Save");
+        final MenuItem load = new MenuItem("Load");
 
         file.getItems().addAll(save, load);
-
-        MenuItem undo = new MenuItem("Undo");
-        MenuItem redo = new MenuItem("Redo");
-        MenuItem clear = new MenuItem("Clear");
-        edit.getItems().addAll(undo, redo, clear);
-
-        undo.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                modelAdapter.undo();
-                modelAdapter.draw();
-            }
-        });
-
-        redo.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                modelAdapter.redo();
-                modelAdapter.draw();
-            }
-        });
-
-
-        clear.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                modelAdapter.clearVertexes();
-                modelAdapter.draw();
-            }
-        });
 
         save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -104,7 +76,7 @@ public class App extends Application {
         });
 
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(file, edit, help);
+        menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);
         menuBar.setUseSystemMenuBar(true);
 
         root.getChildren().add(menuBar);
