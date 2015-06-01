@@ -3,9 +3,11 @@ package models;
 import geometry.*;
 import graph.Edge;
 import graph.Vertex;
+import graphAdapters.DelaunayTriangulationGraphAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by joshheinrichs on 15-05-05.
@@ -21,6 +23,8 @@ public class DelaunayTriangulation extends Model {
     ArrayList<Edge> voronoiEdges = new ArrayList<Edge>();
 
     ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>();
+
+    DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(this);
 
     public Vertex getVertex(int index) {
         return delaunayVertexes.get(index);
@@ -99,6 +103,12 @@ public class DelaunayTriangulation extends Model {
         return indexList;
     }
 
+    @Override
+    public ArrayList<Edge> getEdges() {
+        ArrayList<Edge> edges = new ArrayList<Edge>(delaunayEdges);
+        return edges;
+    }
+
     public ArrayList<Point> getPoints() {
         ArrayList<Point> points = new ArrayList<Point>(delaunayVertexes.size());
         for (Vertex vertex : delaunayVertexes) {
@@ -148,9 +158,34 @@ public class DelaunayTriangulation extends Model {
         return triangles;
     }
 
+    public double getDelaunayDistance(int a, int b) {
+        return graph.getDistance(delaunayVertexes.get(a), delaunayVertexes.get(b));
+    }
+
+    public ArrayList<Integer> getDelaunayPath(int a, int b) {
+        List<Edge> path = graph.getPath(delaunayVertexes.get(a), delaunayVertexes.get(b));
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
+
+        for (Edge edge : path) {
+            for (int i = 0; i < delaunayEdges.size(); i++) {
+                if (edge == delaunayEdges.get(i)) {
+                    indexes.add(i);
+                }
+            }
+        }
+
+        return indexes;
+    }
+
+    public double getStraightDistance(int a, int b) {
+        return delaunayVertexes.get(a).getPoint().distance(delaunayVertexes.get(b).getPoint());
+    }
+
 
     void generate_delaunay() {
         generate_delaunay_n4();
+        generate_voronoi();
+        graph.update();
     }
 
     /**
@@ -200,8 +235,6 @@ public class DelaunayTriangulation extends Model {
                 }
             }
         }
-
-        generate_voronoi();
     }
 
     void generate_voronoi() {

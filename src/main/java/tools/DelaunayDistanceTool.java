@@ -2,6 +2,7 @@ package tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 import uiAdapters.UiAdapter;
 
 /**
@@ -72,12 +73,28 @@ public class DelaunayDistanceTool extends Tool {
             uiAdapter.selectVertex(index);
             uiAdapter.draw();
         } else if (uiAdapter.getSelectedVertexes().size() == 1) {
-            if (!uiAdapter.isSelected(index)) {
+            if (!uiAdapter.isVertexSelected(index)) {
                 uiAdapter.selectVertex(index);
+
+                int a = uiAdapter.getSelectedVertexes().get(0);
+                int b = uiAdapter.getSelectedVertexes().get(1);
+
+                double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(a, b);
+                double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(a, b);
+                double distanceRatio = delaunayDistance/straightDistance;
+
+                uiAdapter.deselectAllEdges();
+                uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(a, b));
+
+                System.out.println("Delaunay Distance: " + delaunayDistance);
+                System.out.println("Straight Distance: " + straightDistance);
+                System.out.println("Distance Ratio: " + distanceRatio);
+                System.out.println("");
                 //TODO: Calculate distance
             }
             uiAdapter.draw();
         } else if (uiAdapter.getSelectedVertexes().size() == 2) {
+            uiAdapter.deselectAllEdges();
             uiAdapter.deselectAllVertexes();
             uiAdapter.selectVertex(index);
             uiAdapter.draw();

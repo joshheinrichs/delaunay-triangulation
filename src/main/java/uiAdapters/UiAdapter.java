@@ -46,6 +46,7 @@ public abstract class UiAdapter {
     MenuItem clearMenuItem = new MenuItem("Clear");
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
+    ArrayList<Integer> selectedEdges = new ArrayList<Integer>();
 
     EventHandler<MouseEvent> onMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -154,6 +155,7 @@ public abstract class UiAdapter {
 
     public void setSelectedTool(int i) {
         deselectAllVertexes();
+        deselectAllEdges();
         selectedTool = tools.get(i);
         draw();
     }
@@ -231,7 +233,7 @@ public abstract class UiAdapter {
     }
 
     public void selectVertex(int index) {
-        if (!isSelected(index)) {
+        if (!isVertexSelected(index)) {
             boolean inserted = false;
             for (int i = 0; i < selectedVertexes.size(); i++) {
                 if (index < selectedVertexes.get(i)) {
@@ -278,8 +280,59 @@ public abstract class UiAdapter {
      * @param index Index of the vertex
      * @return
      */
-    public boolean isSelected(int index) {
+    public boolean isVertexSelected(int index) {
         return selectedVertexes.contains(new Integer(index));
+    }
+
+    public ArrayList<Integer> getSelectedEdges() {
+        return selectedEdges;
+    }
+
+    public void selectEdge(int index) {
+        if (!isEdgeSelected(index)) {
+            boolean inserted = false;
+            for (int i = 0; i < selectedEdges.size(); i++) {
+                if (index < selectedEdges.get(i)) {
+                    selectedEdges.add(i, index);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                selectedEdges.add(index);
+            }
+        }
+    }
+
+    public void selectEdges(ArrayList<Integer> indexes) {
+        for (Integer index : indexes) {
+            selectEdge(index);
+        }
+    }
+
+    public void selectAllEdges() {
+        selectedEdges.clear();
+        for (int i = 0; i < model.getEdges().size(); i++) {
+            selectedEdges.add(i);
+        }
+    }
+
+    public void deselectEdge(int index) {
+        selectedEdges.remove(new Integer(index));
+    }
+
+    public void deselectEdges(ArrayList<Integer> indexes) {
+        for (Integer index : indexes) {
+            deselectEdge(index);
+        }
+    }
+
+    public void deselectAllEdges() {
+        selectedEdges.clear();
+    }
+
+    public boolean isEdgeSelected(int index) {
+        return selectedEdges.contains(new Integer(index));
     }
 
     public void undo() {

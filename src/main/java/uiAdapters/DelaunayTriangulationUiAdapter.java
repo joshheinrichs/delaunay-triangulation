@@ -5,7 +5,6 @@ import geometry.Segment;
 import geometry.Triangle;
 import graph.Edge;
 import graph.Vertex;
-import graphAdapters.DelaunayTriangulationGraphAdapter;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -27,7 +26,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     final Group lineGroup = new Group();
 
     static final Color VORONOI_EDGE_COLOR = Color.YELLOW;
-    static final Color DELAUNAY_EDGE_COLOR = Color.BLUE;
+    static final Color DELAUNAY_UNSELECTED_EDGE_COLOR = Color.BLUE;
+    static final Color DELAUNAY_SELECTED_EDGE_COLOR = Color.WHITE;
     static final Color VERTEX_COLOR = Color.RED;
     static final Color VERTEX_SELECTED_BORDER = Color.WHITE;
     static final Color VERTEX_UNSELECETED_BORDER = Color.BLACK;
@@ -44,12 +44,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     double minDelaunayAngle = 90;
     double maxDelaunayAngle = 180;
 
-    DelaunayTriangulationGraphAdapter dtga;
-
     public DelaunayTriangulationUiAdapter() {
         model = new DelaunayTriangulation();
-
-        dtga = new DelaunayTriangulationGraphAdapter((DelaunayTriangulation) model);
 
         circumcircles.setVisible(false);
 
@@ -84,13 +80,29 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         return "Delaunay Triangulation";
     }
 
-    void drawDelaunayEdge(Edge edge, int index) {
+    public double getDelaunayDistance(int a, int b) {
+        return ((DelaunayTriangulation) model).getDelaunayDistance(a, b);
+    }
+
+    public ArrayList<Integer> getDelaunayPath(int a, int b) {
+        return ((DelaunayTriangulation) model).getDelaunayPath(a, b);
+    }
+
+    public double getStraightDistance(int a, int b) {
+        return ((DelaunayTriangulation) model).getStraightDistance(a, b);
+    }
+
+    void drawDelaunayEdge(Edge edge, int index, boolean selected) {
 
         Group group = new Group();
         Segment segment = edge.getSegment();
         Line line = new Line(segment.start.x, segment.start.y, segment.end.x, segment.end.y);
         line.setStrokeWidth(2);
-        line.setStroke(DELAUNAY_EDGE_COLOR);
+        if (selected) {
+            line.setStroke(DELAUNAY_SELECTED_EDGE_COLOR);
+        } else {
+            line.setStroke(DELAUNAY_UNSELECTED_EDGE_COLOR);
+        }
 
 //        group.getChildren().add(line);
 //
@@ -257,11 +269,17 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     @Override
     public void draw() {
 
+        int selectedIndex = 0;
         this.delaunayEdges.getChildren().clear();
         ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
         for (int i = 0; i < delaunayEdges.size(); i++) {
             Edge delaunayEdge = delaunayEdges.get(i);
-            drawDelaunayEdge(delaunayEdge, i);
+            if(selectedIndex < selectedEdges.size() && selectedEdges.get(selectedIndex) == i) {
+                drawDelaunayEdge(delaunayEdge, i, true);
+                selectedIndex++;
+            } else {
+                drawDelaunayEdge(delaunayEdge, i, false);
+            }
         }
 
         this.voronoiEdges.getChildren().clear();
@@ -284,7 +302,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             this.vertexLabels.getChildren().remove(i);
         }
 
-        int selectedIndex = 0;
+        selectedIndex = 0;
         for (int i = 0; i < this.delaunayVertexes.getChildren().size(); i++) {
             if(selectedIndex < selectedVertexes.size() && selectedVertexes.get(selectedIndex) == i) {
                 updateDelaunayVertex(delaunayVertexes.get(i), i, true);
@@ -307,8 +325,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         for (Triangle triangle : triangles) {
             drawAngles(triangle);
         }
-
-        dtga.update();
     }
 
 

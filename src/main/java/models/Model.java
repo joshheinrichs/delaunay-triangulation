@@ -1,6 +1,7 @@
 package models;
 
 import geometry.Point;
+import graph.Edge;
 import graph.Vertex;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public abstract class Model {
 
     public abstract ArrayList<Vertex> getVertexes();
     public abstract ArrayList<Integer> getVertexes(double startX, double startY, double endX, double endY);
+
+    public abstract ArrayList<Edge> getEdges();
 
     public abstract void clearVertexes();
 }

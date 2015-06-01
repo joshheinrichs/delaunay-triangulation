@@ -75,7 +75,7 @@ public class MoveVertexTool extends Tool {
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
         int index = Integer.parseInt(((Circle) t.getSource()).getId());
-        if(!uiAdapter.isSelected(index)) {
+        if(!uiAdapter.isVertexSelected(index)) {
             uiAdapter.deselectAllVertexes();
             uiAdapter.selectVertex(index);
         }
