@@ -1,4 +1,4 @@
-[![Build Status](https://magnum.travis-ci.com/Decateron/delaunay-triangulation.svg?token=ZMKSt61qYsroKf5FBCgc&branch=master)](https://magnum.travis-ci.com/Decateron/delaunay-triangulation)
+#delaunay-triangulation [![Build Status](https://magnum.travis-ci.com/Decateron/delaunay-triangulation.svg?token=ZMKSt61qYsroKf5FBCgc&branch=master)](https://magnum.travis-ci.com/Decateron/delaunay-triangulation)
 
 An application built for real-time rendering of Delaunay triangulations made with JavaFX 8. 
 
