@@ -249,6 +249,7 @@ public abstract class UiAdapter {
             if (!inserted) {
                 selectedVertexes.add(index);
             }
+            tempState = false;
         }
     }
 
@@ -263,20 +264,24 @@ public abstract class UiAdapter {
         for (int i = 0; i < model.getVertexes().size(); i++) {
             selectedVertexes.add(i);
         }
+        tempState = false;
     }
 
     public void deselectVertex(int index) {
         selectedVertexes.remove(new Integer(index));
+        tempState = false;
     }
 
     public void deselectVertexes(ArrayList<Integer> indexes) {
         for (Integer index : indexes) {
             deselectVertex(index);
         }
+        tempState = false;
     }
 
     public void deselectAllVertexes() {
         selectedVertexes.clear();
+        tempState = false;
     }
 
     /**
