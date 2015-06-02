@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public abstract class Model {
     public abstract void addVertex(Point location);
+    public abstract void addVertexes(ArrayList<Point> points);
 
     public abstract void moveVertex(int index, Point location);
     public abstract void moveVertexes(ArrayList<Integer> selectedVertexes, double x, double y);

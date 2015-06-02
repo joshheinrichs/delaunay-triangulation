@@ -18,6 +18,7 @@ import tools.Tool;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -38,6 +39,9 @@ public abstract class UiAdapter {
     Stack<String> undo = new Stack<String>();
     String state = "[]";
     Stack<String> redo = new Stack<String>();
+
+    /** Used to mark whether or not the state should be overwritten */
+    boolean tempState = false;
 
     Menu editMenu = new Menu("Edit");
 
@@ -200,7 +204,7 @@ public abstract class UiAdapter {
 
     public void moveVertex(int index, double x, double y) {
         model.moveVertex(index, new Point(x, y));
-        //saveState();
+        saveTempState();
     }
 
     public void clearVertexes() {
@@ -215,7 +219,7 @@ public abstract class UiAdapter {
      */
     public void moveSelectedVertexes(double x, double y) {
         model.moveVertexes(selectedVertexes, x, y);
-        //saveState();
+        saveTempState();
     }
 
     public void removeSelectedVertexes() {
@@ -338,7 +342,8 @@ public abstract class UiAdapter {
     public void undo() {
         redo.push(state);
         state = undo.pop();
-        fromJson(state);
+        model.clearVertexes();
+        model.addVertexes(fromJson(state));
         redoMenuItem.setDisable(!canRedo());
         undoMenuItem.setDisable(!canUndo());
     }
@@ -346,7 +351,8 @@ public abstract class UiAdapter {
     public void redo() {
         undo.push(state);
         state = redo.pop();
-        fromJson(state);
+        model.clearVertexes();
+        model.addVertexes(fromJson(state));
         redoMenuItem.setDisable(!canRedo());
         undoMenuItem.setDisable(!canUndo());
     }
@@ -363,6 +369,18 @@ public abstract class UiAdapter {
         redo.clear();
         undo.push(state);
         state = toJson();
+        redoMenuItem.setDisable(!canRedo());
+        undoMenuItem.setDisable(!canUndo());
+        tempState = false;
+    }
+
+    void saveTempState() {
+        if (tempState) {
+            state = toJson();
+        } else {
+            saveState();
+            tempState = true;
+        }
         redoMenuItem.setDisable(!canRedo());
         undoMenuItem.setDisable(!canUndo());
     }
@@ -412,13 +430,10 @@ public abstract class UiAdapter {
         return gson.toJson(points);
     }
 
-    void fromJson(String json) {
-        model.clearVertexes();
+    ArrayList<Point> fromJson(String json) {
         Gson gson = new Gson();
         Point[] points = gson.fromJson(json, Point[].class);
-        for (Point point : points) {
-            model.addVertex(point);
-        }
+        return new ArrayList<Point>(Arrays.asList(points));
     }
 
     public abstract void draw();

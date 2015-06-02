@@ -37,6 +37,14 @@ public class DelaunayTriangulation extends Model {
     }
 
     @Override
+    public void addVertexes(ArrayList<Point> points) {
+        for (Point point : points) {
+            delaunayVertexes.add(new Vertex(point));
+        }
+        generate_delaunay();
+    }
+
+    @Override
     public void moveVertex(int index, Point location) {
         delaunayVertexes.get(index).setPoint(location);
         generate_delaunay();
