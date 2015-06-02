@@ -22,12 +22,14 @@ import static models.DelaunayTriangulation.BOUNDS;
  */
 public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
+
     final Group circleGroup = new Group();
     final Group lineGroup = new Group();
 
     static final Color VORONOI_EDGE_COLOR = Color.YELLOW;
     static final Color DELAUNAY_UNSELECTED_EDGE_COLOR = Color.BLUE;
     static final Color DELAUNAY_SELECTED_EDGE_COLOR = Color.WHITE;
+    static final Color DELAUNAY_ALPHA_STABLE_EDGE_COLOR = Color.RED;
     static final Color VERTEX_COLOR = Color.RED;
     static final Color VERTEX_SELECTED_BORDER = Color.WHITE;
     static final Color VERTEX_UNSELECETED_BORDER = Color.BLACK;
@@ -43,6 +45,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     double minDelaunayAngle = 90;
     double maxDelaunayAngle = 180;
+
+    private boolean alphaVisible = true;
 
     public DelaunayTriangulationUiAdapter() {
         model = new DelaunayTriangulation();
@@ -70,7 +74,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new VertexLabelSetting(this));
-
+        settings.add(new DelaunayAlphaStableSetting(this));
 
         drawBackground();
     }
@@ -100,6 +104,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         line.setStrokeWidth(2);
         if (selected) {
             line.setStroke(DELAUNAY_SELECTED_EDGE_COLOR);
+        } else if (alphaVisible && ((DelaunayTriangulation.DelaunayEdge) edge).isAlphaStable()){
+            line.setStroke(DELAUNAY_ALPHA_STABLE_EDGE_COLOR);
         } else {
             line.setStroke(DELAUNAY_UNSELECTED_EDGE_COLOR);
         }
@@ -382,5 +388,21 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     public void setMinDelaunayAngle(double minDelaunayAngle) {
         this.minDelaunayAngle = minDelaunayAngle;
+    }
+
+    public boolean isAlphaVisible() {
+        return this.alphaVisible;
+    }
+
+    public boolean setAlphaVisible(boolean visible) {
+        return this.alphaVisible = visible;
+    }
+
+    public double getAlpha() {
+        return ((DelaunayTriangulation) model).getAlpha();
+    }
+
+    public void setAlpha(double alpha) {
+        ((DelaunayTriangulation) model).setAlpha(alpha);
     }
 }

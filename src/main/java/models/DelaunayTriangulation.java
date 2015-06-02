@@ -26,6 +26,8 @@ public class DelaunayTriangulation extends Model {
 
     DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(this);
 
+    double alpha = 1.0;
+
     public Vertex getVertex(int index) {
         return delaunayVertexes.get(index);
     }
@@ -148,6 +150,15 @@ public class DelaunayTriangulation extends Model {
             segments.add(edge.getSegment());
         }
         return segments;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
+        generate_delaunay();
     }
 
     public ArrayList<Circle> getCircumcircles() {
@@ -334,6 +345,10 @@ public class DelaunayTriangulation extends Model {
                 Vertex a = new Vertex(triangles.get(0).getCircumcircle().center);
                 Vertex b = new Vertex(triangles.get(1).getCircumcircle().center);
 
+                edge.setAlphaStable(
+                        Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())) >= alpha
+                                && Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())) >= alpha);
+
                 voronoiVertexes.add(a);
                 voronoiVertexes.add(b);
                 voronoiEdges.add(new Edge(a, b));
@@ -436,10 +451,10 @@ public class DelaunayTriangulation extends Model {
     /**
      * A triangular edge stores additional information about
      */
-    class DelaunayEdge extends Edge {
+    public class DelaunayEdge extends Edge {
 
         ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(2);
-        public boolean inspected = false;
+        boolean alphaStable = false;
 
         DelaunayEdge(Vertex a, Vertex b) {
             super(a, b);
@@ -463,12 +478,20 @@ public class DelaunayTriangulation extends Model {
             }
         }
 
-        boolean isHull() {
+        public boolean isHull() {
             return triangles.size() == 1;
         }
 
-        boolean contains(Vertex vertex) {
+        public boolean contains(Vertex vertex) {
             return this.getSegment().contains(vertex.getPoint());
+        }
+
+        public boolean isAlphaStable() {
+            return alphaStable;
+        }
+
+        public void setAlphaStable(boolean alphaStable) {
+            this.alphaStable = alphaStable;
         }
 
     }

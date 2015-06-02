@@ -14,7 +14,7 @@ public class Angle {
      * @param C
      * @return
      */
-    static double getAngleStart(Point A, Point B, Point C) {
+    public static double getAngleStart(Point A, Point B, Point C) {
 
         double angle1 = Math.toDegrees(Math.atan2(A.y - B.y, A.x - B.x));
         double angle2 = Math.toDegrees(Math.atan2(C.y - B.y, C.x - B.x));
@@ -41,7 +41,7 @@ public class Angle {
      * @param C
      * @return
      */
-    static double getAngle(Point A, Point B, Point C) {
+    public static double getAngle(Point A, Point B, Point C) {
         //law of cosines
         double b = A.distance(C);
         double a = C.distance(B);

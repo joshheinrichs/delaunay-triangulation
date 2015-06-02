@@ -22,13 +22,6 @@ public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
         super(adapter);
 
         root = new Group();
-        CheckBox checkBox = new CheckBox("Angles");
-        checkBox.setSelected(dt.isDelaunayAnglesVisible());
-        checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                dt.setDelaunayAnglesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
@@ -64,6 +57,16 @@ public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
             }
         });
         maxAngle.setPrefWidth(ANGLE_INPUT_WIDTH);
+
+        final CheckBox checkBox = new CheckBox("Angles");
+        checkBox.setSelected(dt.isDelaunayAnglesVisible());
+        checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent t) {
+                dt.setDelaunayAnglesVisible(((CheckBox) t.getSource()).isSelected());
+                minAngle.setDisable(!checkBox.isSelected());
+                maxAngle.setDisable(!checkBox.isSelected());
+            }
+        });
 
         hBox.getChildren().add(checkBox);
         hBox.getChildren().add(minAngle);
