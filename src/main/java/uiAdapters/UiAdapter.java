@@ -431,7 +431,6 @@ public abstract class UiAdapter {
             points.add(vertex.getPoint());
         }
         Gson gson = new Gson();
-        System.out.println("to json: " + gson.toJson(points));
         return gson.toJson(points);
     }
 
