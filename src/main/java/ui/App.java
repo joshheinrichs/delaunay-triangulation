@@ -38,6 +38,9 @@ public class App extends Application {
     static final double DEFAULT_CONSOLE_HEIGHT = 300.d;
     static final double DEFAULT_CONSOLE_WIDTH = DEFAULT_STAGE_WIDTH;
 
+    static final String USER_MANUAL_LINK = "https://github.com/Decateron/delaunay-triangulation/wiki/User-Manual";
+    static final String GITHUB_LINK = "https://github.com/Decateron/delaunay-triangulation";
+
     @Override
     public void start(final Stage stage) {
         Scene scene = new Scene(root, DEFAULT_STAGE_WIDTH, DEFAULT_STAGE_HEIGHT);
@@ -50,8 +53,11 @@ public class App extends Application {
 
         final MenuItem save = new MenuItem("Save");
         final MenuItem open = new MenuItem("Open...");
+        final MenuItem userManual = new MenuItem("User Manual");
+        final MenuItem github = new MenuItem("GitHub Repository");
 
         file.getItems().addAll(save, open);
+        help.getItems().addAll(userManual, github);
 
         save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -79,6 +85,18 @@ public class App extends Application {
             }
         });
         open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
+
+        userManual.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                getHostServices().showDocument(USER_MANUAL_LINK);
+            }
+        });
+
+        github.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                getHostServices().showDocument(GITHUB_LINK);
+            }
+        });
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);
