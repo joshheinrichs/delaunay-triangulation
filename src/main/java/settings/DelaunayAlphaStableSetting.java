@@ -22,34 +22,36 @@ public class DelaunayAlphaStableSetting extends DelaunayTriangulationSetting {
         super(adapter);
 
         root = new Group();
-        CheckBox checkBox = new CheckBox("Alpha Stable");
-        checkBox.setSelected(dt.isAlphaVisible());
-        checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                dt.setAlphaVisible(((CheckBox) t.getSource()).isSelected());
-                dt.draw();
-            }
-        });
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
 
         root.getChildren().add(hBox);
 
-        final TextField alpha = new TextField(Double.toString(dt.getAlpha()));
+        final TextField alpha = new TextField(Double.toString(dt.getAlphaStability()));
         alpha.textProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
                 try {
-                    dt.setAlpha(Double.parseDouble(newValue));
+                    dt.setAlphaStability(Double.parseDouble(newValue));
                     dt.draw();
                 } catch (NumberFormatException e) {
-                    dt.setAlpha(Double.NaN);
+                    dt.setAlphaStability(Double.NaN);
                     dt.draw();
                 }
             }
         });
         alpha.setPrefWidth(ALPHA_INPUT_WIDTH);
+
+        final CheckBox checkBox = new CheckBox("Alpha Stable");
+        checkBox.setSelected(dt.isAlphaVisible());
+        checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent t) {
+                dt.setAlphaVisible(checkBox.isSelected());
+                alpha.setDisable(!checkBox.isSelected());
+                dt.draw();
+            }
+        });
 
         hBox.getChildren().add(checkBox);
         hBox.getChildren().add(alpha);

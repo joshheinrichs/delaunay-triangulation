@@ -46,6 +46,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     double minDelaunayAngle = 90;
     double maxDelaunayAngle = 180;
 
+    double alphaStability = 1.0;
+
     private boolean alphaVisible = true;
 
     public DelaunayTriangulationUiAdapter() {
@@ -104,7 +106,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         line.setStrokeWidth(2);
         if (selected) {
             line.setStroke(DELAUNAY_SELECTED_EDGE_COLOR);
-        } else if (alphaVisible && ((DelaunayTriangulation.DelaunayEdge) edge).isAlphaStable()){
+        } else if (alphaVisible && ((DelaunayTriangulation.DelaunayEdge) edge).getAlphaStability() <= this.alphaStability){
             line.setStroke(DELAUNAY_ALPHA_STABLE_EDGE_COLOR);
         } else {
             line.setStroke(DELAUNAY_UNSELECTED_EDGE_COLOR);
@@ -398,11 +400,11 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         return this.alphaVisible = visible;
     }
 
-    public double getAlpha() {
-        return ((DelaunayTriangulation) model).getAlpha();
+    public double getAlphaStability() {
+        return this.alphaStability;
     }
 
-    public void setAlpha(double alpha) {
-        ((DelaunayTriangulation) model).setAlpha(alpha);
+    public void setAlphaStability(double alphaStability) {
+        this.alphaStability = alphaStability;
     }
 }

@@ -26,8 +26,6 @@ public class DelaunayTriangulation extends Model {
 
     DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(this);
 
-    double alpha = 1.0;
-
     public Vertex getVertex(int index) {
         return delaunayVertexes.get(index);
     }
@@ -150,15 +148,6 @@ public class DelaunayTriangulation extends Model {
             segments.add(edge.getSegment());
         }
         return segments;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-        generate_delaunay();
     }
 
     public ArrayList<Circle> getCircumcircles() {
@@ -346,8 +335,9 @@ public class DelaunayTriangulation extends Model {
                 Vertex b = new Vertex(triangles.get(1).getCircumcircle().center);
 
                 edge.setAlphaStable(
-                        Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())) >= alpha
-                                && Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())) >= alpha);
+                        Math.min(
+                            Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())),
+                                Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint()))));
 
                 voronoiVertexes.add(a);
                 voronoiVertexes.add(b);
@@ -454,7 +444,7 @@ public class DelaunayTriangulation extends Model {
     public class DelaunayEdge extends Edge {
 
         ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(2);
-        boolean alphaStable = false;
+        double alphaStability = Double.NaN;
 
         DelaunayEdge(Vertex a, Vertex b) {
             super(a, b);
@@ -486,12 +476,12 @@ public class DelaunayTriangulation extends Model {
             return this.getSegment().contains(vertex.getPoint());
         }
 
-        public boolean isAlphaStable() {
-            return alphaStable;
+        public double getAlphaStability() {
+            return alphaStability;
         }
 
-        public void setAlphaStable(boolean alphaStable) {
-            this.alphaStable = alphaStable;
+        public void setAlphaStable(double alphaStability) {
+            this.alphaStability = alphaStability;
         }
 
     }
