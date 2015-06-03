@@ -8,6 +8,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -46,9 +49,9 @@ public class App extends Application {
         Menu help = new Menu("Help");
 
         final MenuItem save = new MenuItem("Save");
-        final MenuItem load = new MenuItem("Load");
+        final MenuItem open = new MenuItem("Open...");
 
-        file.getItems().addAll(save, load);
+        file.getItems().addAll(save, open);
 
         save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -58,11 +61,12 @@ public class App extends Application {
                 modelAdapter.saveVertexes(file);
             }
         });
+        save.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
 
-        load.setOnAction(new EventHandler<ActionEvent>() {
+        open.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Load File");
+                fileChooser.setTitle("Open File");
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
                 File selectedFile = fileChooser.showOpenDialog(stage);
                 if (selectedFile != null) {
@@ -74,6 +78,7 @@ public class App extends Application {
                 }
             }
         });
+        open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);

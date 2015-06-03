@@ -10,6 +10,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import models.Model;
 import org.apache.commons.io.FilenameUtils;
@@ -124,6 +127,7 @@ public abstract class UiAdapter {
                 }
             }
         });
+        undoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN));
 
         redoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -133,6 +137,7 @@ public abstract class UiAdapter {
                 }
             }
         });
+        redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.SHORTCUT_DOWN));
 
         clearMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -140,6 +145,7 @@ public abstract class UiAdapter {
                 draw();
             }
         });
+        redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.SHORTCUT_DOWN));
 
         undoMenuItem.setDisable(true);
         redoMenuItem.setDisable(true);
