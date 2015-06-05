@@ -77,11 +77,11 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         selectedTool = tools.get(0);
 
+        settings.add(new VertexLabelSetting(this));
         settings.add(new DelaunayEdgeSetting(this));
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
-        settings.add(new VertexLabelSetting(this));
         settings.add(new DelaunayAlphaStableSetting(this));
 
         drawBackground();
