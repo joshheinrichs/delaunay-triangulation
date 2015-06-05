@@ -16,110 +16,110 @@ public class TriangleTest {
         Triangle triangle = new Triangle(new Point(0,0), new Point(0,1), new Point(1,0));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
 
         triangle = new Triangle(new Point(0,0), new Point(1,0), new Point(0,1));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
 
         triangle = new Triangle(new Point(1,0), new Point(0,1), new Point(0,0));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
 
         triangle = new Triangle(new Point(1,0), new Point(0,0), new Point(0,1));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
 
         triangle = new Triangle(new Point(0,1), new Point(1,0), new Point(0,0));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
 
         triangle = new Triangle(new Point(0,1), new Point(0,0), new Point(1,0));
 
         //checking signs
-        assertTrue(triangle.contains(new Point(0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(0.3, -0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, 0.3)));
-        assertFalse(triangle.contains(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), true));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), true));
 
         //checking edge cases
-        assertTrue(triangle.contains(new Point(0, 0)));
-        assertTrue(triangle.contains(new Point(0, 1)));
-        assertTrue(triangle.contains(new Point(1, 0)));
-        assertTrue(triangle.contains(new Point(0.5, 0.5)));
+        assertTrue(triangle.contains(new Point(0, 0), true));
+        assertTrue(triangle.contains(new Point(0, 1), true));
+        assertTrue(triangle.contains(new Point(1, 0), true));
+        assertTrue(triangle.contains(new Point(0.5, 0.5), true));
 
-        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), true));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), true));
     }
 
     @Test
@@ -127,20 +127,20 @@ public class TriangleTest {
         Triangle triangle = new Triangle(new Point(0,0), new Point(0,1), new Point(1,0));
 
         //checking signs
-        assertTrue(triangle.interior(new Point(0.3, 0.3)));
-        assertFalse(triangle.interior(new Point(0.3, -0.3)));
-        assertFalse(triangle.interior(new Point(-0.3, 0.3)));
-        assertFalse(triangle.interior(new Point(-0.3, -0.3)));
+        assertTrue(triangle.contains(new Point(0.3, 0.3), false));
+        assertFalse(triangle.contains(new Point(0.3, -0.3), false));
+        assertFalse(triangle.contains(new Point(-0.3, 0.3), false));
+        assertFalse(triangle.contains(new Point(-0.3, -0.3), false));
 
         //checking edge cases
-        assertFalse(triangle.interior(new Point(0, 0)));
-        assertFalse(triangle.interior(new Point(0, 1)));
-        assertFalse(triangle.interior(new Point(1, 0)));
-        assertFalse(triangle.interior(new Point(0.5, 0.5)));
+        assertFalse(triangle.contains(new Point(0, 0), false));
+        assertFalse(triangle.contains(new Point(0, 1), false));
+        assertFalse(triangle.contains(new Point(1, 0), false));
+        assertFalse(triangle.contains(new Point(0.5, 0.5), false));
 
-        assertTrue(triangle.interior(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON)));
-        assertTrue(triangle.interior(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON)));
-        assertTrue(triangle.interior(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON)));
+        assertTrue(triangle.contains(new Point(0.5 - Constants.EPSILON, 0.5 - Constants.EPSILON), false));
+        assertTrue(triangle.contains(new Point(1 - Constants.EPSILON, 0 + Constants.EPSILON), false));
+        assertTrue(triangle.contains(new Point(0 + Constants.EPSILON, 0 + Constants.EPSILON), false));
     }
 
 }

@@ -213,7 +213,7 @@ public class DelaunayTriangulation extends Model {
                         Circle circle = new Circle(delaunayVertexes.get(i).getPoint(), delaunayVertexes.get(j).getPoint(), delaunayVertexes.get(k).getPoint());
                         boolean intersected = false;
                         for (int l = 0; l < delaunayVertexes.size(); l++) {
-                            if (circle.interior(delaunayVertexes.get(l).getPoint())) {
+                            if (circle.contains(delaunayVertexes.get(l).getPoint(), false)) {
                                 intersected = true;
                                 break;
                             }
@@ -449,12 +449,8 @@ public class DelaunayTriangulation extends Model {
             return ab.isHull() || bc.isHull() || ca.isHull();
         }
 
-        boolean contains(Vertex vertex) {
-            return new Triangle(a.getPoint(), b.getPoint(), c.getPoint()).contains(vertex.getPoint());
-        }
-
-        boolean interior(Vertex vertex) {
-            return new Triangle(a.getPoint(), b.getPoint(), c.getPoint()).interior(vertex.getPoint());
+        boolean contains(Vertex vertex, boolean inclusive) {
+            return new Triangle(a.getPoint(), b.getPoint(), c.getPoint()).contains(vertex.getPoint(), inclusive);
         }
 
         Triangle getTriangle() {

@@ -53,24 +53,14 @@ public class Circle {
     /**
      * Returns true if the given point is contained within the circle or lies upon its edge, false otherwise.
      * @param p
+     * @param inclusive
      * @return
      */
-    public boolean contains(Point p) {
+    public boolean contains(Point p, boolean inclusive) {
         if(Double.isNaN(center.distance(p))) {
             return true;
-        } else {
+        } else if (inclusive) {
             return center.distance(p) <= radius;
-        }
-    }
-
-    /**
-     * Returns true if the given point is contained within the circle, false otherwise.
-     * @param p
-     * @return
-     */
-    public boolean interior(Point p) {
-        if(Double.isNaN(center.distance(p))) {
-            return true;
         } else {
             return center.distance(p) < radius - Constants.EPSILON;
         }

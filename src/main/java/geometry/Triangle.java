@@ -49,9 +49,10 @@ public class Triangle {
     /**
      * Returns true if the given point is contained within the triangle, including points which lie along its edges.
      * @param point
+     * @param inclusive
      * @return
      */
-    public boolean contains(Point point) {
+    public boolean contains(Point point, boolean inclusive) {
         double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
                 ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
         
@@ -59,25 +60,12 @@ public class Triangle {
                 ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
         
         double gamma = 1.0d - alpha - beta;
-        
-        return (alpha >= 0 && beta >= 0 && gamma >= 0);
-    }
 
-    /**
-     * Returns true if the given point is within the the triangle, not including points which lie along its edges.
-     * @param point
-     * @return
-     */
-    public boolean interior(Point point) {
-        double alpha = ((b.y - c.y)*(point.x - c.x) + (c.x - b.x)*(point.y - c.y)) /
-                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
-
-        double beta = ((c.y - a.y)*(point.x - c.x) + (a.x - c.x)*(point.y - c.y)) /
-                ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
-
-        double gamma = 1.0d - alpha - beta;
-
-        return (alpha > 0 && beta > 0 && gamma > 0);
+        if (inclusive) {
+            return (alpha >= 0 && beta >= 0 && gamma >= 0);
+        } else {
+            return (alpha > 0 && beta > 0 && gamma > 0);
+        }
     }
 
     public double getAngleA() {
