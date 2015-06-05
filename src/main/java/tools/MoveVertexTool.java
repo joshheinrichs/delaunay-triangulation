@@ -52,7 +52,7 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseReleased(MouseEvent t) {
-        root.getChildren().clear();
+        graphRoot.getChildren().clear();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MoveVertexTool extends Tool {
         uiAdapter.deselectAllVertexes();
         uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
-        root.getChildren().clear();
+        graphRoot.getChildren().clear();
         drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY());
 
         uiAdapter.draw();
@@ -119,7 +119,7 @@ public class MoveVertexTool extends Tool {
         rectangle.setStroke(new Color(0.d, 0.d, 1.d, 0.5d));
         rectangle.setStrokeWidth(2.d);
 
-        root.getChildren().add(rectangle);
+        graphRoot.getChildren().add(rectangle);
     }
 
 }

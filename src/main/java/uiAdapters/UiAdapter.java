@@ -163,10 +163,10 @@ public abstract class UiAdapter {
         return selectedTool;
     }
 
-    public void setSelectedTool(int i) {
+    public void setSelectedTool(Tool tool) {
         deselectAllVertexes();
         deselectAllEdges();
-        selectedTool = tools.get(i);
+        this.selectedTool = tool;
         draw();
     }
 

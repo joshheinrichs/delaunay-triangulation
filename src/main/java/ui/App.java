@@ -11,13 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import uiAdapters.DelaunayTriangulationUiAdapter;
 import settings.Setting;
 import tools.Tool;
+import uiAdapters.DelaunayTriangulationUiAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -109,15 +108,8 @@ public class App extends Application {
         toolBar.setMaxWidth(Double.MAX_VALUE);
 
         ArrayList<Tool> tools = modelAdapter.getTools();
-        for (int i = 0; i < tools.size(); i++) {
-            Button button = new Button(tools.get(i).getName());
-            final int tool = i;
-            button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent t) {
-                    modelAdapter.setSelectedTool(tool);
-                }
-            });
-            toolBar.getItems().add(button);
+        for (Tool tool : tools) {
+            toolBar.getItems().add(tool.getToolBarRoot());
         }
 
 

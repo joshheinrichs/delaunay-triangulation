@@ -1,6 +1,8 @@
 package tools;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import uiAdapters.UiAdapter;
 
@@ -9,12 +11,23 @@ import uiAdapters.UiAdapter;
  */
 public abstract class Tool {
 
-    public final Group root = new Group();
+    final UiAdapter uiAdapter;
 
-    UiAdapter uiAdapter;
+    final Group graphRoot = new Group();
+    final Group toolBarRoot = new Group();
 
-    public Tool(UiAdapter uiAdapter) {
-        this.uiAdapter = uiAdapter;
+    public Tool(UiAdapter adapter) {
+        this.uiAdapter = adapter;
+
+        final Tool thisTool = this;
+        Button button = new Button(this.getName());
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent t) {
+                uiAdapter.setSelectedTool(thisTool);
+            }
+        });
+        
+        toolBarRoot.getChildren().add(button);
     }
 
     /**
@@ -36,4 +49,12 @@ public abstract class Tool {
     public abstract void vertexOnMousePressed(MouseEvent t);
     public abstract void vertexOnMouseReleased(MouseEvent t);
     public abstract void vertexOnMouseDragged(MouseEvent t);
+    
+    public Group getGraphRoot() {
+        return graphRoot;
+    }
+    
+    public Group getToolBarRoot() {
+        return toolBarRoot;
+    }
 }

@@ -65,7 +65,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         tools.add(new ZoomTool(this));
         tools.add(new DelaunayDistanceTool(this));
 
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels, moveVertexTool.root, removeVertexTool.root);
+        root.getChildren().addAll(
+                background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels,
+                moveVertexTool.getGraphRoot(), removeVertexTool.getGraphRoot());
+
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
 
