@@ -127,6 +127,12 @@ public class App extends Application {
         console.setTranslateY(DEFAULT_STAGE_HEIGHT - DEFAULT_CONSOLE_HEIGHT);
         console.setEditable(false);
 
+        console.textProperty().addListener(new ChangeListener<Object>() {
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                console.setScrollTop(Double.MAX_VALUE);
+            }
+        });
+
         console.setText(modelAdapter.getOutput());
 
         root.getChildren().addAll(modelAdapter.getRoot(), console, vBox);

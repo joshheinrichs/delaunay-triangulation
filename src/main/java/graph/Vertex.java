@@ -2,7 +2,6 @@ package graph;
 
 
 import geometry.Point;
-import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by joshheinrichs on 15-05-05.
  */
-public class Vertex extends Circle {
+public class Vertex {
 
     Point point;
     HashMap<String, Edge> edges = new HashMap<String, Edge>();

@@ -22,7 +22,7 @@ public class Triangle {
     }
 
     /**
-     * Returns the edges of the triangle.
+     * Returns the triangle's segments.
      * @return
      */
     public ArrayList<Segment> getSegments() {
@@ -47,7 +47,7 @@ public class Triangle {
     }
 
     /**
-     * Returns true if the given point is contained within the triangle, including points which lie along its edges.
+     * Returns true if the given point is contained within the triangle, false otherwise.
      * @param point
      * @param inclusive
      * @return
@@ -68,30 +68,61 @@ public class Triangle {
         }
     }
 
+    /**
+     * Returns angle CAB in degrees. Always an interior angle (i.e. < 180deg).
+     * @return
+     */
     public double getAngleA() {
         return Angle.getAngle(c, a, b);
     }
 
+    /**
+     * Returns the clockwise angle from 0deg to the beginning of angle CAB in degrees.
+     * This doesn't have much use other than displaying angles visually.
+     * @return
+     */
     public double getAngleAStart() {
         return Angle.getAngleStart(c, a, b);
     }
 
+    /**
+     * Returns angle ABC in degrees. Always an interior angle (i.e. < 180deg).
+     * @return
+     */
     public double getAngleB() {
         return Angle.getAngle(a, b, c);
     }
 
+    /**
+     * Returns the clockwise angle from 0deg to the beginning of angle ABC in degrees.
+     * This doesn't have much use other than displaying angles visually.
+     * @return
+     */
     public double getAngleBStart() {
         return Angle.getAngleStart(a, b, c);
     }
 
+    /**
+     * Returns angle BCA in degrees. Always an interior angle (i.e. < 180deg).
+     * @return
+     */
     public double getAngleC() {
         return Angle.getAngle(b, c, a);
     }
 
+    /**
+     * Returns the clockwise angle from 0deg to the beginning of angle BCA in degrees.
+     * This doesn't have much use other than displaying angles visually.
+     * @return
+     */
     public double getAngleCStart() {
         return Angle.getAngleStart(b, c, a);
     }
 
+    /**
+     * Returns true if this triangle is obtuse, false otherwise.
+     * @return
+     */
     public boolean isObtuse() {
         return (getAngleA() > 90.d || getAngleB() > 90.d || getAngleC() > 90.d);
     }

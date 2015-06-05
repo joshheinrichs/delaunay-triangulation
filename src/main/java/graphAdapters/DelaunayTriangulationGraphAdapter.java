@@ -30,11 +30,19 @@ public class DelaunayTriangulationGraphAdapter {
 
     Double[][] distances;
 
+    /**
+     * Constructs a DelaunayTriangulationGraphAdapter.
+     * @param delaunayTriangulation
+     */
     public DelaunayTriangulationGraphAdapter(DelaunayTriangulation delaunayTriangulation) {
         this.delaunayTriangulation = delaunayTriangulation;
         update();
     }
 
+    /**
+     * Updates the graph, accounting for any changes that have occurred in the Delaunay triangulation.
+     * If it is possible that changes have occurred, this method should be called before computing any properties.
+     */
     public void update() {
         ArrayList<Edge> edges = delaunayTriangulation.getDelaunayEdges();
         ArrayList<Vertex> vertexes = delaunayTriangulation.getDelaunayVertexes();
@@ -73,10 +81,22 @@ public class DelaunayTriangulationGraphAdapter {
         }
     }
 
+    /**
+     * Returns the distance of the shortest path from a to b in the Delaunay triangulation.
+     * @param a
+     * @param b
+     * @return
+     */
     public double getDistance(Vertex a, Vertex b) {
         return (Double) pathAlgorithm.getDistance(a, b);
     }
 
+    /**
+     * Returns the list of edges involved in the shortest path from a to b in the Delaunay triangulation.
+     * @param a
+     * @param b
+     * @return
+     */
     public List<Edge> getPath(Vertex a, Vertex b) {
         return pathAlgorithm.getPath(a, b);
     }

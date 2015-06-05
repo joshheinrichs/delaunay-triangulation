@@ -43,6 +43,11 @@ public class Segment {
         return start.distance(end);
     }
 
+    /**
+     * Returns true if the given segment intersects this segment, false otherwise.
+     * @param segment
+     * @return
+     */
     public boolean intersects(Segment segment) {
 
         Line thisLine = this.getLine();
@@ -50,7 +55,7 @@ public class Segment {
 
         Point intersect = thisLine.intersect(segmentLine);
 
-        System.out.println(intersect);
+//        System.out.println(intersect);
 
         double thisMinX = Math.min(this.start.x, this.end.x);
         double thisMaxX = Math.max(this.start.x, this.end.x);
@@ -74,21 +79,34 @@ public class Segment {
         }
     }
 
+    /**
+     * Returns the line which passes through this segment
+     * @return
+     */
     public Line getLine() {
         return new Line(start, end);
     }
 
-    @Override
-    public String toString() {
-        return "(" + start + ", " + end + ")";
+    /**
+     * Returns a circle that passes through the two points in this segment.
+     * @return
+     */
+    public Circle getCircumcircle() {
+        return new Circle(this.start, this.end);
     }
 
+    /**
+     * Returns true if the given segment is equivelent to this segment, false otherwise.
+     * @param segment
+     * @return
+     */
     public boolean equals(Segment segment) {
         return (this.start.equals(segment.start) && this.end.equals(segment.end))
                 || (this.start.equals(segment.end) && this.end.equals(segment.start));
     }
 
-    public Circle getCircumcircle() {
-        return new Circle(this.start, this.end);
+    @Override
+    public String toString() {
+        return "(" + start + ", " + end + ")";
     }
 }

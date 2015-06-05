@@ -86,15 +86,10 @@ public class DelaunayDistanceTool extends Tool {
                 uiAdapter.deselectAllEdges();
                 uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(a, b));
 
-//                System.out.println("Delaunay Distance: " + delaunayDistance);
-//                System.out.println("Straight Distance: " + straightDistance);
-//                System.out.println("Distance Ratio: " + distanceRatio);
-//                System.out.println("");
-
+                uiAdapter.appendToOutput("\n");
                 uiAdapter.appendToOutput("Delaunay Distance: " + delaunayDistance + "\n");
                 uiAdapter.appendToOutput("Straight Distance: " + straightDistance + "\n");
                 uiAdapter.appendToOutput("Distance Ratio: " + distanceRatio + "\n");
-                uiAdapter.appendToOutput("\n");
             }
             uiAdapter.draw();
         } else if (uiAdapter.getSelectedVertexes().size() == 2) {

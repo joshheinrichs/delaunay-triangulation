@@ -8,7 +8,7 @@ import constants.Constants;
 public class Angle {
 
     /**
-     * Retruns the angle from 0 to the start of angle B
+     * Retruns the clockwise angle from 0deg to the start of angle ABC in degrees.
      * @param A
      * @param B
      * @param C
@@ -35,7 +35,7 @@ public class Angle {
     }
 
     /**
-     * Returns the inner angle B from the given triangle
+     * Returns the inner angle ABC in degrees.
      * @param A
      * @param B
      * @param C

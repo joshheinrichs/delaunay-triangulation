@@ -1,12 +1,11 @@
 package graph;
 
 import geometry.Segment;
-import javafx.scene.shape.Line;
 
 /**
  * Created by joshheinrichs on 15-05-05.
  */
-public class Edge extends Line {
+public class Edge {
 
     public final Vertex from, to;
 
@@ -26,6 +25,10 @@ public class Edge extends Line {
         this.to.removeEdge(this);
     }
 
+    /**
+     * Returns the corresponding segment
+     * @return
+     */
     public Segment getSegment() {
         return new Segment(from.getPoint(), to.getPoint());
     }

@@ -367,7 +367,7 @@ public abstract class UiAdapter {
     }
 
     public void appendToOutput(String string) {
-        this.app.console.setText(this.app.console.getText() + string);
+        this.app.console.appendText(string);
     }
 
     public void undo() {
