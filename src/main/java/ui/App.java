@@ -22,9 +22,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-/**
- * @web http://java-buddy.blogspot.com/
- */
 public class App extends Application {
 
     DelaunayTriangulationUiAdapter modelAdapter = new DelaunayTriangulationUiAdapter();

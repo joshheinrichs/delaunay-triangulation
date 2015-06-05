@@ -26,7 +26,7 @@ public abstract class Tool {
                 uiAdapter.setSelectedTool(thisTool);
             }
         });
-        
+
         toolBarRoot.getChildren().add(button);
     }
 
