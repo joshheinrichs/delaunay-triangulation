@@ -1,7 +1,5 @@
 package geometry;
 
-import constants.Constants;
-
 /**
  * Created by joshheinrichs on 15-05-05.
  */
@@ -175,20 +173,6 @@ public class Line {
             return false;
         }
     }
-
-    /**
-     * Returns true if the given point lies along this line, false otherwise.
-     * @param point
-     * @return
-     */
-    public boolean contains(Point point) {
-        if(Double.isInfinite(this.slope)) {
-            return Math.abs(this.xIntercept - point.x) < Constants.EPSILON;
-        } else {
-            return Math.abs(y(point.x) - point.y) < Constants.EPSILON;
-        }
-    }
-
 
     @Override
     public String toString() {

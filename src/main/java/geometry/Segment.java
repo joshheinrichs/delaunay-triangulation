@@ -43,19 +43,6 @@ public class Segment {
         return start.distance(end);
     }
 
-    /**
-     * Returns true if the given point lies along this segment, false otherwise.
-     * @param point
-     * @return
-     */
-    public boolean contains(Point point) {
-        if(start.x <= point.x && point.x <= end.x) {
-            return new Line(start, end).contains(point);
-        } else {
-            return false;
-        }
-    }
-
     public boolean intersects(Segment segment) {
 
         Line thisLine = this.getLine();

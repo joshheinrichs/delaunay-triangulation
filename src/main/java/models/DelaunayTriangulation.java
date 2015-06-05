@@ -507,10 +507,6 @@ public class DelaunayTriangulation extends Model {
             return triangles.size() == 1;
         }
 
-        public boolean contains(Vertex vertex) {
-            return this.getSegment().contains(vertex.getPoint());
-        }
-
         public double getAlphaStability() {
             return alphaStability;
         }
