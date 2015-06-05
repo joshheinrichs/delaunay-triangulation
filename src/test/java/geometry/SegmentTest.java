@@ -29,12 +29,14 @@ public class SegmentTest {
 
     @Test
     public void lengthTest() {
+        Segment segment = new Segment(new Point(0,0), new Point(1,0));
+        assertEquals(1, segment.length(), Constants.EPSILON);
 
-    }
+        segment = new Segment(new Point(0,0), new Point(1,1));
+        assertEquals(Math.sqrt(2), segment.length(), Constants.EPSILON);
 
-    @Test
-    public void containsTest() {
-
+        segment = new Segment(new Point(0,0), new Point(-1,-1));
+        assertEquals(Math.sqrt(2), segment.length(), Constants.EPSILON);
     }
 
     @Test
@@ -60,7 +62,11 @@ public class SegmentTest {
         assertFalse(seg2.intersects(seg1));
 
         seg1 = new Segment(new Point(1,1), new Point(0,0));
-        seg2 = new Segment(new Point(0,0), new Point(1,1));
+        seg2 = new Segment(new Point(0,1), new Point(1,0));
+
+        System.out.println(seg1.getLine());
+        System.out.println(seg2.getLine());
+
         assertTrue(seg1.intersects(seg2));
         assertTrue(seg2.intersects(seg1));
 

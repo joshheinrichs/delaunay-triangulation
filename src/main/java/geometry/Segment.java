@@ -65,10 +65,22 @@ public class Segment {
 
         System.out.println(intersect);
 
-        if (((this.start.x < intersect.x - Constants.EPSILON && intersect.x + Constants.EPSILON < this.end.x)
-                    || (this.start.x == this.end.x && this.start.y < intersect.y - Constants.EPSILON && intersect.y + Constants.EPSILON < this.end.y))
-                && ((segment.start.x < intersect.x - Constants.EPSILON && intersect.x + Constants.EPSILON < segment.end.x)
-                    || segment.start.x == segment.end.x && segment.start.y < intersect.y - Constants.EPSILON && intersect.y + Constants.EPSILON < segment.end.y)) {
+        double thisMinX = Math.min(this.start.x, this.end.x);
+        double thisMaxX = Math.max(this.start.x, this.end.x);
+        double thisMinY = Math.min(this.start.y, this.end.y);
+        double thisMaxY = Math.max(this.start.y, this.end.y);
+
+        double segmentMinX = Math.min(segment.start.x, segment.end.x);
+        double segmentMaxX = Math.max(segment.start.x, segment.end.x);
+        double segmentMinY = Math.min(segment.start.y, segment.end.y);
+        double segmentMaxY = Math.max(segment.start.y, segment.end.y);
+
+        if (((thisMinX < intersect.x - Constants.EPSILON && intersect.x + Constants.EPSILON < thisMaxX)
+                    || (Math.abs(thisMinX - thisMaxX) < 2*Constants.EPSILON
+                        && thisMinY < intersect.y - Constants.EPSILON && intersect.y + Constants.EPSILON < thisMaxY))
+                && ((segmentMinX < intersect.x - Constants.EPSILON && intersect.x + Constants.EPSILON < segmentMaxX)
+                    || (Math.abs(segmentMinX - segmentMaxX) < 2*Constants.EPSILON
+                        && segmentMinY < intersect.y - Constants.EPSILON && intersect.y + Constants.EPSILON < segmentMaxY))) {
             return true;
         } else {
             return false;
