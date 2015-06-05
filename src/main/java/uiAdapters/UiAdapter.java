@@ -18,6 +18,7 @@ import models.Model;
 import org.apache.commons.io.FilenameUtils;
 import settings.Setting;
 import tools.Tool;
+import ui.App;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import java.util.Stack;
  * {@link Tool} interactions with the model, as well as how the {@link Model} is displayed inside the window.
  */
 public abstract class UiAdapter {
+
+    App app;
 
     Model model;
 
@@ -45,6 +48,8 @@ public abstract class UiAdapter {
 
     /** Used to mark whether or not the state should be overwritten */
     boolean tempState = false;
+
+    String output = "";
 
     Menu editMenu = new Menu("Edit");
 
@@ -116,7 +121,10 @@ public abstract class UiAdapter {
                 }
             };
 
-    public UiAdapter() {
+    public UiAdapter(App app) {
+
+        this.app = app;
+
         editMenu.getItems().addAll(undoMenuItem, redoMenuItem, clearMenuItem);
 
         undoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -348,6 +356,18 @@ public abstract class UiAdapter {
 
     public boolean isEdgeSelected(int index) {
         return selectedEdges.contains(new Integer(index));
+    }
+
+    public String getOutput() {
+        return this.app.console.getText();
+    }
+
+    public void setOutput(String string) {
+        this.app.console.setText(string);
+    }
+
+    public void appendToOutput(String string) {
+        this.app.console.setText(this.app.console.getText() + string);
     }
 
     public void undo() {

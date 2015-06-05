@@ -24,18 +24,20 @@ import java.util.ArrayList;
 
 public class App extends Application {
 
-    DelaunayTriangulationUiAdapter modelAdapter = new DelaunayTriangulationUiAdapter();
+    DelaunayTriangulationUiAdapter modelAdapter = new DelaunayTriangulationUiAdapter(this);
 
     Group root = new Group();
 
-    static final double DEFAULT_STAGE_HEIGHT = 600.d;
+    static final double DEFAULT_STAGE_HEIGHT = 800.d;
     static final double DEFAULT_STAGE_WIDTH = DEFAULT_STAGE_HEIGHT * (16.d/9.d);
 
-    static final double DEFAULT_CONSOLE_HEIGHT = 300.d;
+    static final double DEFAULT_CONSOLE_HEIGHT = 200.d;
     static final double DEFAULT_CONSOLE_WIDTH = DEFAULT_STAGE_WIDTH;
 
     static final String USER_MANUAL_LINK = "https://github.com/Decateron/delaunay-triangulation/wiki/User-Manual";
     static final String GITHUB_LINK = "https://github.com/Decateron/delaunay-triangulation";
+
+    public final TextArea console = new TextArea();
 
     @Override
     public void start(final Stage stage) {
@@ -120,21 +122,29 @@ public class App extends Application {
         final VBox vBox = new VBox();
         vBox.getChildren().addAll(toolBar, optionsBar);
 
-        root.getChildren().addAll(modelAdapter.getRoot(), vBox);
+        console.setPrefWidth(DEFAULT_CONSOLE_WIDTH);
+        console.setPrefHeight(DEFAULT_CONSOLE_HEIGHT);
+        console.setTranslateY(DEFAULT_STAGE_HEIGHT - DEFAULT_CONSOLE_HEIGHT);
+        console.setEditable(false);
+
+        console.setText(modelAdapter.getOutput());
+
+        root.getChildren().addAll(modelAdapter.getRoot(), console, vBox);
 
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 vBox.setPrefWidth(newValue.doubleValue());
+                console.setPrefWidth(newValue.doubleValue());
+            }
+        });
+
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                console.setTranslateY(newValue.doubleValue() - console.getPrefHeight());
             }
         });
 
         stage.show();
-
-
-        Stage consoleStage = new Stage();
-        Scene consoleScene = new Scene(new TextArea(), DEFAULT_CONSOLE_WIDTH,  DEFAULT_CONSOLE_HEIGHT);
-        consoleStage.setScene(consoleScene);
-        consoleStage.show();
     }
 
 

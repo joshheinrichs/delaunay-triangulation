@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import models.DelaunayTriangulation;
 import settings.*;
 import tools.*;
+import ui.App;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,9 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     private boolean alphaVisible = true;
 
-    public DelaunayTriangulationUiAdapter() {
+    public DelaunayTriangulationUiAdapter(App app) {
+        super(app);
+
         model = new DelaunayTriangulation();
 
         circumcircles.setVisible(false);
