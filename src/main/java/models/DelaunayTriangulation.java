@@ -213,7 +213,7 @@ public class DelaunayTriangulation extends Model {
                         Circle circle = new Circle(delaunayVertexes.get(i).getPoint(), delaunayVertexes.get(j).getPoint(), delaunayVertexes.get(k).getPoint());
                         boolean intersected = false;
                         for (int l = 0; l < delaunayVertexes.size(); l++) {
-                            if (circle.contains(delaunayVertexes.get(l).getPoint()) && l != i && l != j && l != k) {
+                            if (circle.interior(delaunayVertexes.get(l).getPoint())) {
                                 intersected = true;
                                 break;
                             }
@@ -242,6 +242,45 @@ public class DelaunayTriangulation extends Model {
                     }
                 }
             }
+
+            System.out.println("num triangles: " + triangles.size());
+
+            for (int i = 0; i < this.delaunayEdges.size(); i++) {
+                DelaunayEdge edge1 = this.delaunayEdges.get(i);
+                for (int j = i + 1; j < this.delaunayEdges.size(); j++) {
+                    DelaunayEdge edge2 = this.delaunayEdges.get(j);
+//                    if (edge1.getSegment().getCircumcircle().equals(edge2.getSegment().getCircumcircle())) {
+                    if (edge1.getSegment().intersects(edge2.getSegment())) {
+                        System.out.println(edge1 + " " + edge2);
+                        this.delaunayEdges.remove(edge2);
+                        ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(edge2.getTriangles());
+                        for (DelaunayTriangle triangle : triangles) {
+                            triangle.delete();
+                            this.triangles.remove(triangle);
+                        }
+                    }
+                }
+            }
+//                        ArrayList<DelaunayTriangle> triangles = edge1.getTriangles();
+//                        for (DelaunayTriangle triangle : triangles) {
+//                            this.triangles.remove(triangle);
+//                            triangle.delete();
+//                        }
+//                        this.delaunayEdges.set(i, null);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            for (int i = 0; i < this.delaunayEdges.size(); i++) {
+//                if (this.delaunayEdges.get(i) == null) {
+//                    this.delaunayEdges.remove(i);
+//                    i--;
+//                }
+//            }
+
+            System.out.println("num triangles: " + triangles.size());
+
         }
     }
 
@@ -251,7 +290,7 @@ public class DelaunayTriangulation extends Model {
 
         for (DelaunayEdge edge : delaunayEdges) {
 
-            assert(triangles.size() > 0);
+            //assert(triangles.size() > 0);
             if(edge.isHull()) {
 
                 DelaunayTriangle dt = edge.getTriangles().get(0);
@@ -455,17 +494,13 @@ public class DelaunayTriangulation extends Model {
         }
 
         void addTriangle(DelaunayTriangle triangle) {
-            assert(triangles.size() < 2);
+            //assert(triangles.size() < 2);
             triangles.add(triangle);
         }
 
         void removeTriangle(DelaunayTriangle triangle) {
-            assert(triangles.size() > 0);
-            for (int i = 0; i < triangles.size(); i++) {
-                if(triangles.get(i) == triangle) {
-                    triangles.remove(i);
-                }
-            }
+            assert(triangles.contains(triangle));
+            triangles.remove(triangle);
         }
 
         public boolean isHull() {

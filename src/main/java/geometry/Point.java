@@ -1,5 +1,7 @@
 package geometry;
 
+import constants.Constants;
+
 /**
  * Created by joshheinrichs on 15-05-05.
  */
@@ -46,5 +48,10 @@ public class Point {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    public boolean equals(Point point) {
+        return Math.abs(this.x - point.x) < Constants.EPSILON
+                && Math.abs(this.y - point.y) < Constants.EPSILON;
     }
 }

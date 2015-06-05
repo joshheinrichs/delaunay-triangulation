@@ -150,9 +150,11 @@ public class Line {
         } else if(Double.isInfinite(this.slope)) {
             x = this.xIntercept;
             y = line.y(x);
+            System.out.println("infinite1");
         } else if (Double.isInfinite(line.slope)) {
             x = line.xIntercept;
             y = this.y(x);
+            System.out.println("infinite2");
         } else {
             x = (line.yIntercept - this.yIntercept)/(this.slope - line.slope);
             y = this.slope * x + this.yIntercept;

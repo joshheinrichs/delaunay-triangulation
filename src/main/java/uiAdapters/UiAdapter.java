@@ -403,9 +403,8 @@ public abstract class UiAdapter {
         JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
         Gson gson = new Gson();
         Point[] points = gson.fromJson(jsonReader, Point[].class);
-        for (Point point : points) {
-            model.addVertex(point);
-        }
+        ArrayList<Point> pointList = new ArrayList<Point>(Arrays.asList(points));
+        model.addVertexes(pointList);
         draw();
         redoMenuItem.setDisable(!canRedo());
         undoMenuItem.setDisable(!canUndo());
@@ -414,7 +413,7 @@ public abstract class UiAdapter {
     public void saveVertexes(File file) {
         try {
             if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("json")) {
-                file = new File(file.toString() + ".json");
+                file = new File(file.getName() + ".json");
             }
             Writer writer = new FileWriter(file.getPath());
             Gson gson = new Gson();

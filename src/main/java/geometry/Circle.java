@@ -27,11 +27,17 @@ public class Circle {
         Segment seg1 = new Segment(a, b);
         Segment seg2 = new Segment(b, c);
 
-        Line perp1 = seg1.perpendicular(seg1.midpoint());
-        Line perp2 = seg2.perpendicular(seg2.midpoint());
+        Line perp1 = seg1.getLine().perpendicular(seg1.midpoint());
+        Line perp2 = seg2.getLine().perpendicular(seg2.midpoint());
 
         this.center = perp1.intersect(perp2);
         this.radius = center.distance(a);
+    }
+
+    public Circle(Point a, Point b) {
+        Segment segment = new Segment(a, b);
+        this.center = segment.midpoint();
+        this.radius = segment.length() / 2.d;
     }
 
     /**
@@ -68,5 +74,10 @@ public class Circle {
         } else {
             return center.distance(p) < radius - Constants.EPSILON;
         }
+    }
+
+    public boolean equals(Circle circle) {
+        return this.center.equals(circle.center)
+                && Math.abs(this.radius - circle.radius) < Constants.EPSILON;
     }
 }
