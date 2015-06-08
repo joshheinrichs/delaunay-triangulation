@@ -26,6 +26,8 @@ public class DelaunayTriangulation extends Model {
 
     DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(this);
 
+    boolean unique = true;
+
     /**
      * Returns the vertex at the given index.
      * @param index
@@ -236,6 +238,14 @@ public class DelaunayTriangulation extends Model {
         return delaunayVertexes.get(a).getPoint().distance(delaunayVertexes.get(b).getPoint());
     }
 
+    /**
+     * Returns true if the Delauany triangulation is unique (i.e. no sets of 4 or more cocircular points), false
+     * otherwise.
+     * @return
+     */
+    public boolean isUnique() {
+        return this.unique;
+    }
 
     /**
      * Computes the Delaunay triangulation and voronoi diagram.
@@ -299,7 +309,7 @@ public class DelaunayTriangulation extends Model {
                 for (int j = i + 1; j < this.delaunayEdges.size(); j++) {
                     DelaunayEdge edge2 = this.delaunayEdges.get(j);
                     if (edge1.getSegment().intersects(edge2.getSegment())) {
-                        System.out.println(edge1 + " " + edge2);
+                        this.unique = false;
                         this.delaunayEdges.remove(edge2);
                         ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(edge2.getTriangles());
                         for (DelaunayTriangle triangle : triangles) {
