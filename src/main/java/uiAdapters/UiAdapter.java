@@ -56,6 +56,7 @@ public abstract class UiAdapter {
     MenuItem undoMenuItem = new MenuItem("Undo");
     MenuItem redoMenuItem = new MenuItem("Redo");
     MenuItem clearMenuItem = new MenuItem("Clear");
+    MenuItem resetCameraMenuItem = new MenuItem("Reset Camera");
 
     ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
     ArrayList<Integer> selectedEdges = new ArrayList<Integer>();
@@ -125,7 +126,7 @@ public abstract class UiAdapter {
 
         this.app = app;
 
-        editMenu.getItems().addAll(undoMenuItem, redoMenuItem, clearMenuItem);
+        editMenu.getItems().addAll(undoMenuItem, redoMenuItem, clearMenuItem, resetCameraMenuItem);
 
         undoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -153,7 +154,14 @@ public abstract class UiAdapter {
                 draw();
             }
         });
-        redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.SHORTCUT_DOWN));
+        clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.SHORTCUT_DOWN));
+
+        resetCameraMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                setCameraPosition(new Point(0,0));
+                setCameraZoom(1.0);
+            }
+        });
 
         undoMenuItem.setDisable(true);
         redoMenuItem.setDisable(true);
