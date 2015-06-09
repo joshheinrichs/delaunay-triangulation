@@ -441,7 +441,7 @@ public abstract class UiAdapter {
     public void saveVertexes(File file) {
         try {
             if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("json")) {
-                file = new File(file.getName() + ".json");
+                file = new File(file.toString() + ".json");
             }
             Writer writer = new FileWriter(file.getPath());
             Gson gson = new Gson();
