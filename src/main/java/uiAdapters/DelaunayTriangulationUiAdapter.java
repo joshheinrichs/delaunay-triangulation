@@ -83,6 +83,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new DelaunayAlphaStableSetting(this));
+        settings.add(new DelaunayModeSetting(this));
 
         drawBackground();
     }
@@ -341,6 +342,14 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         }
     }
 
+    public DelaunayTriangulation.Mode getMode() {
+        return ((DelaunayTriangulation) model).getMode();
+    }
+
+    public void setMode(DelaunayTriangulation.Mode mode) {
+        ((DelaunayTriangulation) model).setMode(mode);
+        draw();
+    }
 
     public boolean isVertexLabelsVisible() {
         return vertexLabels.isVisible();

@@ -28,6 +28,8 @@ public class DelaunayTriangulation extends Model {
 
     boolean unique = true;
 
+    Mode mode = Mode.FAST;
+
     /**
      * Returns the vertex at the given index.
      * @param index
@@ -40,7 +42,7 @@ public class DelaunayTriangulation extends Model {
     @Override
     public void addVertex(Point location) {
         delaunayVertexes.add(new Vertex(location));
-        generate_delaunay();
+        update();
     }
 
     @Override
@@ -48,19 +50,19 @@ public class DelaunayTriangulation extends Model {
         for (Point point : points) {
             delaunayVertexes.add(new Vertex(point));
         }
-        generate_delaunay();
+        update();
     }
 
     @Override
     public void moveVertex(int index, Point location) {
         delaunayVertexes.get(index).setPoint(location);
-        generate_delaunay();
+        update();
     }
 
     @Override
     public void removeVertex(int index) {
         delaunayVertexes.remove(index);
-        generate_delaunay();
+        update();
     }
 
     @Override
@@ -70,7 +72,7 @@ public class DelaunayTriangulation extends Model {
             Vertex vertex = delaunayVertexes.get(indexes.get(i));
             vertex.setPoint(new Point(vertex.getPoint().x + x, vertex.getPoint().y + y));
         }
-        generate_delaunay();
+        update();
     }
 
     @Override
@@ -79,13 +81,13 @@ public class DelaunayTriangulation extends Model {
             delaunayVertexes.set(index, null);
         }
         delaunayVertexes.removeAll(Collections.singleton(null));
-        generate_delaunay();
+        update();
     }
 
     @Override
     public void clearVertexes() {
         delaunayVertexes.clear();
-        generate_delaunay();
+        update();
     }
 
     @Override
@@ -250,7 +252,7 @@ public class DelaunayTriangulation extends Model {
     /**
      * Computes the Delaunay triangulation and voronoi diagram.
      */
-    void generate_delaunay() {
+    void update() {
         generate_delaunay_n4();
         generate_voronoi();
         graph.update();
@@ -262,6 +264,7 @@ public class DelaunayTriangulation extends Model {
     void generate_delaunay_n4() {
         delaunayEdges.clear();
         triangles.clear();
+        unique = true;
 
         DelaunayEdge[][] delaunayEdges = new DelaunayEdge[delaunayVertexes.size()][delaunayVertexes.size()];
 
@@ -276,10 +279,12 @@ public class DelaunayTriangulation extends Model {
                             if (circle.contains(delaunayVertexes.get(l).getPoint(), false)) {
                                 intersected = true;
                                 break;
+                            } else if (circle.contains(delaunayVertexes.get(l).getPoint(), true)
+                                    && l != i && l != j && l != k) {
+                                unique = false;
                             }
                         }
                         if (!intersected) {
-
                             if(delaunayEdges[i][j] == null) {
                                 delaunayEdges[i][j] = new DelaunayEdge(delaunayVertexes.get(i), delaunayVertexes.get(j));
                                 this.delaunayEdges.add(delaunayEdges[i][j]);
@@ -303,22 +308,82 @@ public class DelaunayTriangulation extends Model {
                 }
             }
 
-            //checks for intersecting edges in the case of > 3 cocircular vertexes.
-            for (int i = 0; i < this.delaunayEdges.size(); i++) {
-                DelaunayEdge edge1 = this.delaunayEdges.get(i);
-                for (int j = i + 1; j < this.delaunayEdges.size(); j++) {
-                    DelaunayEdge edge2 = this.delaunayEdges.get(j);
-                    if (edge1.getSegment().intersects(edge2.getSegment())) {
-                        this.unique = false;
-                        this.delaunayEdges.remove(edge2);
-                        ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(edge2.getTriangles());
-                        for (DelaunayTriangle triangle : triangles) {
-                            triangle.delete();
-                            this.triangles.remove(triangle);
+            if (mode == Mode.FAST) {
+                if (!this.isUnique()) {
+                    //checks for intersecting edges in the case of > 3 cocircular vertexes.
+                    for (int i = 0; i < this.delaunayEdges.size(); i++) {
+                        DelaunayEdge edge1 = this.delaunayEdges.get(i);
+                        for (int j = i + 1; j < this.delaunayEdges.size(); j++) {
+                            DelaunayEdge edge2 = this.delaunayEdges.get(j);
+                            if (edge1.getSegment().intersects(edge2.getSegment())) {
+                                this.delaunayEdges.remove(edge2);
+                                ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(edge2.getTriangles());
+                                for (DelaunayTriangle triangle : triangles) {
+                                    triangle.delete();
+                                    this.triangles.remove(triangle);
+                                }
+                            }
                         }
                     }
                 }
             }
+//            } else if (mode == Mode.MAX_DISTANCE_RATIO) {
+//                //generate all triangle set combinations (O(2^(n^4))
+//                ArrayList<DelaunayTriangulation> dtList; //TODO
+//
+//                //discard triangle sets in which edges intersect (O(n^2) each)
+//                for (DelaunayTriangulation dt : dtList) {
+//                    for (DelaunayEdge edge1 : dt.delaunayEdges) {
+//                        for (DelaunayEdge edge2 : dt.delaunayEdges) {
+//                            if (edge1.getSegment().intersects(edge2.getSegment())) {
+//                                //TODO delete triangulation
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                //discard triangle sets in which edges are missing (O(n^2) each)
+//                for (DelaunayTriangulation dt : dtList) {
+//                    for (Vertex vertex1 : dt.delaunayVertexes) {
+//                        for (Vertex vertex2 : dt.delaunayVertexes) {
+//                            Circle circumcircle = new Circle(vertex1.getPoint(), vertex2.getPoint());
+//                            boolean intersected = false;
+//                            for (Vertex vertex3 : dt.delaunayVertexes) {
+//                                if (circumcircle.contains(vertex3.getPoint(), false)) {
+//                                    intersected = true;
+//                                    break;
+//                                }
+//                            }
+//                            if (!intersected) {
+//                                if (!vertex1.isConnected(vertex2)) {
+//                                    //TODO delete triangulation
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                //compute max ratio from remaining triangulations
+//                double maxRatio = 0.d;
+//                DelaunayTriangulation maxTriangulation = null;
+//                for (DelaunayTriangulation dt : dtList) {
+//                    DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(dt);
+//                    for (int i = 0; i < dt.delaunayVertexes.size(); i++) {
+//                        for (int j = i+1; j < dt.delaunayVertexes.size(); j++) {
+//                            double delaunayDistance = graph.getDistance(dt.getVertex(i), dt.getVertex(j));
+//                            double ratio = dt.getVertex(i).getPoint().distance(dt.getVertex(j).getPoint()) / delaunayDistance;
+//                            if (ratio > maxRatio) {
+//                                maxRatio = ratio;
+//                                maxTriangulation = dt;
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                this.delaunayVertexes = maxTriangulation.delaunayVertexes;
+//                this.delaunayEdges = maxTriangulation.delaunayEdges;
+//                this.triangles = maxTriangulation.triangles;
+//            }
 
         }
     }
@@ -414,6 +479,15 @@ public class DelaunayTriangulation extends Model {
                 voronoiEdges.add(new Edge(a, b));
             }
         }
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+        update();
+    }
+
+    public Mode getMode() {
+        return this.mode;
     }
 
     /**
@@ -581,5 +655,21 @@ public class DelaunayTriangulation extends Model {
             this.alphaStability = alphaStability;
         }
 
+    }
+
+    public enum Mode {
+        FAST("Fast"),
+        MAX_DISTANCE_RATIO("Maximize Distance Ratio");
+
+        private final String text;
+
+        Mode(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
     }
 }
