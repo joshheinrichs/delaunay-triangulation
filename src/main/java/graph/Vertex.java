@@ -53,6 +53,14 @@ public class Vertex {
         }
     }
 
+    public boolean isConnected(Vertex vertex) {
+        Vertex temp1 = new Vertex(this.getPoint());
+        Vertex temp2 = new Vertex(vertex.getPoint());
+
+        return this.edges.containsKey(new Edge(temp1, temp2).toString())
+                || this.edges.containsKey(new Edge(temp2, temp1).toString());
+    }
+
     @Override
     public String toString() {
         return this.point.toString();
