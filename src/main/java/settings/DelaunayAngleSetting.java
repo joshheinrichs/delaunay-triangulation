@@ -3,8 +3,8 @@ package settings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -21,9 +21,8 @@ public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
     public DelaunayAngleSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 
-        root = new Group();
-
-        HBox hBox = new HBox();
+        HBox hBox = new HBox(5);
+        hBox.setPadding(new Insets(5));
         hBox.setAlignment(Pos.CENTER_LEFT);
 
         root.getChildren().add(hBox);

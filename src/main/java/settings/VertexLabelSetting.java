@@ -1,7 +1,6 @@
 package settings;
 
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import uiAdapters.DelaunayTriangulationUiAdapter;
@@ -14,7 +13,6 @@ public class VertexLabelSetting extends DelaunayTriangulationSetting {
     public VertexLabelSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 
-        root = new Group();
         CheckBox checkBox = new CheckBox("Vertex Labels");
         checkBox.setSelected(dt.isVertexLabelsVisible());
         checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
