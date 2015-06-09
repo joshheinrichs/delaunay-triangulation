@@ -29,7 +29,10 @@ public class Angle {
         if( Math.abs(((angle1 + getAngle(A, B, C)) % 360) - angle2) < Constants.EPSILON ) {
             return angle1;
         } else {
-            assert( Math.abs(((angle2 + getAngle(A, B, C)) % 360) - angle1) < Constants.EPSILON ) : angle1 + ", " + angle2;
+            assert( Math.abs(((angle2 + getAngle(A, B, C)) % 360) - angle1) < Constants.EPSILON ):
+                    "Starting angle could not be computed.\n" +
+                    "Angles: " + angle1 + ", " + angle2 + "\n"+
+                    "Points: " + A + ", " + B + ", " + C + "\n";
             return angle2;
         }
     }
