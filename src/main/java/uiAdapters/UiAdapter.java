@@ -3,6 +3,7 @@ package uiAdapters;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import geometry.Point;
+import graph.Edge;
 import graph.Vertex;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -126,6 +127,20 @@ public abstract class UiAdapter {
                 }
             };
 
+    EventHandler<MouseEvent> edgeOnMouseClickedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.edgeOnMouseClicked(t);
+                }
+            };
+
+    EventHandler<MouseEvent> angleOnMouseClickedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.angleOnMouseClicked(t);
+                }
+            };
+
     public UiAdapter(App app) {
 
         this.app = app;
@@ -233,6 +248,10 @@ public abstract class UiAdapter {
     public void clearVertexes() {
         model.clearVertexes();
         saveState();
+    }
+
+    public Edge getEdge(String id) {
+        return model.getEdge(Integer.parseInt(id));
     }
 
     /**

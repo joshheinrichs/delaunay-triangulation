@@ -109,4 +109,44 @@ public class DelaunayDistanceTool extends Tool {
     public void vertexOnMouseDragged(MouseEvent t) {
 
     }
+
+    @Override
+    public void edgeOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
+    public void edgeOnMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void edgeOnMouseReleased(MouseEvent t) {
+
+    }
+
+    @Override
+    public void edgeOnMouseDragged(MouseEvent t) {
+
+    }
+
+    @Override
+    public void angleOnMouseClicked(MouseEvent t) {
+
+    }
+
+    @Override
+    public void angleOnMousePressed(MouseEvent t) {
+
+    }
+
+    @Override
+    public void angleOnMouseReleased(MouseEvent t) {
+
+    }
+
+    @Override
+    public void angleOnMouseDragged(MouseEvent t) {
+
+    }
 }

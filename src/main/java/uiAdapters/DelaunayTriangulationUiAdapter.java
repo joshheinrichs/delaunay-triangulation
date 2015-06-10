@@ -118,6 +118,9 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             line.setStroke(DELAUNAY_UNSELECTED_EDGE_COLOR);
         }
 
+        line.setOnMouseClicked(edgeOnMouseClickedEventHandler);
+        line.setId(Integer.toString(index));
+
 //        group.getChildren().add(line);
 //
 //        Point midpoint = segment.midpoint();
@@ -235,6 +238,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             a.setStrokeWidth(2.d);
             a.setFill(Color.TRANSPARENT);
             a.setStroke(Color.BLACK);
+            a.setOnMouseClicked(angleOnMouseClickedEventHandler);
             group.getChildren().add(a);
         }
 
@@ -250,6 +254,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             b.setStrokeWidth(2.d);
             b.setFill(Color.TRANSPARENT);
             b.setStroke(Color.BLACK);
+            b.setOnMouseClicked(angleOnMouseClickedEventHandler);
             group.getChildren().add(b);
         }
 
@@ -265,6 +270,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
             c.setStrokeWidth(2.d);
             c.setFill(Color.TRANSPARENT);
             c.setStroke(Color.BLACK);
+            c.setOnMouseClicked(angleOnMouseClickedEventHandler);
             group.getChildren().add(c);
         }
 

@@ -49,6 +49,16 @@ public abstract class Tool {
     public abstract void vertexOnMousePressed(MouseEvent t);
     public abstract void vertexOnMouseReleased(MouseEvent t);
     public abstract void vertexOnMouseDragged(MouseEvent t);
+
+    public abstract void edgeOnMouseClicked(MouseEvent t);
+    public abstract void edgeOnMousePressed(MouseEvent t);
+    public abstract void edgeOnMouseReleased(MouseEvent t);
+    public abstract void edgeOnMouseDragged(MouseEvent t);
+
+    public abstract void angleOnMouseClicked(MouseEvent t);
+    public abstract void angleOnMousePressed(MouseEvent t);
+    public abstract void angleOnMouseReleased(MouseEvent t);
+    public abstract void angleOnMouseDragged(MouseEvent t);
     
     public Group getGraphRoot() {
         return graphRoot;

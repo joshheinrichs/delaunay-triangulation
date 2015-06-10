@@ -454,10 +454,18 @@ public class DelaunayTriangulation extends Model {
                 Vertex a = new Vertex(triangles.get(0).getCircumcircle().center);
                 Vertex b = new Vertex(triangles.get(1).getCircumcircle().center);
 
-                edge.setAlphaStable(
-                        Math.min(
-                            Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint())),
-                                Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint()))));
+                double angle1 = Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().start, b.getPoint()));
+                double angle2 = Math.toRadians(Angle.getAngle(a.getPoint(), edge.getSegment().end, b.getPoint()));
+
+                if (Double.isNaN(angle1) && Double.isNaN(angle2)) {
+                    edge.setAlphaStable(0.0);
+                } else if (Double.isNaN(angle1)) {
+                    edge.setAlphaStable(angle2);
+                } else if (Double.isNaN(angle2)) {
+                    edge.setAlphaStable(angle1);
+                } else {
+                    edge.setAlphaStable(Math.min(angle1, angle2));
+                }
 
                 voronoiVertexes.add(a);
                 voronoiVertexes.add(b);

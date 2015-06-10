@@ -45,13 +45,19 @@ public class Point {
         return new Point((this.x + point.x)/2, (this.y + point.y)/2);
     }
 
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ")";
-    }
-
+    /**
+     * Returns true if the x and y coordinates of the given point are within {@link Constants#EPSILON} of this point,
+     * false otherwise.
+     * @param point
+     * @return
+     */
     public boolean equals(Point point) {
         return Math.abs(this.x - point.x) < Constants.EPSILON
                 && Math.abs(this.y - point.y) < Constants.EPSILON;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }
