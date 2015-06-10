@@ -53,7 +53,6 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
-        System.out.println(selectStartX + " " + selectStartY + " " + t.getX() + " " + t.getY());
         uiAdapter.deselectAllVertexes();
         uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
