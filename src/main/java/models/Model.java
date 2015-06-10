@@ -3,7 +3,6 @@ package models;
 import geometry.Point;
 import graph.Edge;
 import graph.Vertex;
-
 import java.util.List;
 
 /**
