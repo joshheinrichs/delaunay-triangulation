@@ -20,7 +20,7 @@ import uiAdapters.DelaunayTriangulationUiAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class App extends Application {
 
@@ -106,11 +106,10 @@ public class App extends Application {
         toolBar.setPrefWidth(scene.getWidth());
         toolBar.setMaxWidth(Double.MAX_VALUE);
 
-        ArrayList<Tool> tools = modelAdapter.getTools();
+        List<Tool> tools = modelAdapter.getTools();
         for (Tool tool : tools) {
             toolBar.getItems().add(tool.getToolBarRoot());
         }
-
 
         ToolBar optionsBar = new ToolBar();
         optionsBar.setPrefWidth(scene.getWidth());

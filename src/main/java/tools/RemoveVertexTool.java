@@ -77,8 +77,8 @@ public class RemoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        int index = Integer.parseInt(((Circle) t.getSource()).getId());
-        uiAdapter.removeVertex(index);
+        String id = ((Circle) t.getSource()).getId();
+        uiAdapter.removeVertex(id);
         uiAdapter.draw();
     }
 

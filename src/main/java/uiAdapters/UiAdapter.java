@@ -23,7 +23,9 @@ import ui.App;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  * A {@link UiAdapter} provides an interface between a {@link Model} and the UI. The {@link UiAdapter} handles
@@ -167,7 +169,7 @@ public abstract class UiAdapter {
         redoMenuItem.setDisable(true);
     }
 
-    public ArrayList<Tool> getTools() {
+    public List<Tool> getTools() {
         return tools;
     }
 
@@ -186,7 +188,7 @@ public abstract class UiAdapter {
         draw();
     }
 
-    public ArrayList<Setting> getSettings() {
+    public List<Setting> getSettings() {
         return settings;
     }
 
@@ -219,13 +221,13 @@ public abstract class UiAdapter {
         saveState();
     }
 
-    public void removeVertex(int index) {
-        model.removeVertex(index);
+    public void removeVertex(String id) {
+        model.removeVertex(Integer.parseInt(id));
         saveState();
     }
 
-    public void moveVertex(int index, double x, double y) {
-        model.moveVertex(index, new Point(x, y));
+    public void moveVertex(String id, double x, double y) {
+        model.moveVertex(Integer.parseInt(id), new Point(x, y));
         saveTempState();
     }
 
@@ -250,16 +252,17 @@ public abstract class UiAdapter {
         saveState();
     }
 
-    public ArrayList<Integer> getVertexes(double startX, double startY, double endX, double endY) {
-        return model.getVertexes(startX, startY, endX, endY);
+    public List<String> getVertexes(double startX, double startY, double endX, double endY) {
+        return model.getVertexes(startX, startY, endX, endY).stream().map(Object::toString).collect(Collectors.toList());
     }
 
-    public ArrayList<Integer> getSelectedVertexes() {
-        return selectedVertexes;
+    public List<String> getSelectedVertexes() {
+        return selectedVertexes.stream().map(Object::toString).collect(Collectors.toList());
     }
 
-    public void selectVertex(int index) {
-        if (!isVertexSelected(index)) {
+    public void selectVertex(String id) {
+        if (!isVertexSelected(id)) {
+            int index = Integer.parseInt(id);
             boolean inserted = false;
             for (int i = 0; i < selectedVertexes.size(); i++) {
                 if (index < selectedVertexes.get(i)) {
@@ -275,10 +278,8 @@ public abstract class UiAdapter {
         }
     }
 
-    public void selectVertexes(ArrayList<Integer> indexes) {
-        for (Integer index : indexes) {
-            selectVertex(index);
-        }
+    public void selectVertexes(List<String> ids) {
+        ids.forEach(this::selectVertex);
     }
 
     public void selectAllVertexes() {
@@ -289,15 +290,13 @@ public abstract class UiAdapter {
         tempState = false;
     }
 
-    public void deselectVertex(int index) {
-        selectedVertexes.remove(new Integer(index));
+    public void deselectVertex(String id) {
+        selectedVertexes.remove(new Integer(id));
         tempState = false;
     }
 
-    public void deselectVertexes(ArrayList<Integer> indexes) {
-        for (Integer index : indexes) {
-            deselectVertex(index);
-        }
+    public void deselectVertexes(List<String> ids) {
+        ids.forEach(this::deselectVertex);
         tempState = false;
     }
 
@@ -307,20 +306,21 @@ public abstract class UiAdapter {
     }
 
     /**
-     * Returns true if the vertex at the given index is selected, false otherwise
-     * @param index Index of the vertex
+     * Returns true if the vertex with the given ID is selected, false otherwise
+     * @param id ID of the vertex
      * @return
      */
-    public boolean isVertexSelected(int index) {
-        return selectedVertexes.contains(new Integer(index));
+    public boolean isVertexSelected(String id) {
+        return selectedVertexes.contains(new Integer(id));
     }
 
-    public ArrayList<Integer> getSelectedEdges() {
-        return selectedEdges;
+    public List<String> getSelectedEdges() {
+        return selectedEdges.stream().map(Object::toString).collect(Collectors.toList());
     }
 
-    public void selectEdge(int index) {
-        if (!isEdgeSelected(index)) {
+    public void selectEdge(String id) {
+        if (!isEdgeSelected(id)) {
+            int index = Integer.parseInt(id);
             boolean inserted = false;
             for (int i = 0; i < selectedEdges.size(); i++) {
                 if (index < selectedEdges.get(i)) {
@@ -335,10 +335,8 @@ public abstract class UiAdapter {
         }
     }
 
-    public void selectEdges(ArrayList<Integer> indexes) {
-        for (Integer index : indexes) {
-            selectEdge(index);
-        }
+    public void selectEdges(List<String> ids) {
+        ids.forEach(this::selectEdge);
     }
 
     public void selectAllEdges() {
@@ -348,22 +346,20 @@ public abstract class UiAdapter {
         }
     }
 
-    public void deselectEdge(int index) {
-        selectedEdges.remove(new Integer(index));
+    public void deselectEdge(String id) {
+        selectedEdges.remove(new Integer(id));
     }
 
-    public void deselectEdges(ArrayList<Integer> indexes) {
-        for (Integer index : indexes) {
-            deselectEdge(index);
-        }
+    public void deselectEdges(List<String> ids) {
+        ids.forEach(this::deselectEdge);
     }
 
     public void deselectAllEdges() {
         selectedEdges.clear();
     }
 
-    public boolean isEdgeSelected(int index) {
-        return selectedEdges.contains(new Integer(index));
+    public boolean isEdgeSelected(String id) {
+        return selectedEdges.contains(new Integer(id));
     }
 
     public String getOutput() {

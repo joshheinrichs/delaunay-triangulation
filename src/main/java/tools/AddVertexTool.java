@@ -2,7 +2,6 @@ package tools;
 
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
 import uiAdapters.UiAdapter;
 
 /**
@@ -11,6 +10,7 @@ import uiAdapters.UiAdapter;
 public class AddVertexTool extends Tool {
 
     MoveVertexTool moveTool = new MoveVertexTool(uiAdapter);
+    RemoveVertexTool removeTool = new RemoveVertexTool(uiAdapter);
 
     public AddVertexTool(UiAdapter uiAdapter) {
         super(uiAdapter);
@@ -71,9 +71,7 @@ public class AddVertexTool extends Tool {
         if(t.getButton() == MouseButton.PRIMARY) {
             moveTool.vertexOnMousePressed(t);
         } else if (t.getButton() == MouseButton.SECONDARY) {
-            int index = Integer.parseInt(((Circle) t.getSource()).getId());
-            uiAdapter.removeVertex(index);
-            uiAdapter.draw();
+            removeTool.vertexOnMousePressed(t);
         }
     }
 

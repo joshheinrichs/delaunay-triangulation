@@ -15,6 +15,8 @@ import tools.*;
 import ui.App;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static models.DelaunayTriangulation.BOUNDS;
 
@@ -93,16 +95,18 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         return "Delaunay Triangulation";
     }
 
-    public double getDelaunayDistance(int a, int b) {
-        return ((DelaunayTriangulation) model).getDelaunayDistance(a, b);
+    public double getDelaunayDistance(String id1, String id2) {
+        return ((DelaunayTriangulation) model).getDelaunayDistance(Integer.parseInt(id1), Integer.parseInt(id2));
     }
 
-    public ArrayList<Integer> getDelaunayPath(int a, int b) {
-        return ((DelaunayTriangulation) model).getDelaunayPath(a, b);
+    public List<String> getDelaunayPath(String id1, String id2) {
+        return ((DelaunayTriangulation) model).getDelaunayPath(Integer.parseInt(id1), Integer.parseInt(id2))
+                .stream().map(Object::toString)
+                .collect(Collectors.toList());
     }
 
-    public double getStraightDistance(int a, int b) {
-        return ((DelaunayTriangulation) model).getStraightDistance(a, b);
+    public double getStraightDistance(String id1, String id2) {
+        return ((DelaunayTriangulation) model).getStraightDistance(Integer.parseInt(id1), Integer.parseInt(id2));
     }
 
     void drawDelaunayEdge(Edge edge, int index, boolean selected) {

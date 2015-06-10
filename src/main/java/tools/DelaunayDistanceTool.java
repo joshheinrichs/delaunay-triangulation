@@ -67,24 +67,24 @@ public class DelaunayDistanceTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        int index = Integer.parseInt(((Circle) t.getSource()).getId());
+        String id = ((Circle) t.getSource()).getId();
 
         if (uiAdapter.getSelectedVertexes().size() == 0) {
-            uiAdapter.selectVertex(index);
+            uiAdapter.selectVertex(id);
             uiAdapter.draw();
         } else if (uiAdapter.getSelectedVertexes().size() == 1) {
-            if (!uiAdapter.isVertexSelected(index)) {
-                uiAdapter.selectVertex(index);
+            if (!uiAdapter.isVertexSelected(id)) {
+                uiAdapter.selectVertex(id);
 
-                int a = uiAdapter.getSelectedVertexes().get(0);
-                int b = uiAdapter.getSelectedVertexes().get(1);
+                String id1 = uiAdapter.getSelectedVertexes().get(0);
+                String id2 = uiAdapter.getSelectedVertexes().get(1);
 
-                double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(a, b);
-                double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(a, b);
+                double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(id1, id2);
+                double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(id1, id2);
                 double distanceRatio = delaunayDistance/straightDistance;
 
                 uiAdapter.deselectAllEdges();
-                uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(a, b));
+                uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(id1, id2));
 
                 uiAdapter.appendToOutput("\n");
                 uiAdapter.appendToOutput("Delaunay Distance: " + delaunayDistance + "\n");
@@ -95,7 +95,7 @@ public class DelaunayDistanceTool extends Tool {
         } else if (uiAdapter.getSelectedVertexes().size() == 2) {
             uiAdapter.deselectAllEdges();
             uiAdapter.deselectAllVertexes();
-            uiAdapter.selectVertex(index);
+            uiAdapter.selectVertex(id);
             uiAdapter.draw();
         }
     }

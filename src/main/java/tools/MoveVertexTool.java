@@ -23,17 +23,13 @@ public class MoveVertexTool extends Tool {
     }
 
     @Override
-    public void onMouseClicked(MouseEvent t) {
-
-    }
+    public void onMouseClicked(MouseEvent t) { }
 
     @Override
     public void onMousePressed(MouseEvent t) { }
 
     @Override
-    public void onMouseReleased(MouseEvent t) {
-
-    }
+    public void onMouseReleased(MouseEvent t) { }
 
     @Override
     public void onMouseDragged(MouseEvent t) { }
@@ -68,16 +64,14 @@ public class MoveVertexTool extends Tool {
     }
 
     @Override
-    public void vertexOnMouseClicked(MouseEvent t) {
-
-    }
+    public void vertexOnMouseClicked(MouseEvent t) { }
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        int index = Integer.parseInt(((Circle) t.getSource()).getId());
-        if(!uiAdapter.isVertexSelected(index)) {
+        String id = ((Circle) t.getSource()).getId();
+        if(!uiAdapter.isVertexSelected(id)) {
             uiAdapter.deselectAllVertexes();
-            uiAdapter.selectVertex(index);
+            uiAdapter.selectVertex(id);
         }
         moveStartX = t.getX();
         moveStartY = t.getY();
@@ -86,9 +80,7 @@ public class MoveVertexTool extends Tool {
     }
 
     @Override
-    public void vertexOnMouseReleased(MouseEvent t) {
-
-    }
+    public void vertexOnMouseReleased(MouseEvent t) { }
 
     @Override
     public void vertexOnMouseDragged(MouseEvent t) {
