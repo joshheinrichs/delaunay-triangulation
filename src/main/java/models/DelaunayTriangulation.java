@@ -83,6 +83,11 @@ public class DelaunayTriangulation extends Model {
     }
 
     @Override
+    public Edge getEdge(int index) {
+        return delaunayEdges.get(index);
+    }
+
+    @Override
     public void clearVertexes() {
         delaunayVertexes.clear();
         update();

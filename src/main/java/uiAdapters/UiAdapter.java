@@ -103,6 +103,14 @@ public abstract class UiAdapter {
                 }
             };
 
+    EventHandler<MouseEvent> vertexOnMouseClickedEventHandler =
+            new EventHandler<MouseEvent>() {
+
+                public void handle(MouseEvent t) {
+                    selectedTool.vertexOnMouseClicked(t);
+                }
+            };
+
     EventHandler<MouseEvent> vertexOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
@@ -160,11 +168,12 @@ public abstract class UiAdapter {
     }
 
     public void addTool(Tool tool) {
-        tools.add(tool);
+        this.tools.add(tool);
+        this.root.getChildren().add(tool.getGraphRoot());
     }
 
     public Tool getSelectedTool() {
-        return selectedTool;
+        return this.selectedTool;
     }
 
     public void setSelectedTool(Tool tool) {
@@ -201,6 +210,10 @@ public abstract class UiAdapter {
      * @return
      */
     public abstract String getName();
+
+    public Vertex getVertex(String id) {
+        return model.getVertex(Integer.parseInt(id));
+    }
 
     public void addVertex(double x, double y) {
         model.addVertex(new Point(x, y));

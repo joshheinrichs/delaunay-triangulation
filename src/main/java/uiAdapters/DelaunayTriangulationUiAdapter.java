@@ -59,19 +59,15 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         circumcircles.setVisible(false);
 
-        MoveVertexTool moveVertexTool = new MoveVertexTool(this);
-        RemoveVertexTool removeVertexTool = new RemoveVertexTool(this);
+        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels);
 
-        tools.add(new AddVertexTool(this));
-        tools.add(moveVertexTool);
-        tools.add(removeVertexTool);
-        tools.add(new PanTool(this));
-        tools.add(new ZoomTool(this));
-        tools.add(new DelaunayDistanceTool(this));
-
-        root.getChildren().addAll(
-                background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels,
-                moveVertexTool.getGraphRoot(), removeVertexTool.getGraphRoot());
+        this.addTool(new AddVertexTool(this));
+        this.addTool(new MoveVertexTool(this));
+        this.addTool(new RemoveVertexTool(this));
+        this.addTool(new PanTool(this));
+        this.addTool(new ZoomTool(this));
+        this.addTool(new DelaunayDistanceTool(this));
+        this.addTool(new DelaunayInformationTool(this));
 
         root.setOnMousePressed(onMousePressedEventHandler);
         root.setOnMouseDragged(onMouseDraggedEventHandler);
@@ -169,6 +165,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         circle.setId(Integer.toString(index));
 
+        circle.setOnMouseClicked(vertexOnMouseClickedEventHandler);
         circle.setOnMousePressed(vertexOnMousePressedEventHandler);
         circle.setOnMouseDragged(vertexOnMouseDraggedEventHandler);
 
