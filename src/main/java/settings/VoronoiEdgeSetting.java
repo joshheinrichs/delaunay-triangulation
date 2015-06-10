@@ -1,8 +1,6 @@
 package settings;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
-import javafx.scene.input.MouseEvent;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
@@ -15,11 +13,7 @@ public class VoronoiEdgeSetting extends DelaunayTriangulationSetting {
 
         CheckBox checkBox = new CheckBox("Voronoi Edges");
         checkBox.setSelected(dt.isVoronoiEdgesVisible());
-        checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent t) {
-                dt.setVoronoiEdgesVisible(((CheckBox) t.getSource()).isSelected());
-            }
-        });
+        checkBox.setOnMouseClicked(t -> dt.setVoronoiEdgesVisible(((CheckBox) t.getSource()).isSelected()));
 
         root.getChildren().add(checkBox);
     }

@@ -3,8 +3,9 @@ package graph;
 
 import geometry.Point;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by joshheinrichs on 15-05-05.
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public class Vertex {
 
     Point point;
-    HashMap<String, Edge> edges = new HashMap<String, Edge>();
+    HashMap<String, Edge> edges = new HashMap<>();
 
     public Vertex(Point point) {
         this.point = point;
@@ -26,12 +27,8 @@ public class Vertex {
         edges.remove(edge.toString());
     }
 
-    public ArrayList<Edge> getEdges() {
-        ArrayList<Edge> list = new ArrayList<Edge>(edges.size());
-        for (String s : edges.keySet()) {
-            list.add(edges.get(s));
-        }
-        return list;
+    public List<Edge> getEdges() {
+        return edges.keySet().stream().map(edges::get).collect(Collectors.toList());
     }
 
     public Point getPoint() {

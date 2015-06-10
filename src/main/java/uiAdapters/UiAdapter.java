@@ -1,11 +1,9 @@
 package uiAdapters;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import geometry.Point;
 import graph.Vertex;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Menu;
@@ -37,21 +35,19 @@ public abstract class UiAdapter {
 
     Model model;
 
-    ArrayList<Tool> tools = new ArrayList<Tool>();
+    ArrayList<Tool> tools = new ArrayList<>();
     Tool selectedTool;
 
-    ArrayList<Setting> settings = new ArrayList<Setting>();
+    ArrayList<Setting> settings = new ArrayList<>();
 
     final Group root = new Group();
 
-    Stack<String> undo = new Stack<String>();
+    Stack<String> undo = new Stack<>();
     String state = "[]";
-    Stack<String> redo = new Stack<String>();
+    Stack<String> redo = new Stack<>();
 
     /** Used to mark whether or not the state should be overwritten */
     boolean tempState = false;
-
-    String output = "";
 
     Menu editMenu = new Menu("Edit");
 
@@ -60,12 +56,11 @@ public abstract class UiAdapter {
     MenuItem clearMenuItem = new MenuItem("Clear");
     MenuItem resetCameraMenuItem = new MenuItem("Reset Camera");
 
-    ArrayList<Integer> selectedVertexes = new ArrayList<Integer>();
-    ArrayList<Integer> selectedEdges = new ArrayList<Integer>();
+    ArrayList<Integer> selectedVertexes = new ArrayList<>();
+    ArrayList<Integer> selectedEdges = new ArrayList<>();
 
     EventHandler<MouseEvent> onMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 public void handle(MouseEvent t) {
                     selectedTool.onMousePressed(t);
                 }
@@ -73,7 +68,6 @@ public abstract class UiAdapter {
 
     EventHandler<MouseEvent> onMouseDraggedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 public void handle(MouseEvent t) {
                     selectedTool.onMouseDragged(t);
                 }
@@ -130,39 +124,31 @@ public abstract class UiAdapter {
 
         editMenu.getItems().addAll(undoMenuItem, redoMenuItem, clearMenuItem, resetCameraMenuItem);
 
-        undoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                if (canUndo()) {
-                    undo();
-                    draw();
-                }
+        undoMenuItem.setOnAction(event -> {
+            if (canUndo()) {
+                undo();
+                draw();
             }
         });
         undoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN));
 
-        redoMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                if (canRedo()) {
-                    redo();
-                    draw();
-                }
+        redoMenuItem.setOnAction(event -> {
+            if (canRedo()) {
+                redo();
+                draw();
             }
         });
         redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.SHORTCUT_DOWN));
 
-        clearMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                clearVertexes();
-                draw();
-            }
+        clearMenuItem.setOnAction(event -> {
+            clearVertexes();
+            draw();
         });
         clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.SHORTCUT_DOWN));
 
-        resetCameraMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                setCameraPosition(new Point(0,0));
-                setCameraZoom(1.0);
-            }
+        resetCameraMenuItem.setOnAction(event -> {
+            setCameraPosition(new Point(0,0));
+            setCameraZoom(1.0);
         });
 
         undoMenuItem.setDisable(true);
@@ -422,12 +408,10 @@ public abstract class UiAdapter {
 
     public void loadVertexes(File file) throws FileNotFoundException {
         model.clearVertexes();
-        JsonObject jsonObject = new JsonObject();
-        file.getAbsolutePath();
         JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
         Gson gson = new Gson();
         Point[] points = gson.fromJson(jsonReader, Point[].class);
-        ArrayList<Point> pointList = new ArrayList<Point>(Arrays.asList(points));
+        ArrayList<Point> pointList = new ArrayList<>(Arrays.asList(points));
         model.addVertexes(pointList);
         draw();
         redoMenuItem.setDisable(!canRedo());
@@ -441,11 +425,8 @@ public abstract class UiAdapter {
             }
             Writer writer = new FileWriter(file.getPath());
             Gson gson = new Gson();
-            ArrayList<Vertex> vertexes = model.getVertexes();
-            ArrayList<Point> points = new ArrayList<Point>(vertexes.size());
-            for (Vertex vertex : vertexes) {
-                points.add(vertex.getPoint());
-            }
+            List<Vertex> vertexes = model.getVertexes();
+            List<Point> points = vertexes.stream().map(Vertex::getPoint).collect(Collectors.toList());
             gson.toJson(points, writer);
             writer.close();
         } catch (IOException e) {
@@ -454,11 +435,8 @@ public abstract class UiAdapter {
     }
 
     String toJson() {
-        ArrayList<Vertex> vertexes = model.getVertexes();
-        ArrayList<Point> points = new ArrayList<Point>(vertexes.size());
-        for (Vertex vertex : vertexes) {
-            points.add(vertex.getPoint());
-        }
+        List<Vertex> vertexes = model.getVertexes();
+        List<Point> points = vertexes.stream().map(Vertex::getPoint).collect(Collectors.toList());
         Gson gson = new Gson();
         return gson.toJson(points);
     }
@@ -466,7 +444,7 @@ public abstract class UiAdapter {
     ArrayList<Point> fromJson(String json) {
         Gson gson = new Gson();
         Point[] points = gson.fromJson(json, Point[].class);
-        return new ArrayList<Point>(Arrays.asList(points));
+        return new ArrayList<>(Arrays.asList(points));
     }
 
     public abstract void draw();

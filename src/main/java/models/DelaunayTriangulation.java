@@ -8,6 +8,7 @@ import graphAdapters.DelaunayTriangulationGraphAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by joshheinrichs on 15-05-05.
@@ -16,13 +17,13 @@ public class DelaunayTriangulation extends Model {
 
     public static final double BOUNDS = 10000000.d;
 
-    ArrayList<Vertex> delaunayVertexes = new ArrayList<Vertex>();
-    ArrayList<DelaunayEdge> delaunayEdges = new ArrayList<DelaunayEdge>();
+    ArrayList<Vertex> delaunayVertexes = new ArrayList<>();
+    ArrayList<DelaunayEdge> delaunayEdges = new ArrayList<>();
 
-    ArrayList<Vertex> voronoiVertexes = new ArrayList<Vertex>();
-    ArrayList<Edge> voronoiEdges = new ArrayList<Edge>();
+    ArrayList<Vertex> voronoiVertexes = new ArrayList<>();
+    ArrayList<Edge> voronoiEdges = new ArrayList<>();
 
-    ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>();
+    ArrayList<DelaunayTriangle> triangles = new ArrayList<>();
 
     DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(this);
 
@@ -46,10 +47,8 @@ public class DelaunayTriangulation extends Model {
     }
 
     @Override
-    public void addVertexes(ArrayList<Point> points) {
-        for (Point point : points) {
-            delaunayVertexes.add(new Vertex(point));
-        }
+    public void addVertexes(List<Point> points) {
+        delaunayVertexes.addAll(points.stream().map(point -> new Vertex(point)).collect(Collectors.toList()));
         update();
     }
 
@@ -66,17 +65,16 @@ public class DelaunayTriangulation extends Model {
     }
 
     @Override
-    public void moveVertexes(ArrayList<Integer> indexes, double x, double y) {
-        //assert(indexes.size() == locations.size());
-        for (int i = 0; i < indexes.size(); i++) {
-            Vertex vertex = delaunayVertexes.get(indexes.get(i));
+    public void moveVertexes(List<Integer> indexes, double x, double y) {
+        for (Integer index : indexes) {
+            Vertex vertex = delaunayVertexes.get(index);
             vertex.setPoint(new Point(vertex.getPoint().x + x, vertex.getPoint().y + y));
         }
         update();
     }
 
     @Override
-    public void removeVertexes(ArrayList<Integer> indexes) {
+    public void removeVertexes(List<Integer> indexes) {
         for (Integer index : indexes) {
             delaunayVertexes.set(index, null);
         }
@@ -102,7 +100,7 @@ public class DelaunayTriangulation extends Model {
         double maxX = Math.max(startX, endX);
         double maxY = Math.max(startY, endY);
 
-        ArrayList<Integer> indexList = new ArrayList<Integer>();
+        ArrayList<Integer> indexList = new ArrayList<>();
         for (int i = 0; i < delaunayVertexes.size(); i++) {
             Point point = delaunayVertexes.get(i).getPoint();
             if(minX <= point.x && point.x <= maxX && minY <= point.y && point.y < maxY) {
@@ -113,28 +111,23 @@ public class DelaunayTriangulation extends Model {
     }
 
     @Override
-    public ArrayList<Edge> getEdges() {
-        ArrayList<Edge> edges = new ArrayList<Edge>(delaunayEdges);
-        return edges;
+    public List<Edge> getEdges() {
+        return new ArrayList<>(delaunayEdges);
     }
 
     /**
      * Returns a list containing all the points at which all Delaunay vertexes are located in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Point> getPoints() {
-        ArrayList<Point> points = new ArrayList<Point>(delaunayVertexes.size());
-        for (Vertex vertex : delaunayVertexes) {
-            points.add(vertex.getPoint());
-        }
-        return points;
+    public List<Point> getPoints() {
+        return delaunayVertexes.stream().map(vertex -> vertex.getPoint()).collect(Collectors.toList());
     }
 
     /**
      * Returns a list containing all of the Delaunay vertexes in the Delaunay triangulation .
      * @return
      */
-    public ArrayList<Vertex> getDelaunayVertexes() {
+    public List<Vertex> getDelaunayVertexes() {
         return delaunayVertexes;
     }
 
@@ -142,16 +135,15 @@ public class DelaunayTriangulation extends Model {
      * Returns a list containing all of the Delaunay edges in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Edge> getDelaunayEdges() {
-        ArrayList<Edge> edges = new ArrayList<Edge>(delaunayEdges);
-        return edges;
+    public List<Edge> getDelaunayEdges() {
+        return new ArrayList<>(delaunayEdges);
     }
 
     /**
      * Returns a list containing all of the Voronoi vertexes in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Vertex> getVoronoiVertexes() {
+    public List<Vertex> getVoronoiVertexes() {
         return voronoiVertexes;
     }
 
@@ -159,7 +151,7 @@ public class DelaunayTriangulation extends Model {
      * Returns a list containing all of the Voronoi edges in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Edge> getVoronoiEdges() {
+    public List<Edge> getVoronoiEdges() {
         return voronoiEdges;
     }
 
@@ -167,36 +159,24 @@ public class DelaunayTriangulation extends Model {
      * Returns a list containing all of the segments in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Segment> getSegments() {
-        ArrayList<Segment> segments = new ArrayList<Segment>(delaunayEdges.size());
-        for (Edge edge : delaunayEdges) {
-            segments.add(edge.getSegment());
-        }
-        return segments;
+    public List<Segment> getSegments() {
+        return delaunayEdges.stream().map(edge -> edge.getSegment()).collect(Collectors.toList());
     }
 
     /**
      * Returns a list containing all of the circumcircles in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Circle> getCircumcircles() {
-        ArrayList<Circle> circles = new ArrayList<Circle>(triangles.size());
-        for (DelaunayTriangle triangle : triangles) {
-            circles.add(triangle.getCircumcircle());
-        }
-        return circles;
+    public List<Circle> getCircumcircles() {
+        return triangles.stream().map(DelaunayTriangle::getCircumcircle).collect(Collectors.toList());
     }
 
     /**
      * Returns a list containing all of the triangles in the Delaunay triangulation.
      * @return
      */
-    public ArrayList<Triangle> getDelaunayTriangles() {
-        ArrayList<Triangle> triangles = new ArrayList<Triangle>(this.triangles.size());
-        for (DelaunayTriangle triangle : this.triangles) {
-            triangles.add(triangle.getTriangle());
-        }
-        return triangles;
+    public List<Triangle> getDelaunayTriangles() {
+        return this.triangles.stream().map(DelaunayTriangle::getTriangle).collect(Collectors.toList());
     }
 
     /**
@@ -217,7 +197,7 @@ public class DelaunayTriangulation extends Model {
      */
     public ArrayList<Integer> getDelaunayPath(int a, int b) {
         List<Edge> path = graph.getPath(delaunayVertexes.get(a), delaunayVertexes.get(b));
-        ArrayList<Integer> indexes = new ArrayList<Integer>();
+        ArrayList<Integer> indexes = new ArrayList<>();
 
         for (Edge edge : path) {
             for (int i = 0; i < delaunayEdges.size(); i++) {
@@ -317,7 +297,7 @@ public class DelaunayTriangulation extends Model {
                             DelaunayEdge edge2 = this.delaunayEdges.get(j);
                             if (edge1.getSegment().intersects(edge2.getSegment())) {
                                 this.delaunayEdges.remove(edge2);
-                                ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(edge2.getTriangles());
+                                ArrayList<DelaunayTriangle> triangles = new ArrayList<>(edge2.getTriangles());
                                 for (DelaunayTriangle triangle : triangles) {
                                     triangle.delete();
                                     this.triangles.remove(triangle);
@@ -527,7 +507,7 @@ public class DelaunayTriangulation extends Model {
          * @return
          */
         ArrayList<DelaunayTriangle> getAdjacentTriangles() {
-            ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(3);
+            ArrayList<DelaunayTriangle> triangles = new ArrayList<>(3);
 
             for (DelaunayTriangle triangle : ab.getTriangles()) {
                 if(triangle != this) {
@@ -602,7 +582,7 @@ public class DelaunayTriangulation extends Model {
      */
     public class DelaunayEdge extends Edge {
 
-        ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(2);
+        ArrayList<DelaunayTriangle> triangles = new ArrayList<>(2);
         double alphaStability = Double.NaN;
 
         DelaunayEdge(Vertex a, Vertex b) {

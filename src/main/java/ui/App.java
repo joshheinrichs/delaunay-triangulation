@@ -1,10 +1,6 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -57,44 +53,32 @@ public class App extends Application {
         file.getItems().addAll(save, open);
         help.getItems().addAll(userManual, github);
 
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Save File");
-                File file = fileChooser.showSaveDialog(stage);
-                modelAdapter.saveVertexes(file);
-            }
+        save.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save File");
+            File file1 = fileChooser.showSaveDialog(stage);
+            modelAdapter.saveVertexes(file1);
         });
         save.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
 
-        open.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open File");
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-                File selectedFile = fileChooser.showOpenDialog(stage);
-                if (selectedFile != null) {
-                    try {
-                        modelAdapter.loadVertexes(selectedFile);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+        open.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open File");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+                try {
+                    modelAdapter.loadVertexes(selectedFile);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         });
         open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
 
-        userManual.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                getHostServices().showDocument(USER_MANUAL_LINK);
-            }
-        });
+        userManual.setOnAction(event -> getHostServices().showDocument(USER_MANUAL_LINK));
 
-        github.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                getHostServices().showDocument(GITHUB_LINK);
-            }
-        });
+        github.setOnAction(event -> getHostServices().showDocument(GITHUB_LINK));
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);
@@ -126,27 +110,21 @@ public class App extends Application {
         console.setTranslateY(DEFAULT_STAGE_HEIGHT - DEFAULT_CONSOLE_HEIGHT);
         console.setEditable(false);
 
-        console.textProperty().addListener(new ChangeListener<Object>() {
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                console.setScrollTop(Double.MAX_VALUE);
-            }
+        console.textProperty().addListener((observable, oldValue, newValue) -> {
+            console.setScrollTop(Double.MAX_VALUE);
         });
 
         console.setText(modelAdapter.getOutput());
 
         root.getChildren().addAll(modelAdapter.getRoot(), console, vBox);
 
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                vBox.setPrefWidth(newValue.doubleValue());
-                console.setPrefWidth(newValue.doubleValue());
-            }
+        scene.widthProperty().addListener((observable, oldValue, newValue) -> {
+            vBox.setPrefWidth(newValue.doubleValue());
+            console.setPrefWidth(newValue.doubleValue());
         });
 
-        scene.heightProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                console.setTranslateY(newValue.doubleValue() - console.getPrefHeight());
-            }
+        scene.heightProperty().addListener((observable, oldValue, newValue) -> {
+            console.setTranslateY(newValue.doubleValue() - console.getPrefHeight());
         });
 
         stage.show();

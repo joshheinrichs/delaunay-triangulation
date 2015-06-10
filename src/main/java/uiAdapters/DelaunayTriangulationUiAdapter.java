@@ -14,7 +14,6 @@ import settings.*;
 import tools.*;
 import ui.App;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -290,7 +289,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         int selectedIndex = 0;
         this.delaunayEdges.getChildren().clear();
-        ArrayList<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
+        List<Edge> delaunayEdges = ((DelaunayTriangulation) model).getDelaunayEdges();
         for (int i = 0; i < delaunayEdges.size(); i++) {
             Edge delaunayEdge = delaunayEdges.get(i);
             if(selectedIndex < selectedEdges.size() && selectedEdges.get(selectedIndex) == i) {
@@ -302,19 +301,19 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         }
 
         this.voronoiEdges.getChildren().clear();
-        ArrayList<Edge> voronoiEdges = ((DelaunayTriangulation) model).getVoronoiEdges();
+        List<Edge> voronoiEdges = ((DelaunayTriangulation) model).getVoronoiEdges();
         for (int i = 0; i < voronoiEdges.size(); i++) {
             Edge voronoiEdge = voronoiEdges.get(i);
             drawVoronoiEdge(voronoiEdge);
         }
 
         this.circumcircles.getChildren().clear();
-        ArrayList<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
+        List<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
         for (geometry.Circle circumcircle : circumcircles) {
             drawCircumcircle(circumcircle);
         }
 
-        ArrayList<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
+        List<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
 
         for (int i = this.delaunayVertexes.getChildren().size() - 1; i >= delaunayVertexes.size(); i--) {
             this.delaunayVertexes.getChildren().remove(i);
@@ -340,7 +339,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         }
 
         this.delaunayAngles.getChildren().clear();
-        ArrayList<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
+        List<Triangle> triangles = ((DelaunayTriangulation) model).getDelaunayTriangles();
         for (Triangle triangle : triangles) {
             drawAngles(triangle);
         }

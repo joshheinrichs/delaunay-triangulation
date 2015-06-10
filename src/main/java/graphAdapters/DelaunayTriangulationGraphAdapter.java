@@ -1,6 +1,5 @@
 package graphAdapters;
 
-import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
@@ -9,7 +8,6 @@ import graph.Vertex;
 import models.DelaunayTriangulation;
 import org.apache.commons.collections15.Transformer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +18,7 @@ public class DelaunayTriangulationGraphAdapter {
     DelaunayTriangulation delaunayTriangulation;
 
     UndirectedGraph<Vertex, Edge> graph;
-    Transformer<Edge, Double> transformer = new Transformer<Edge, Double>() {
-        public Double transform(Edge edge) {
-            return edge.getSegment().length();
-        }
-    };
-    DijkstraDistance<Vertex, Edge> distanceAlgorithm;
+    Transformer<Edge, Double> transformer = edge -> edge.getSegment().length();
     DijkstraShortestPath<Vertex, Edge> pathAlgorithm;
 
     Double[][] distances;
@@ -44,12 +37,12 @@ public class DelaunayTriangulationGraphAdapter {
      * If it is possible that changes have occurred, this method should be called before computing any properties.
      */
     public void update() {
-        ArrayList<Edge> edges = delaunayTriangulation.getDelaunayEdges();
-        ArrayList<Vertex> vertexes = delaunayTriangulation.getDelaunayVertexes();
+        List<Edge> edges = delaunayTriangulation.getDelaunayEdges();
+        List<Vertex> vertexes = delaunayTriangulation.getDelaunayVertexes();
 
         if(vertexes.size() >= 3) {
-            graph = new UndirectedSparseGraph<Vertex, Edge>();
-            pathAlgorithm = new DijkstraShortestPath<Vertex, Edge>(graph, transformer);
+            graph = new UndirectedSparseGraph<>();
+            pathAlgorithm = new DijkstraShortestPath<>(graph, transformer);
 
             for (Vertex vertex : vertexes) {
                 assert graph.addVertex(vertex);

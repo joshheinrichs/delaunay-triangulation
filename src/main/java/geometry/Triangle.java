@@ -1,6 +1,7 @@
 package geometry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by joshheinrichs on 15-05-06.
@@ -25,8 +26,8 @@ public class Triangle {
      * Returns the triangle's segments.
      * @return
      */
-    public ArrayList<Segment> getSegments() {
-        ArrayList<Segment> list = new ArrayList<Segment>(3);
+    public List<Segment> getSegments() {
+        ArrayList<Segment> list = new ArrayList<>(3);
         list.add(new Segment(a, b));
         list.add(new Segment(b, c));
         list.add(new Segment(c, a));
