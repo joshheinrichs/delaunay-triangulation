@@ -12,6 +12,8 @@ public class AddVertexTool extends Tool {
     MoveVertexTool moveTool = new MoveVertexTool(uiAdapter);
     RemoveVertexTool removeTool = new RemoveVertexTool(uiAdapter);
 
+    boolean moving = false;
+
     public AddVertexTool(UiAdapter uiAdapter) {
         super(uiAdapter);
     }
@@ -70,8 +72,11 @@ public class AddVertexTool extends Tool {
     public void vertexOnMousePressed(MouseEvent t) {
         if(t.getButton() == MouseButton.PRIMARY) {
             moveTool.vertexOnMousePressed(t);
+            this.moving = true;
         } else if (t.getButton() == MouseButton.SECONDARY) {
+            uiAdapter.deselectAllVertexes();
             removeTool.vertexOnMousePressed(t);
+            this.moving = false;
         }
     }
 
@@ -82,7 +87,9 @@ public class AddVertexTool extends Tool {
 
     @Override
     public void vertexOnMouseDragged(MouseEvent t) {
-        moveTool.vertexOnMouseDragged(t);
+        if (this.moving) {
+            moveTool.vertexOnMouseDragged(t);
+        }
     }
 
     @Override
