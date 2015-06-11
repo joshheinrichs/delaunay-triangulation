@@ -407,20 +407,21 @@ public class DelaunayTriangulation extends Model {
                         p2 = dt.c.getPoint();
                     }
 
-                    Segment segment = new Segment(start, edge.getSegment().midpoint());
-                    Line line = segment.getLine();
-
-                    double x, y;
+                    Line line;
+                    if (start.equals(edge.getSegment().midpoint())) {
+                        line = edge.getSegment().getLine().perpendicular();
+                    } else {
+                        Segment segment = new Segment(start, edge.getSegment().midpoint());
+                        line = segment.getLine();
+                    }
 
                     boolean clockwise = triangle.area() > 0;
+                    double x, y;
 
-                    //clockwise ordering
                     if (clockwise) {
                         if (p2.x > p1.x) { y = -BOUNDS; }
                         else { y = BOUNDS; }
-                    }
-                    //counter-clockwise ordering
-                    else {
+                    } else {
                         if (p2.x > p1.x) { y = BOUNDS; }
                         else { y = -BOUNDS; }
                     }
@@ -436,8 +437,7 @@ public class DelaunayTriangulation extends Model {
                             else { x = BOUNDS; }
                         }
                         y = line.y(x);
-                    } else
-                    if (Math.abs(x) > BOUNDS) {
+                    } else if (Math.abs(x) > BOUNDS) {
                         x = BOUNDS * Math.abs(x) / x;
                         y = line.y(x);
                     }
