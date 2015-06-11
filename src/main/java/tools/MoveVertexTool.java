@@ -78,7 +78,7 @@ public class MoveVertexTool extends Tool {
             uiAdapter.selectVertex(id);
         } else if (t.isAltDown()) {
             uiAdapter.deselectVertex(id);
-        } else {
+        } else if (!uiAdapter.isVertexSelected(id)) {
             uiAdapter.deselectAllVertexes();
             uiAdapter.selectVertex(id);
         }
