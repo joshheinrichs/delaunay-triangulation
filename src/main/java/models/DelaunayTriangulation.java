@@ -1,5 +1,6 @@
 package models;
 
+import constants.Constants;
 import geometry.*;
 import graph.Edge;
 import graph.Vertex;
@@ -426,7 +427,7 @@ public class DelaunayTriangulation extends Model {
 
                     x = line.x(y);
 
-                    if (Double.isNaN(x)) {
+                    if (Math.abs(line.m()) < Constants.EPSILON) {
                         if(clockwise) {
                             if (p2.y > p1.y) { x = BOUNDS; }
                             else { x = -BOUNDS; }
