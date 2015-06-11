@@ -53,7 +53,9 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
-        uiAdapter.deselectAllVertexes();
+        if (!t.isShortcutDown()) {
+            uiAdapter.deselectAllVertexes();
+        }
         uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         graphRoot.getChildren().clear();
@@ -67,11 +69,13 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
+
         String id = ((Circle) t.getSource()).getId();
-        if(!uiAdapter.isVertexSelected(id)) {
+        if (!t.isShortcutDown() && !uiAdapter.isVertexSelected(id)) {
             uiAdapter.deselectAllVertexes();
-            uiAdapter.selectVertex(id);
         }
+        uiAdapter.selectVertex(id);
+
         moveStartX = t.getX();
         moveStartY = t.getY();
 
