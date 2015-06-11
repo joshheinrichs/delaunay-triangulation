@@ -179,6 +179,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         label.setStrokeWidth(1.5d);
         label.setStrokeType(StrokeType.OUTSIDE);
         label.setCache(true);
+        label.setPickOnBounds(false);
 
         vertexLabels.getChildren().add(label);
 
