@@ -446,8 +446,7 @@ public abstract class UiAdapter {
         ArrayList<Point> pointList = new ArrayList<>(Arrays.asList(points));
         model.addVertexes(pointList);
         draw();
-        redoMenuItem.setDisable(!canRedo());
-        undoMenuItem.setDisable(!canUndo());
+        saveState();
     }
 
     public void saveVertexes(File file) {
