@@ -53,10 +53,14 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void backgroundOnMouseDragged(MouseEvent t) {
-        if (!t.isShortcutDown()) {
+        if (t.isShortcutDown()) {
+            uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
+        } else if (t.isAltDown()) {
+            uiAdapter.deselectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
+        } else {
             uiAdapter.deselectAllVertexes();
+            uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
         }
-        uiAdapter.selectVertexes(uiAdapter.getVertexes(selectStartX, selectStartY, t.getX(), t.getY()));
 
         graphRoot.getChildren().clear();
         drawSelectionArea(selectStartX, selectStartY, t.getX(), t.getY());
@@ -69,12 +73,15 @@ public class MoveVertexTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-
         String id = ((Circle) t.getSource()).getId();
-        if (!t.isShortcutDown() && !uiAdapter.isVertexSelected(id)) {
+        if (t.isShortcutDown()) {
+            uiAdapter.selectVertex(id);
+        } else if (t.isAltDown()) {
+            uiAdapter.deselectVertex(id);
+        } else {
             uiAdapter.deselectAllVertexes();
+            uiAdapter.selectVertex(id);
         }
-        uiAdapter.selectVertex(id);
 
         moveStartX = t.getX();
         moveStartY = t.getY();
