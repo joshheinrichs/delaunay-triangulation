@@ -80,7 +80,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new CircumcircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new DelaunayAlphaStableSetting(this));
-        settings.add(new DelaunayModeSetting(this));
+//        settings.add(new DelaunayModeSetting(this));
 
         drawBackground();
     }
@@ -120,19 +120,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         line.setOnMouseClicked(edgeOnMouseClickedEventHandler);
         line.setId(Integer.toString(index));
-
-//        group.getChildren().add(line);
-//
-//        Point midpoint = segment.midpoint();
-//
-//        Text label = new Text("e"+index);
-//        label.setTranslateX(midpoint.x);
-//        label.setTranslateY(midpoint.y);
-//        label.setStroke(Color.WHITE);
-//        label.setStrokeWidth(1.5d);
-//        label.setStrokeType(StrokeType.OUTSIDE);
-//
-//        group.getChildren().add(label);
 
         this.delaunayEdges.getChildren().add(line);
     }
