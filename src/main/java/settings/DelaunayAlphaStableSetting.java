@@ -8,12 +8,16 @@ import javafx.scene.layout.HBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-06-02.
+ * Enables or disables the display of alpha stable edges.
  */
 public class DelaunayAlphaStableSetting extends DelaunayTriangulationSetting {
 
     static final double ALPHA_INPUT_WIDTH = 80.d;
 
+    /**
+     * Constructs a new {@link DelaunayAlphaStableSetting}, which enables or disables the display of alpha stable edges.
+     * @param adapter The adapter which this setting modifies.
+     */
     public DelaunayAlphaStableSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 

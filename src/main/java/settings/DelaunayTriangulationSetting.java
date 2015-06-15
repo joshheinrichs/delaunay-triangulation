@@ -3,7 +3,7 @@ package settings;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-27.
+ * A setting specifically for Delaunay triangulations.
  */
 public abstract class DelaunayTriangulationSetting extends Setting {
 

@@ -8,12 +8,17 @@ import javafx.scene.layout.HBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-27.
+ * Enables or disables the display of angles, and allows for specification of range displayed.
  */
 public class DelaunayAngleSetting extends DelaunayTriangulationSetting {
 
     static final double ANGLE_INPUT_WIDTH = 80.d;
 
+    /**
+     * Constructs a {@link DelaunayAngleSetting}, which enables or disables the display of angles, and allows for the
+     * specification of range displayed.
+     * @param adapter The adapter which this setting modifies.
+     */
     public DelaunayAngleSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 

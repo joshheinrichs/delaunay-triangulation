@@ -4,10 +4,15 @@ import javafx.scene.control.CheckBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-28.
+ * Enables or disables the display of Vertex labels in the graph.
  */
 public class VertexLabelSetting extends DelaunayTriangulationSetting {
 
+    /**
+     * Constructs a new {@link VertexLabelSetting}, which can enable or disable the display of vertex labels in the
+     * adapter.
+     * @param adapter The adapter which this setting modifies.
+     */
     public VertexLabelSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 

@@ -4,10 +4,15 @@ import javafx.scene.control.CheckBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-27.
+ * Enables or disables the display of Voronoi edges in the graph.
  */
 public class VoronoiEdgeSetting extends DelaunayTriangulationSetting {
 
+    /**
+     * Constructs a new {@link VoronoiEdgeSetting}, which can enable or disable the display of Voronoi edges in the
+     * given adapter.
+     * @param adapter The adapter which the setting modifies.
+     */
     public VoronoiEdgeSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 

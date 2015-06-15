@@ -4,10 +4,15 @@ import javafx.scene.control.CheckBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-27.
+ * Enables or disables the display of circumcircles in a Delaunay Triangulation.
  */
 public class CircumcircleSetting extends DelaunayTriangulationSetting {
 
+    /**
+     * Constructs a new {@link CircumcircleSetting}, enables or disables the display of circumcircles in the given
+     * {@link DelaunayTriangulationUiAdapter}
+     * @param adapter The adapter which this setting modifies.
+     */
     public CircumcircleSetting(DelaunayTriangulationUiAdapter adapter) {
         super(adapter);
 

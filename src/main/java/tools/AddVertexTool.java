@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 import uiAdapters.UiAdapter;
 
 /**
- * The add tool adds points
+ * The AddVertexTool adds vertexes to a Model.
  */
 public class AddVertexTool extends Tool {
 
@@ -18,6 +18,7 @@ public class AddVertexTool extends Tool {
         super(uiAdapter);
     }
 
+    @Override
     public String getName() {
         return "Add Vertex";
     }

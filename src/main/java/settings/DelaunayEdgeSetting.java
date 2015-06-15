@@ -4,7 +4,7 @@ import javafx.scene.control.CheckBox;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-05-27.
+ * Enables or disables the display of Delaunay edges in a Delaunay triangulation.
  */
 public class DelaunayEdgeSetting extends DelaunayTriangulationSetting {
 

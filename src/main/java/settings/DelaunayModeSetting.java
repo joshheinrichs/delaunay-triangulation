@@ -10,7 +10,7 @@ import models.DelaunayTriangulation;
 import uiAdapters.DelaunayTriangulationUiAdapter;
 
 /**
- * Created by joshheinrichs on 15-06-08.
+ * Sets the triangulation mode used, which effects the that are added in a non-unique Delaunay triangulation.
  */
 public class DelaunayModeSetting extends DelaunayTriangulationSetting {
 

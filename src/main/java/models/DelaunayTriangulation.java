@@ -32,11 +32,7 @@ public class DelaunayTriangulation extends Model {
 
     Mode mode = Mode.FAST;
 
-    /**
-     * Returns the vertex at the given index.
-     * @param index
-     * @return
-     */
+    @Override
     public Vertex getVertex(int index) {
         return delaunayVertexes.get(index);
     }
@@ -475,13 +471,20 @@ public class DelaunayTriangulation extends Model {
         }
     }
 
+    /**
+     * Returns the triangulation mode currently being used.
+     */
+    public Mode getMode() {
+        return this.mode;
+    }
+
+    /**
+     * Sets the triangulation mode to be used.
+     * @param mode Mode to which the triangulation mode will be set.
+     */
     public void setMode(Mode mode) {
         this.mode = mode;
         update();
-    }
-
-    public Mode getMode() {
-        return this.mode;
     }
 
     /**
@@ -651,6 +654,9 @@ public class DelaunayTriangulation extends Model {
 
     }
 
+    /**
+     * Triangulation Mode. Effects which edges are added in situations where the Delaunay triangulation is not unqiue.
+     */
     public enum Mode {
         FAST("Fast"),
         MAX_DISTANCE_RATIO("Maximize Distance Ratio");
