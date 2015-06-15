@@ -45,10 +45,10 @@ public class DelaunayTriangulationGraphAdapter {
             pathAlgorithm = new DijkstraShortestPath<>(graph, transformer);
 
             for (Vertex vertex : vertexes) {
-                assert graph.addVertex(vertex);
+                graph.addVertex(vertex);
             }
             for (Edge edge : edges) {
-                assert graph.addEdge(edge, edge.from, edge.to);
+                graph.addEdge(edge, edge.from, edge.to);
             }
 
             distances = new Double[vertexes.size()][vertexes.size()];
