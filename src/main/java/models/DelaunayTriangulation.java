@@ -173,6 +173,10 @@ public class DelaunayTriangulation extends Model {
         return triangles.stream().map(DelaunayTriangle::getCircumcircle).collect(Collectors.toList());
     }
 
+    public List<Circle> getGabrielCircles() {
+        return delaunayEdges.stream().map(edge -> new Circle(edge.getSegment().start, edge.getSegment().end)).collect(Collectors.toList());
+    }
+
     /**
      * Returns a list containing all of the triangles in the Delaunay triangulation.
      * @return

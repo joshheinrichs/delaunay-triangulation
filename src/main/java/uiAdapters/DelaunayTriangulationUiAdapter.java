@@ -44,6 +44,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     final Group voronoiEdges = new Group();
     final Group background = new Group();
     final Group circumcircles = new Group();
+    final Group gabrielCircles = new Group();
 
     double minDelaunayAngle = 90;
     double maxDelaunayAngle = 180;
@@ -58,8 +59,13 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         model = new DelaunayTriangulation();
 
         circumcircles.setVisible(false);
+        gabrielCircles.setVisible(false);
 
-        root.getChildren().addAll(background, circumcircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels);
+        circumcircles.setMouseTransparent(true);
+        gabrielCircles.setMouseTransparent(true);
+        vertexLabels.setMouseTransparent(true);
+
+        root.getChildren().addAll(background, circumcircles, gabrielCircles, voronoiEdges, delaunayAngles, delaunayEdges, delaunayVertexes, vertexLabels);
 
         this.addTool(new AddVertexTool(this));
         this.addTool(new MoveVertexTool(this));
@@ -78,6 +84,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         settings.add(new DelaunayEdgeSetting(this));
         settings.add(new VoronoiEdgeSetting(this));
         settings.add(new CircumcircleSetting(this));
+        settings.add(new GabrielCircleSetting(this));
         settings.add(new DelaunayAngleSetting(this));
         settings.add(new DelaunayAlphaStableSetting(this));
 //        settings.add(new DelaunayModeSetting(this));
@@ -166,7 +173,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         label.setStrokeWidth(1.5d);
         label.setStrokeType(StrokeType.OUTSIDE);
         label.setCache(true);
-        label.setPickOnBounds(false);
 
         vertexLabels.getChildren().add(label);
 
@@ -204,6 +210,19 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setStroke(Color.BLACK);
 
         circumcircles.getChildren().add(circle);
+    }
+
+    void drawGabrielCircles(geometry.Circle gabrielCircle) {
+        Circle circle = new Circle();
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStroke(Color.BLACK);
+        circle.setRadius(gabrielCircle.radius);
+        circle.setCenterX(gabrielCircle.center.x);
+        circle.setCenterY(gabrielCircle.center.y);
+        circle.setStrokeWidth(2.d);
+        circle.setStroke(Color.BLACK);
+
+        gabrielCircles.getChildren().add(circle);
     }
 
     void drawAngles(Triangle triangle) {
@@ -300,9 +319,11 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         this.circumcircles.getChildren().clear();
         List<geometry.Circle> circumcircles = ((DelaunayTriangulation) model).getCircumcircles();
-        for (geometry.Circle circumcircle : circumcircles) {
-            drawCircumcircle(circumcircle);
-        }
+        circumcircles.forEach(this::drawCircumcircle);
+
+        this.gabrielCircles.getChildren().clear();
+        List<geometry.Circle> gabrielCircles = ((DelaunayTriangulation) model).getGabrielCircles();
+        gabrielCircles.forEach(this::drawGabrielCircles);
 
         List<Vertex> delaunayVertexes = ((DelaunayTriangulation) model).getDelaunayVertexes();
 
@@ -383,6 +404,14 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     public void setCircumcirclesVisible(boolean visible) {
         circumcircles.setVisible(visible);
+    }
+
+    public boolean isGabrielCirclesVisible() {
+        return gabrielCircles.isVisible();
+    }
+
+    public void setGabrielCirclesVisible(boolean visible) {
+        gabrielCircles.setVisible(visible);
     }
 
     public double getMaxDelaunayAngle() {
