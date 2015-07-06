@@ -1,12 +1,16 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -16,7 +20,6 @@ import uiAdapters.DelaunayTriangulationUiAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 public class App extends Application {
 
@@ -25,7 +28,7 @@ public class App extends Application {
     Group root = new Group();
 
     static final double DEFAULT_STAGE_HEIGHT = 800.d;
-    static final double DEFAULT_STAGE_WIDTH = DEFAULT_STAGE_HEIGHT * (16.d/9.d);
+    static final double DEFAULT_STAGE_WIDTH = DEFAULT_STAGE_HEIGHT * (16.d/10.d);
 
     static final double DEFAULT_CONSOLE_HEIGHT = 200.d;
     static final double DEFAULT_CONSOLE_WIDTH = DEFAULT_STAGE_WIDTH;
@@ -77,54 +80,64 @@ public class App extends Application {
         open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
 
         userManual.setOnAction(event -> getHostServices().showDocument(USER_MANUAL_LINK));
-
         github.setOnAction(event -> getHostServices().showDocument(GITHUB_LINK));
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);
         menuBar.setUseSystemMenuBar(true);
 
-        root.getChildren().add(menuBar);
-
         ToolBar toolBar = new ToolBar();
         toolBar.setPrefWidth(scene.getWidth());
         toolBar.setMaxWidth(Double.MAX_VALUE);
-
-        List<Tool> tools = modelAdapter.getTools();
-        for (Tool tool : tools) {
+        for (Tool tool : modelAdapter.getTools()) {
             toolBar.getItems().add(tool.getToolBarRoot());
         }
 
         ToolBar optionsBar = new ToolBar();
         optionsBar.setPrefWidth(scene.getWidth());
-
+        toolBar.setMaxWidth(Double.MAX_VALUE);
         for (Setting setting : modelAdapter.getSettings()) {
             optionsBar.getItems().add(setting.getRoot());
         }
 
-        final VBox vBox = new VBox();
-        vBox.getChildren().addAll(toolBar, optionsBar);
+        final VBox barBox = new VBox();
+        barBox.getChildren().addAll(toolBar, optionsBar);
 
-        console.setPrefWidth(DEFAULT_CONSOLE_WIDTH);
-        console.setPrefHeight(DEFAULT_CONSOLE_HEIGHT);
-        console.setTranslateY(DEFAULT_STAGE_HEIGHT - DEFAULT_CONSOLE_HEIGHT);
+
         console.setEditable(false);
-
         console.textProperty().addListener((observable, oldValue, newValue) -> {
             console.setScrollTop(Double.MAX_VALUE);
         });
 
-        console.setText(modelAdapter.getOutput());
+        SplitPane splitPane = new SplitPane();
+        StackPane stackPanePlane = new StackPane(modelAdapter.getRoot());
+        stackPanePlane.alignmentProperty().setValue(Pos.TOP_LEFT);
+        stackPanePlane.setMinHeight(0.d);
+        stackPanePlane.setMinWidth(0.d);
+        stackPanePlane.setPrefWidth(DEFAULT_STAGE_WIDTH);
 
-        root.getChildren().addAll(modelAdapter.getRoot(), console, vBox);
+        StackPane stackPaneConsole = new StackPane(console);
+        stackPaneConsole.setMinHeight(0.d);
+        splitPane.getItems().addAll(stackPanePlane, stackPaneConsole);
+
+        splitPane.setDividerPositions(0.8f);
+        splitPane.setOrientation(Orientation.VERTICAL);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPrefHeight(DEFAULT_STAGE_HEIGHT);
+        borderPane.setTop(barBox);
+        borderPane.setCenter(splitPane);
+
+        root.getChildren().addAll(borderPane, menuBar);
 
         scene.widthProperty().addListener((observable, oldValue, newValue) -> {
-            vBox.setPrefWidth(newValue.doubleValue());
-            console.setPrefWidth(newValue.doubleValue());
+            barBox.setMaxWidth(newValue.doubleValue());
+            borderPane.setPrefWidth(newValue.doubleValue());
+            stackPanePlane.setPrefWidth(newValue.doubleValue());
         });
 
         scene.heightProperty().addListener((observable, oldValue, newValue) -> {
-            console.setTranslateY(newValue.doubleValue() - console.getPrefHeight());
+            borderPane.setPrefHeight(newValue.doubleValue());
         });
 
         stage.show();

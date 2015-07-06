@@ -90,6 +90,9 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 //        settings.add(new DelaunayModeSetting(this));
 
         drawBackground();
+
+        root.setTranslateX(-DelaunayTriangulation.BOUNDS);
+        root.setTranslateY(-DelaunayTriangulation.BOUNDS);
     }
 
     @Override
@@ -149,6 +152,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         Circle circle = new Circle();
 
         circle.setFill(VERTEX_COLOR);
+
         circle.setRadius(8.d);
         circle.setCenterX(point.x);
         circle.setCenterY(point.y);
@@ -183,6 +187,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         Circle circle = (Circle) delaunayVertexes.getChildren().get(index);
 
         Point point = vertex.getPoint();
+
+        circle.setFill(VERTEX_COLOR);
 
         circle.setCenterX(point.x);
         circle.setCenterY(point.y);
