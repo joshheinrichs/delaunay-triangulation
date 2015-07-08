@@ -74,11 +74,12 @@ public class DelaunayDistanceTool extends Tool {
     public void vertexOnMousePressed(MouseEvent t) {
         moving = false;
         if (t.getButton() == MouseButton.PRIMARY) {
-            idFrom = idTo = "";
+            idFrom = idTo = null;
 
             String id = ((Circle) t.getSource()).getId();
 
             if (uiAdapter.getSelectedVertexes().size() == 0) {
+                uiAdapter.deselectAllEdges();
                 uiAdapter.selectVertex(id);
                 uiAdapter.draw();
             } else if (uiAdapter.getSelectedVertexes().size() == 1) {
@@ -90,12 +91,8 @@ public class DelaunayDistanceTool extends Tool {
 
                     uiAdapter.deselectAllEdges();
                     uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(idFrom, idTo));
+                    uiAdapter.deselectAllVertexes();
                 }
-                uiAdapter.draw();
-            } else if (uiAdapter.getSelectedVertexes().size() == 2) {
-                uiAdapter.deselectAllEdges();
-                uiAdapter.deselectAllVertexes();
-                uiAdapter.selectVertex(id);
                 uiAdapter.draw();
             }
         } else if (t.getButton() == MouseButton.SECONDARY) {
@@ -107,7 +104,7 @@ public class DelaunayDistanceTool extends Tool {
 
     @Override
     public void vertexOnMouseReleased(MouseEvent t) {
-        if (!idFrom.isEmpty() && !idTo.isEmpty()) {
+        if (idFrom != null && idTo != null) {
             double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(idFrom, idTo);
             double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(idFrom, idTo);
             double distanceRatio = delaunayDistance / straightDistance;
@@ -123,8 +120,10 @@ public class DelaunayDistanceTool extends Tool {
     public void vertexOnMouseDragged(MouseEvent t) {
         if (moving) {
             moveTool.vertexOnMouseDragged(t);
-            uiAdapter.deselectAllEdges();
-            uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(idFrom, idTo));
+            if (idFrom != null && idTo != null) {
+                uiAdapter.deselectAllEdges();
+                uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(idFrom, idTo));
+            }
             uiAdapter.draw();
         }
     }
