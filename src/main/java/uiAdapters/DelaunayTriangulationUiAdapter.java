@@ -51,7 +51,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     double alphaStability = 1.0;
 
-    private boolean alphaVisible = true;
+    private boolean alphaVisible = false;
 
     public DelaunayTriangulationUiAdapter(App app) {
         super(app);
