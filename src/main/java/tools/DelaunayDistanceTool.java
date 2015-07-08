@@ -1,5 +1,6 @@
 package tools;
 
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import uiAdapters.DelaunayTriangulationUiAdapter;
@@ -10,6 +11,10 @@ import uiAdapters.UiAdapter;
  */
 public class DelaunayDistanceTool extends Tool {
 
+    MoveVertexTool moveTool = new MoveVertexTool(uiAdapter);
+    boolean moving;
+
+    String idFrom, idTo;
 
     public DelaunayDistanceTool(UiAdapter uiAdapter) {
         super(uiAdapter);
@@ -67,47 +72,61 @@ public class DelaunayDistanceTool extends Tool {
 
     @Override
     public void vertexOnMousePressed(MouseEvent t) {
-        String id = ((Circle) t.getSource()).getId();
+        moving = false;
+        if (t.getButton() == MouseButton.PRIMARY) {
+            idFrom = idTo = "";
 
-        if (uiAdapter.getSelectedVertexes().size() == 0) {
-            uiAdapter.selectVertex(id);
-            uiAdapter.draw();
-        } else if (uiAdapter.getSelectedVertexes().size() == 1) {
-            if (!uiAdapter.isVertexSelected(id)) {
+            String id = ((Circle) t.getSource()).getId();
+
+            if (uiAdapter.getSelectedVertexes().size() == 0) {
                 uiAdapter.selectVertex(id);
+                uiAdapter.draw();
+            } else if (uiAdapter.getSelectedVertexes().size() == 1) {
+                if (!uiAdapter.isVertexSelected(id)) {
+                    uiAdapter.selectVertex(id);
 
-                String id1 = uiAdapter.getSelectedVertexes().get(0);
-                String id2 = uiAdapter.getSelectedVertexes().get(1);
+                    idFrom = uiAdapter.getSelectedVertexes().get(0);
+                    idTo = uiAdapter.getSelectedVertexes().get(1);
 
-                double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(id1, id2);
-                double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(id1, id2);
-                double distanceRatio = delaunayDistance/straightDistance;
-
+                    uiAdapter.deselectAllEdges();
+                    uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(idFrom, idTo));
+                }
+                uiAdapter.draw();
+            } else if (uiAdapter.getSelectedVertexes().size() == 2) {
                 uiAdapter.deselectAllEdges();
-                uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(id1, id2));
-
-                uiAdapter.appendToOutput("\n");
-                uiAdapter.appendToOutput("Delaunay Distance: " + delaunayDistance + "\n");
-                uiAdapter.appendToOutput("Straight Distance: " + straightDistance + "\n");
-                uiAdapter.appendToOutput("Distance Ratio: " + distanceRatio + "\n");
+                uiAdapter.deselectAllVertexes();
+                uiAdapter.selectVertex(id);
+                uiAdapter.draw();
             }
-            uiAdapter.draw();
-        } else if (uiAdapter.getSelectedVertexes().size() == 2) {
-            uiAdapter.deselectAllEdges();
+        } else if (t.getButton() == MouseButton.SECONDARY) {
             uiAdapter.deselectAllVertexes();
-            uiAdapter.selectVertex(id);
-            uiAdapter.draw();
+            moveTool.vertexOnMousePressed(t);
+            moving = true;
         }
     }
 
     @Override
     public void vertexOnMouseReleased(MouseEvent t) {
+        if (!idFrom.isEmpty() && !idTo.isEmpty()) {
+            double delaunayDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayDistance(idFrom, idTo);
+            double straightDistance = ((DelaunayTriangulationUiAdapter) uiAdapter).getStraightDistance(idFrom, idTo);
+            double distanceRatio = delaunayDistance / straightDistance;
 
+            uiAdapter.appendToOutput("\n");
+            uiAdapter.appendToOutput("Delaunay Distance: " + delaunayDistance + "\n");
+            uiAdapter.appendToOutput("Straight Distance: " + straightDistance + "\n");
+            uiAdapter.appendToOutput("Distance Ratio: " + distanceRatio + "\n");
+        }
     }
 
     @Override
     public void vertexOnMouseDragged(MouseEvent t) {
-
+        if (moving) {
+            moveTool.vertexOnMouseDragged(t);
+            uiAdapter.deselectAllEdges();
+            uiAdapter.selectEdges(((DelaunayTriangulationUiAdapter) uiAdapter).getDelaunayPath(idFrom, idTo));
+            uiAdapter.draw();
+        }
     }
 
     @Override

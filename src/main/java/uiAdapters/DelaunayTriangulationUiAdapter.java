@@ -169,6 +169,7 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setOnMouseClicked(vertexOnMouseClickedEventHandler);
         circle.setOnMousePressed(vertexOnMousePressedEventHandler);
         circle.setOnMouseDragged(vertexOnMouseDraggedEventHandler);
+        circle.setOnMouseReleased(vertexOnMouseReleasedEventHandler);
 
         Text label = new Text("p"+index);
         label.setTranslateX(point.x + 10.d);

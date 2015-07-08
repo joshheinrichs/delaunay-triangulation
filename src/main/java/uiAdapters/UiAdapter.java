@@ -127,6 +127,13 @@ public abstract class UiAdapter {
                 }
             };
 
+    EventHandler<MouseEvent> vertexOnMouseReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent t) {
+                    selectedTool.vertexOnMouseReleased(t);
+                }
+            };
+
     EventHandler<MouseEvent> edgeOnMouseClickedEventHandler =
             new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent t) {
