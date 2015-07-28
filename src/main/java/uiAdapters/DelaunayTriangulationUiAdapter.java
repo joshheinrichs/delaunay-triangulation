@@ -213,8 +213,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setRadius(circumcircle.radius);
         circle.setCenterX(circumcircle.center.x);
         circle.setCenterY(circumcircle.center.y);
-        circle.setStrokeWidth(2.d);
-        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(1.d);
+        circle.setStroke(Color.RED);
 
         circumcircles.getChildren().add(circle);
     }
@@ -226,8 +226,8 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circle.setRadius(gabrielCircle.radius);
         circle.setCenterX(gabrielCircle.center.x);
         circle.setCenterY(gabrielCircle.center.y);
-        circle.setStrokeWidth(2.d);
-        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(1.d);
+        circle.setStroke(Color.GREEN);
 
         gabrielCircles.getChildren().add(circle);
     }

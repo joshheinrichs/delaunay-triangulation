@@ -85,6 +85,8 @@ public class App extends Application {
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(file, modelAdapter.getEditMenu(), help);
         menuBar.setUseSystemMenuBar(true);
+        menuBar.setPrefWidth(scene.getWidth());
+        menuBar.setMaxWidth(Double.MAX_VALUE);
 
         ToolBar toolBar = new ToolBar();
         toolBar.setPrefWidth(scene.getWidth());
@@ -101,7 +103,7 @@ public class App extends Application {
         }
 
         final VBox barBox = new VBox();
-        barBox.getChildren().addAll(toolBar, optionsBar);
+        barBox.getChildren().addAll(menuBar, toolBar, optionsBar);
 
 
         console.setEditable(false);
@@ -128,7 +130,7 @@ public class App extends Application {
         borderPane.setTop(barBox);
         borderPane.setCenter(splitPane);
 
-        root.getChildren().addAll(borderPane, menuBar);
+        root.getChildren().addAll(borderPane);
 
         scene.widthProperty().addListener((observable, oldValue, newValue) -> {
             barBox.setMaxWidth(newValue.doubleValue());

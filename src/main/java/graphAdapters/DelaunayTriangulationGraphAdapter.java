@@ -9,6 +9,7 @@ import models.DelaunayTriangulation;
 import org.apache.commons.collections15.Transformer;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by joshheinrichs on 15-05-22.
@@ -19,7 +20,7 @@ public class DelaunayTriangulationGraphAdapter {
 
     UndirectedGraph<Vertex, Edge> graph;
     Transformer<Edge, Double> transformer = edge -> edge.getSegment().length();
-    DijkstraShortestPath<Vertex, Edge> pathAlgorithm;
+    DijkstraShortestPath<Vertex, Edge> shortestPathAlgorithm;
 
     Double[][] distances;
 
@@ -42,7 +43,7 @@ public class DelaunayTriangulationGraphAdapter {
 
         if(vertexes.size() >= 3) {
             graph = new UndirectedSparseGraph<>();
-            pathAlgorithm = new DijkstraShortestPath<>(graph, transformer);
+            shortestPathAlgorithm = new DijkstraShortestPath<>(graph, transformer);
 
             for (Vertex vertex : vertexes) {
                 graph.addVertex(vertex);
@@ -63,7 +64,7 @@ public class DelaunayTriangulationGraphAdapter {
 //                    System.out.print(i + "\t");
 //                    for (int j = 0; j < vertexes.size(); j++) {
 //                        distances[i][j] =
-//                                ((Double) distanceAlgorithm.getDistance(vertexes.get(i), vertexes.get(j)))
+//                                ((Double) distanceAlgorithm.getShortestPathDistance(vertexes.get(i), vertexes.get(j)))
 //                                        / (vertexes.get(i).getPoint().distance(vertexes.get(j).getPoint()));
 //                        System.out.print(distances[i][j] + "\t");
 //                    }
@@ -80,8 +81,8 @@ public class DelaunayTriangulationGraphAdapter {
      * @param b
      * @return
      */
-    public double getDistance(Vertex a, Vertex b) {
-        return (Double) pathAlgorithm.getDistance(a, b);
+    public double getShortestPathDistance(Vertex a, Vertex b) {
+        return (Double) shortestPathAlgorithm.getDistance(a, b);
     }
 
     /**
@@ -90,8 +91,31 @@ public class DelaunayTriangulationGraphAdapter {
      * @param b
      * @return
      */
-    public List<Edge> getPath(Vertex a, Vertex b) {
-        return pathAlgorithm.getPath(a, b);
+    public List<Edge> getShortestPath(Vertex a, Vertex b) {
+        return shortestPathAlgorithm.getPath(a, b);
+    }
+
+    public List<Edge> getCompassRoute(Vertex a, Vertex b) {
+
+        if (a == b) {
+            return new Stack<>();
+        } else {
+            List<Edge> edges = (List<Edge>) graph.getIncidentEdges(a);
+
+            Double bestAngle = Double.POSITIVE_INFINITY;
+            Vertex bestVertex = null;
+            Edge bestEdge = null;
+
+            for (Edge edge : edges) {
+                Vertex vertex = graph.getOpposite(a, edge);
+                ///check angle
+            }
+
+            Stack<Edge> path = (Stack<Edge>) getCompassRoute(bestVertex, b);
+            path.push(bestEdge);
+
+            return path;
+        }
     }
 
 }

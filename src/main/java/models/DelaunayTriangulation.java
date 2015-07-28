@@ -192,7 +192,7 @@ public class DelaunayTriangulation extends Model {
      * @return
      */
     public double getDelaunayDistance(int a, int b) {
-        return graph.getDistance(delaunayVertexes.get(a), delaunayVertexes.get(b));
+        return graph.getShortestPathDistance(delaunayVertexes.get(a), delaunayVertexes.get(b));
     }
 
     /**
@@ -202,7 +202,7 @@ public class DelaunayTriangulation extends Model {
      * @return
      */
     public ArrayList<Integer> getDelaunayPath(int a, int b) {
-        List<Edge> path = graph.getPath(delaunayVertexes.get(a), delaunayVertexes.get(b));
+        List<Edge> path = graph.getShortestPath(delaunayVertexes.get(a), delaunayVertexes.get(b));
         ArrayList<Integer> indexes = new ArrayList<>();
 
         for (Edge edge : path) {
@@ -356,7 +356,7 @@ public class DelaunayTriangulation extends Model {
 //                    DelaunayTriangulationGraphAdapter graph = new DelaunayTriangulationGraphAdapter(dt);
 //                    for (int i = 0; i < dt.delaunayVertexes.size(); i++) {
 //                        for (int j = i+1; j < dt.delaunayVertexes.size(); j++) {
-//                            double delaunayDistance = graph.getDistance(dt.getVertex(i), dt.getVertex(j));
+//                            double delaunayDistance = graph.getShortestPathDistance(dt.getVertex(i), dt.getVertex(j));
 //                            double ratio = dt.getVertex(i).getPoint().distance(dt.getVertex(j).getPoint()) / delaunayDistance;
 //                            if (ratio > maxRatio) {
 //                                maxRatio = ratio;
