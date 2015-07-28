@@ -91,8 +91,12 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
         drawBackground();
 
-        root.setTranslateX(-DelaunayTriangulation.BOUNDS);
-        root.setTranslateY(-DelaunayTriangulation.BOUNDS);
+        this.setCameraPosition(new Point(-DelaunayTriangulation.BOUNDS, -DelaunayTriangulation.BOUNDS));
+    }
+
+    @Override
+    public void resetCameraPosition() {
+        this.setCameraPosition(new Point(-DelaunayTriangulation.BOUNDS, -DelaunayTriangulation.BOUNDS));
     }
 
     @Override

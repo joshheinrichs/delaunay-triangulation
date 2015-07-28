@@ -177,7 +177,7 @@ public abstract class UiAdapter {
         clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.SHORTCUT_DOWN));
 
         resetCameraMenuItem.setOnAction(event -> {
-            setCameraPosition(new Point(0,0));
+            this.resetCameraPosition();
             setCameraZoom(1.0);
         });
 
@@ -209,14 +209,16 @@ public abstract class UiAdapter {
         return settings;
     }
 
+    public Point getCameraPosition() {
+        return new Point(this.root.getTranslateX(), this.root.getTranslateY());
+    }
+
     public void setCameraPosition(Point position) {
         this.root.setTranslateX(position.x);
         this.root.setTranslateY(position.y);
     }
 
-    public Point getCameraPosition() {
-        return new Point(this.root.getTranslateX(), this.root.getTranslateY());
-    }
+    public abstract void resetCameraPosition();
 
     public void setCameraZoom(double zoom) {
         this.root.setScaleX(zoom);
