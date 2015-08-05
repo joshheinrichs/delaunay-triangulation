@@ -53,6 +53,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
 
     private boolean alphaVisible = false;
 
+    /**
+     * Constructs a new DelaunayTriangulationUiAdapter.
+     * @param app App in which the Delaunay triangulation is being displayed.
+     */
     public DelaunayTriangulationUiAdapter(App app) {
         super(app);
 
@@ -104,20 +108,42 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         return "Delaunay Triangulation";
     }
 
+    /**
+     * Returns the shortest distance between the two specified vertexes along Delaunay edges.
+     * @param id1 ID of the first vertex.
+     * @param id2 ID of the second vertex.
+     */
     public double getDelaunayDistance(String id1, String id2) {
         return ((DelaunayTriangulation) model).getDelaunayDistance(Integer.parseInt(id1), Integer.parseInt(id2));
     }
 
+    /**
+     * Returns a list of edge ids that are involved in the shortest path between the two specified vertexes.
+     * @param id1 ID of the first vertex.
+     * @param id2 ID of the second vertex.
+     */
     public List<String> getDelaunayPath(String id1, String id2) {
         return ((DelaunayTriangulation) model).getDelaunayPath(Integer.parseInt(id1), Integer.parseInt(id2))
                 .stream().map(Object::toString)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the straight line distance between the two specified vertexes.
+     * @param id1 ID of the first vertex.
+     * @param id2 ID of the second vertex.
+     * @return
+     */
     public double getStraightDistance(String id1, String id2) {
         return ((DelaunayTriangulation) model).getStraightDistance(Integer.parseInt(id1), Integer.parseInt(id2));
     }
 
+    /**
+     * Draws the given edge, styled as a Delaunay edge.
+     * @param edge  Edge to be drawn.
+     * @param index Index of the vertex, which will be used as an ID.
+     * @param selected True if the vertex is selected (i.e. should be highlighted), false otherwise.
+     */
     void drawDelaunayEdge(Edge edge, int index, boolean selected) {
 
         Group group = new Group();
@@ -138,6 +164,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.delaunayEdges.getChildren().add(line);
     }
 
+    /**
+     * Draws the given edge, styled as a Voronoi edge.
+     * @param edge Edge to be drawn.
+     */
     void drawVoronoiEdge(Edge edge) {
         Group group = new Group();
         Segment segment = edge.getSegment();
@@ -151,6 +181,12 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.voronoiEdges.getChildren().add(group);
     }
 
+    /**
+     * Draws the given vertex, styled as a Delaunay vertex.
+     * @param vertex Vertex to be drawn.
+     * @param index Index of the vertex, to be used as an ID.
+     * @param selected True if the vertex is selected (i.e. should be highlighted), false otherwise.
+     */
     void drawDelaunayVertex(Vertex vertex, int index, boolean selected) {
         Point point = vertex.getPoint();
         Circle circle = new Circle();
@@ -188,6 +224,13 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.delaunayVertexes.getChildren().add(circle);
     }
 
+    /**
+     * Updates the position of a Delaunay vertex. This should be used whenever a vertex already exists, as it means
+     * you don't have to redraw the vertex labels which are quite costly (labels are cached when created).
+     * @param vertex Vertex to be updated.
+     * @param index Index of the vertex to be used as an ID.
+     * @param selected True if the vertex is selected (i.e. should be highlighted), false otherwise.
+     */
     void updateDelaunayVertex(Vertex vertex, int index, boolean selected) {
         Circle circle = (Circle) delaunayVertexes.getChildren().get(index);
 
@@ -210,6 +253,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         text.setTranslateY(point.y - 10.d);
     }
 
+    /**
+     * Draws the given circle, styled as a circumcircle.
+     * @param circumcircle Circumcircle to be drawn.
+     */
     void drawCircumcircle(geometry.Circle circumcircle) {
         Circle circle = new Circle();
         circle.setFill(Color.TRANSPARENT);
@@ -223,6 +270,10 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         circumcircles.getChildren().add(circle);
     }
 
+    /**
+     * Draws the given circle, styled as a Gabriel circle.
+     * @param gabrielCircle Gabriel circle to be drawn.
+     */
     void drawGabrielCircles(geometry.Circle gabrielCircle) {
         Circle circle = new Circle();
         circle.setFill(Color.TRANSPARENT);
@@ -236,6 +287,11 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         gabrielCircles.getChildren().add(circle);
     }
 
+    /**
+     * Draws the angles in the given triangles, provided that they are within the display range specified by
+     * {@link #getMinDelaunayAngle()} and {@link #getMaxDelaunayAngle()}.
+     * @param triangle Triangle for which the angles should be drawn.
+     */
     void drawAngles(Triangle triangle) {
 
         Group group = new Group();
@@ -295,6 +351,9 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         this.delaunayAngles.getChildren().add(group);
     }
 
+    /**
+     * Draws the background.
+     */
     void drawBackground() {
         Rectangle rectangle = new Rectangle(-BOUNDS, -BOUNDS, 2*BOUNDS, 2*BOUNDS);
         rectangle.setFill(BACKGROUND_COLOR);
@@ -368,91 +427,168 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
         }
     }
 
+    /**
+     * Returns the triangulation mode currently being used.
+     */
     public DelaunayTriangulation.Mode getMode() {
         return ((DelaunayTriangulation) model).getMode();
     }
 
+    /**
+     * Sets the triangulation mode of the delaunay triangulation.
+     * @param mode Mode to which it will be set.
+     */
     public void setMode(DelaunayTriangulation.Mode mode) {
         ((DelaunayTriangulation) model).setMode(mode);
         draw();
     }
 
+    /**
+     * Returns true if vertex labels are being displayed, false otherwise.
+     */
     public boolean isVertexLabelsVisible() {
         return vertexLabels.isVisible();
     }
 
+    /**
+     * Sets whether on not vertex labels are displayed.
+     * @param visible True if vertex labels should be displayed, false otherwise.
+     */
     public void setVertexLabelsVisible(boolean visible) {
         vertexLabels.setVisible(visible);
     }
 
+    /**
+     * Returns true if delaunay edges are being displayed, false otherwise.
+     */
     public boolean isDelaunayEdgesVisible() {
         return delaunayEdges.isVisible();
     }
 
+    /**
+     * Sets whether on not delaunay edges are displayed.
+     * @param visible True if delaunay edges should be displayed, false otherwise.
+     */
     public void setDelaunayEdgesVisible(boolean visible) {
         delaunayEdges.setVisible(visible);
     }
 
+    /**
+     * Returns true if delaunay angles are being displayed, false otherwise.
+     */
     public boolean isDelaunayAnglesVisible() {
         return delaunayAngles.isVisible();
     }
 
+    /**
+     * Sets whether on not delaunay angles are displayed.
+     * @param visible True if delaunay angles should be displayed, false otherwise.
+     */
     public void setDelaunayAnglesVisible(boolean visible) {
         delaunayAngles.setVisible(visible);
     }
 
+    /**
+     * Returns tue if voronoi edges are being displayed, false otherwise.
+     */
     public boolean isVoronoiEdgesVisible() {
         return voronoiEdges.isVisible();
     }
 
+    /**
+     * Sets whether on not voronoi edges are displayed.
+     * @param visible True if voronoi edges should be displayed, false otherwise.
+     */
     public void setVoronoiEdgesVisible(boolean visible) {
         voronoiEdges.setVisible(visible);
     }
 
+    /**
+     * Returns true if circumcircles are being displayed, false otherwise.
+     */
     public boolean isCircumcirclesVisible() {
         return circumcircles.isVisible();
     }
 
+    /**
+     * Sets whether on not circumcircles are displayed.
+     * @param visible True if circumcircles should be displayed, false otherwise.
+     */
     public void setCircumcirclesVisible(boolean visible) {
         circumcircles.setVisible(visible);
     }
 
+    /**
+     * Returns true if gabriel circles are being displayed, false otherwise.
+     */
     public boolean isGabrielCirclesVisible() {
         return gabrielCircles.isVisible();
     }
 
+    /**
+     * Sets whether on not gabriel circles are displayed.
+     * @param visible True if gabriel circles should be displayed, false otherwise.
+     */
     public void setGabrielCirclesVisible(boolean visible) {
         gabrielCircles.setVisible(visible);
     }
 
+    /**
+     * Returns the largest delaunay angle that is displayed in degrees.
+     */
     public double getMaxDelaunayAngle() {
         return maxDelaunayAngle;
     }
 
+    /**
+     * Sets the largest delaunay angle that is displayed in degrees.
+     * @param maxDelaunayAngle Maximum angle in degrees.
+     */
     public void setMaxDelaunayAngle(double maxDelaunayAngle) {
         this.maxDelaunayAngle = maxDelaunayAngle;
     }
 
+    /**
+     * Returns the smallest delaunay angle that is displayed in degrees.
+     */
     public double getMinDelaunayAngle() {
         return minDelaunayAngle;
     }
 
+    /**
+     * Sets the smallest delaunay angle that is displayed in degrees.
+     * @param minDelaunayAngle Minimum angle in degrees.
+     */
     public void setMinDelaunayAngle(double minDelaunayAngle) {
         this.minDelaunayAngle = minDelaunayAngle;
     }
 
+    /**
+     * Returns true if alpha stable edges are marked, false otherwise.
+     */
     public boolean isAlphaVisible() {
         return this.alphaVisible;
     }
 
-    public boolean setAlphaVisible(boolean visible) {
-        return this.alphaVisible = visible;
+    /**
+     * Sets whether or not alpha stable edges should be marked.
+     * @param visible True if alpha stable edges should be marked, false otherwise.
+     */
+    public void setAlphaVisible(boolean visible) {
+        this.alphaVisible = visible;
     }
 
+    /**
+     * Returns the largest alpha value for which alpha stable edges are marked in radians.
+     */
     public double getAlphaStability() {
         return this.alphaStability;
     }
 
+    /**
+     * Sets the largest alpha value for which alpha stable edges should be marked.
+     * @param alphaStability Alpha stability value in radians.
+     */
     public void setAlphaStability(double alphaStability) {
         this.alphaStability = alphaStability;
     }
