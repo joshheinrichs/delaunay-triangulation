@@ -12,6 +12,7 @@ public class RulerTool extends Tool {
         super(uiAdapter);
     }
 
+    @Override
     public String getName() {
         return "Ruler";
     }

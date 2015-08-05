@@ -17,6 +17,7 @@ public class RemoveVertexTool extends Tool {
         super(uiAdapter);
     }
 
+    @Override
     public String getName() {
         return "Remove Vertex";
     }

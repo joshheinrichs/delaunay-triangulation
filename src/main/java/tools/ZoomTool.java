@@ -12,7 +12,7 @@ public class ZoomTool extends Tool {
         super(uiAdapter);
     }
 
-
+    @Override
     public String getName() {
         return "Zoom";
     }

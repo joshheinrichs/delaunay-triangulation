@@ -18,6 +18,7 @@ public class MoveVertexTool extends Tool {
         super(uiAdapter);
     }
 
+    @Override
     public String getName() {
         return "Move Vertex";
     }
