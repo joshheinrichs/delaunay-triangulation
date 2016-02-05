@@ -1,4 +1,4 @@
-#delaunay-triangulation [![Build Status](https://travis-ci.org/Decateron/delaunay-triangulation.svg)](https://travis-ci.org/Decateron/delaunay-triangulation)
+#delaunay-triangulation [![Build Status](https://travis-ci.org/joshheinrichs/delaunay-triangulation.svg)](https://travis-ci.org/Decateron/delaunay-triangulation)
 
 An application built for real-time rendering and analysis of Delaunay triangulations made with JavaFX 8. This program was written as part of an undergraduate research project done under Dr. Keil at the University of Saskatchewan.
 
