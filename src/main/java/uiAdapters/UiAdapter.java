@@ -148,6 +148,10 @@ public abstract class UiAdapter {
                 }
             };
 
+    /**
+     * Constructs a new UiAdapter.
+     * @param app App in which the UiAdapter is to be displayed.
+     */
     public UiAdapter(App app) {
 
         this.app = app;
@@ -401,6 +405,9 @@ public abstract class UiAdapter {
         this.app.console.appendText(string);
     }
 
+    /**
+     * Undoes the last action.
+     */
     public void undo() {
         redo.push(state);
         state = undo.pop();
@@ -410,6 +417,9 @@ public abstract class UiAdapter {
         undoMenuItem.setDisable(!canUndo());
     }
 
+    /**
+     * Redoes the last undid action.
+     */
     public void redo() {
         undo.push(state);
         state = redo.pop();
@@ -419,14 +429,24 @@ public abstract class UiAdapter {
         undoMenuItem.setDisable(!canUndo());
     }
 
+    /**
+     * Returns true if there is a state in the undo stack, allowing for an undo action to occur.
+     */
     public boolean canUndo() {
         return !undo.isEmpty();
     }
 
+    /**
+     * Returns true if there is a state in the redo stack, allowing for a redo action to occur.
+     * @return
+     */
     public boolean canRedo() {
         return !redo.isEmpty();
     }
 
+    /**
+     * Saves the previous state onto the undo stack, stores this state as the current state, and clears the redo stack.
+     */
     void saveState() {
         redo.clear();
         undo.push(state);
@@ -436,6 +456,11 @@ public abstract class UiAdapter {
         tempState = false;
     }
 
+    /**
+     * Saves a temporary state. This is needed to record and potentially throw out states that are created from
+     * dragging. When a user undoes an action, they don't want to have to undo every state that occurred when moving
+     * the point, and so these points exist to be overwritten by the next state.
+     */
     void saveTempState() {
         if (tempState) {
             state = toJson();
@@ -447,6 +472,11 @@ public abstract class UiAdapter {
         undoMenuItem.setDisable(!canUndo());
     }
 
+    /**
+     * Loads vertexes into the model from the given file.
+     * @param file
+     * @throws FileNotFoundException
+     */
     public void loadVertexes(File file) throws FileNotFoundException {
         model.clearVertexes();
         JsonReader jsonReader = new JsonReader(new FileReader(file.getPath()));
@@ -458,6 +488,10 @@ public abstract class UiAdapter {
         saveState();
     }
 
+    /**
+     * Saves vertexes in the model to the given file.
+     * @param file
+     */
     public void saveVertexes(File file) {
         try {
             if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("json")) {
@@ -474,6 +508,9 @@ public abstract class UiAdapter {
         }
     }
 
+    /**
+     * Converts the model to JSON.
+     */
     String toJson() {
         List<Vertex> vertexes = model.getVertexes();
         List<Point> points = vertexes.stream().map(Vertex::getPoint).collect(Collectors.toList());
@@ -481,12 +518,19 @@ public abstract class UiAdapter {
         return gson.toJson(points);
     }
 
+    /**
+     * Converts the given JSON into a point set.
+     * @param json JSON to be read, should contain a point array.
+     */
     ArrayList<Point> fromJson(String json) {
         Gson gson = new Gson();
         Point[] points = gson.fromJson(json, Point[].class);
         return new ArrayList<>(Arrays.asList(points));
     }
 
+    /**
+     *
+     */
     public abstract void draw();
 
     public Group getRoot() {

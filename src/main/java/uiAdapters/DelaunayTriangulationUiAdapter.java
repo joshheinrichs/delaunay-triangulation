@@ -428,22 +428,6 @@ public class DelaunayTriangulationUiAdapter extends UiAdapter {
     }
 
     /**
-     * Returns the triangulation mode currently being used.
-     */
-    public DelaunayTriangulation.Mode getMode() {
-        return ((DelaunayTriangulation) model).getMode();
-    }
-
-    /**
-     * Sets the triangulation mode of the delaunay triangulation.
-     * @param mode Mode to which it will be set.
-     */
-    public void setMode(DelaunayTriangulation.Mode mode) {
-        ((DelaunayTriangulation) model).setMode(mode);
-        draw();
-    }
-
-    /**
      * Returns true if vertex labels are being displayed, false otherwise.
      */
     public boolean isVertexLabelsVisible() {
